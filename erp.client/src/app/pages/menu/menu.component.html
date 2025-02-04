@@ -1,0 +1,81 @@
+<div class="right_col" role="main" style="min-height: 100vh;">
+  <div class="row">
+    <div class="col-3">
+      <div class="form-group">
+        <label for="menuType">Type</label>
+        <select appSelect2 id="menuType" class="form-control" [(ngModel)]="this.menuType.menuType" name="type" required
+          (selectionChanged)="getMenusByType($event)">
+          <option *ngFor="let mt of menuTypes" [value]="mt.menuType">{{ mt.menuType }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-9 d-flex justify-content-end align-items-center">
+      <button class="btn btn-warning" (click)="openCreateModal()"><i class="fa fa-plus"></i> Create</button>
+    </div>
+  </div>
+
+  <hr />
+  <div class="x_panel">
+    <div class="x_content" style="display: block;">
+      <ag-grid-angular #menuGrid class="ag-theme-quartz ag-theme-acmecorp" style="height: 100%; width: 100%;"
+        [rowData]="menus" [columnDefs]="colDefs" [pagination]="pagination" [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents" [paginationPageSize]="paginationPageSize15" [enableCellTextSelection]="true"  [domLayout]="domLayout"
+        [paginationPageSizeSelector]="paginationPageSizeSelector15" (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="menuFormModal" role="dialog" aria-labelledby="menuFormModalLabel" aria-hidden="true"
+  #userFormModal>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="menuFormModalLabel">{{ menu.m_id ? 'Update Menu' : 'Create Menu' }}</h5>
+      </div>
+      <div class="modal-body">
+        <form #menuForm="ngForm">
+
+          <div class="form-group">
+            <label for="m_name">Name</label>
+            <input type="text" id="m_name" class="form-control" [(ngModel)]="menu.m_name" name="m_name" required>
+            <div class="invalid-feedback" *ngIf="menuForm.submitted && !menu.m_name">
+              Name is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="m_link">Link</label>
+            <input type="text" id="m_link" class="form-control" [(ngModel)]="menu.m_link" name="m_link" required>
+            <div class="invalid-feedback" *ngIf="menuForm.submitted && !menu.m_link">
+              Link is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="m_fa_icon">Icon</label>
+            <input type="text" id="m_fa_icon" class="form-control" [(ngModel)]="menu.m_fa_icon" name="m_fa_icon">
+          </div>
+          <div class="form-group">
+            <label for="m_name">Type</label>
+            <input type="text" id="m_type" class="form-control" [(ngModel)]="menu.m_type" name="m_type" required (change)="getParrentMenusByType()">
+          </div>
+          <div class="form-group">
+            <label for="m_parrent">Parrent</label>
+            <select  appSelect2  #m_parrent id="m_parrent" class="form-control" [(ngModel)]="menu.m_parrent" name="m_parrent" required (selectionChanged)="OnParrentChange($event);">
+              <ng-container *ngIf="parrentmenus.length > 0; else noData">
+                <option value="0" selected>Select Parrent</option>
+                <option *ngFor="let m of parrentmenus" [value]="m.m_id">{{ m.m_name + ' - ' + m.m_type }}</option>
+              </ng-container>
+              <ng-template #noData>
+                <option value="" disabled selected>Parrent Not required</option>
+              </ng-template>
+            </select>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" (click)="createOrUpdateMenu()">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="right_col" style="min-height: 99vh;">
+    <div class="x_panel">
+        <div class="x_content" style="display: block;">
+            <div *ngIf="feedbacks.length === 0">
+                &nbsp;No feedbacks found.
+                <br />
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ag-grid-angular #feedbackGrid class="ag-theme-quartz ag-theme-acmecorp"
+                        style="height: 80vh; width: 100%;" [rowData]="feedbacks" [columnDefs]="colDefs"
+                        [pagination]="pagination" [defaultColDef]="defaultColDef" [components]="frameworkComponents"
+                        [paginationPageSize]="10" [paginationPageSizeSelector]="paginationPageSizeSelector"
+                        (gridReady)="onGridReady($event)"></ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

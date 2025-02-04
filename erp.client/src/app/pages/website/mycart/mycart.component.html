@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div *ngFor="let cart of this.carts">
+                <div class="card  mt-2">
+                    <div class="card-body">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img *ngFor="let p_attachement of getAttachementOfaProduct(cart.p_attachements).slice(0, 1); let i = index"
+                                    [ngClass]="i === 0 ? 'product-primary' : 'product-secondary'"
+                                    [src]="apiUrl + '/' + p_attachement.pa_image_path" alt="product_image"
+                                    style="height: 150px; width: auto;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-10">{{cart.p_name}}</h4>
+                                    <p class="card-text">{{ cart.p_sub_category_name + ', ' + cart.p_division_name }}</p>
+                                    <h4 class="card-text"><span>&#x20B9;</span>{{cart.c_price}}</h4>
+                                    
+                                    <div class="action-row d-flex align-items-center gap-3">
+                                        <div class="quantity-control d-flex align-items-center">
+                                          <button class="btn btn-outline-secondary" (click)="decreaseQuantity(cart.c_id)">–</button>
+                                          <input type="text" class="form-control mx-2 text-center" [value]="cart.c_qty" readonly>
+                                          <button class="btn btn-outline-secondary " (click)="increaseQuantity(cart.c_id)">+</button>
+                                        </div>
+                                        <a (click)="saveForLater(cart.c_id)" class="text-dark fw-normal" style="cursor: pointer;"><b>SAVE FOR LATER</b></a>
+                                        <a (click)="removeCart(cart.c_id)" class="text-dark fw-normal ms-3" style="cursor: pointer;"><b>REMOVE</b></a>
+                                      </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+        <div class="col-md-4">
+            <div class="cust-card mt-2">
+                <div class="title">PRICE DETAILS</div>
+                <div class="row justify-content-between">
+                    <div class="col">Price (1 item)</div>
+                    <div class="col-auto">₹{{this.totalPrice}}</div>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="col">Discount</div>
+                    <div class="col-auto text-danger">₹{{this.discount}}</div>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="col">Delivery Charges</div>
+                    <div class="col-auto text-green">₹{{this.deliveryCharge}}</div>
+                </div>
+                <div class="row justify-content-between total">
+                    <div class="col">Total Amount</div>
+                    <div class="col-auto">₹{{this.netAmount}}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col text-green">You will save ₹{{this.discount}} on this order</div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <button class="btn btn-warning pull-right">PLACE ORDER</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+<div class="right_col" style="min-height: 99vh;">
+    <div class="x_panel">
+        <div class="x_content" style="display: block;">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <select appSelect2 #prod_id id="prod_id" class="form-control" name="prod_id" required
+                            (selectionChanged)="onFltProductChange($event);">
+                            <option [value]="0">Please Select</option>
+                            <option *ngFor="let p of products" [value]="p.p_id">{{p.p_name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="country_id">Country</label>
+                        <select appSelect2 #country_id id="country_id" class="form-control" name="country_id" required
+                            (selectionChanged)="onFltCountryChange($event);">
+                            <option [value]="0">Please Select</option>
+                            <option *ngFor="let c of countries" [value]="c.md_id">{{c.md_name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="product">Price Type</label>
+                        <select appSelect2 #price_type id="price_type" class="form-control" name="price_type" required
+                            (selectionChanged)="onFltPriceTypeChange($event);">
+                            <option [value]="0">Please Select</option>
+                            <option *ngFor="let pt of priceTypes" [value]="pt.md_id">{{
+                                pt.md_name }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12 ">
+                    <button class="btn btn-warning pull-right" (click)="openPriceChangeModal()">Price Change</button>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <ag-grid-angular #sellingPriceGrid class="ag-theme-quartz ag-theme-acmecorp"
+                        style=" width: 100%;" [rowData]="sellingPrices" [columnDefs]="colDefs"
+                        [pagination]="pagination" [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                        [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                        [domLayout]="domLayout" [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                        (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="priceChangeFormModal" tabindex="-1" role="dialog" aria-labelledby="incomeFormModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="priceChangeFormModalLabel">Price Change</h5>
+            </div>
+            <div class="modal-body">
+                <form #priceChangeForm="ngForm">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="product">Product</label>
+                                <select appSelect2 #sp_prod_id id="sp_prod_id" class="form-control" name="sp_prod_id" required
+                                    (selectionChanged)="onProductChange($event);">
+                                    <option [value]="0">Please Select</option>
+                                    <option *ngFor="let p of products" [value]="p.p_id">{{p.p_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="sp_country_id">Country</label>
+                                <select appSelect2 #sp_country_id id="sp_country_id" class="form-control" name="sp_country_id"
+                                    required (selectionChanged)="onCountryChange($event);">
+                                    <option [value]="0">Please Select</option>
+                                    <option *ngFor="let c of countries" [value]="c.md_id">{{c.md_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="product">Price Type</label>
+                                <select appSelect2 #sp_price_type id="sp_price_type" class="form-control" name="sp_price_type"
+                                    required (selectionChanged)="onPriceTypeChange($event);">
+                                    <option [value]="0">Please Select</option>
+                                    <option *ngFor="let pt of priceTypes" [value]="pt.md_id">{{
+                                        pt.md_name }}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="product">Price</label>
+                                <input type="number" class="form-control" id="sp_price" name="sp_price" value="0"  [(ngModel)]="this.sellingPrice.sp_price">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="product">From Date</label>
+                                <input type="date" class="form-control" id="sp_start_date" name="sp_start_date" [(ngModel)]="this.sellingPrice.sp_start_date" >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" (click)="changePrice()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

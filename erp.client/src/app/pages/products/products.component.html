@@ -1,0 +1,258 @@
+<div class="right_col" role="main" style="min-height: 99vh;">
+    <div class="x_panel">
+        <div class="x_title">
+            <button class="btn btn-warning" (click)="openCreateFormModal()"><i class="fa fa-plus"></i> Create</button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ag-grid-angular #productsGrid class="ag-theme-quartz ag-theme-acmecorp"
+                    style="height: 80vh; width: 100%;" [rowData]="products" [columnDefs]="colDefs"
+                    [pagination]="pagination" [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                    [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                    [domLayout]="domLayout" [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                    (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="productFormModal" tabindex="-1" role="dialog" aria-labelledby="productFormModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ product.p_id ? 'Update Product' : 'Create Product' }}</h5>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab"
+                            aria-controls="details" aria-selected="true">Product Details</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="barcodes-tab" data-toggle="tab" href="#barcodes" role="tab"
+                            aria-controls="barcodes" aria-selected="false">Barcodes</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="colors-tab" data-toggle="tab" href="#colors" role="tab"
+                            aria-controls="colors" aria-selected="false">Colors</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="sizes-tab" data-toggle="tab" href="#sizes" role="tab"
+                            aria-controls="sizes" aria-selected="false">Sizes</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="attachments-tab" data-toggle="tab" href="#attachments" role="tab"
+                            aria-controls="attachments" aria-selected="false">Attachments</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <br />
+                    <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                        <form #userForm="ngForm">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="p_name">Name</label>
+                                                <input type="text" id="p_name" class="form-control"
+                                                    [(ngModel)]="product.p_name" name="p_name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="p_short_name">Short Name</label>
+                                                <input type="text" id="p_short_name" class="form-control"
+                                                    [(ngModel)]="product.p_short_name" name="p_short_name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="p_category">Category</label>
+                                                <select appSelect2 #p_category id="p_category" class="form-control"
+                                                    [(ngModel)]="product.p_category" name="p_category" required
+                                                    (selectionChanged)="onCategoryChange($event);">
+                                                    <option *ngFor="let ct of categories" [value]="ct.ct_id">{{
+                                                        ct.ct_name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="p_sub_category">Sub Category</label>
+                                                <select appSelect2 #p_sub_category id="p_sub_category"
+                                                    class="form-control" [(ngModel)]="product.p_sub_category"
+                                                    name="p_sub_category" required
+                                                    (selectionChanged)="onSubCategoryChange($event);">
+                                                    <option *ngFor="let sc of subcategories" [value]="sc.md_id">{{
+                                                        sc.md_name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="p_division">Division</label>
+                                                <select appSelect2 #p_division id="p_division" class="form-control"
+                                                    [(ngModel)]="product.p_division" name="p_division" required
+                                                    (selectionChanged)="onDivisionChange($event);">
+                                                    <option *ngFor="let dv of divisions" [value]="dv.md_id">{{
+                                                        dv.md_name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="p_sub_division">Sub Division</label>
+                                                <select appSelect2 #p_sub_division id="p_sub_division"
+                                                    class="form-control" [(ngModel)]="product.p_sub_division"
+                                                    name="p_sub_division" required
+                                                    (selectionChanged)="onSubDivisionChange($event);">
+                                                    <option *ngFor="let sd of subdivisions" [value]="sd.md_id">{{
+                                                        sd.md_name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="p_description">Description</label>
+                                                <textarea type="text" id="p_description" class="form-control"
+                                                    [(ngModel)]="product.p_description" name="p_description" required
+                                                    rows="10"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="barcodes" role="tabpanel" aria-labelledby="barcodes-tab">
+                        <form #barcodeForm="ngForm">
+                            <br />
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="p_name">Name</label>
+                                        <input #barcodeInput type="text" id="barcodeInput" class="form-control"
+                                            [(ngModel)]="newBarcode" name="barcodeInput" required>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-warning mt-4" (click)="addBarcode()"><i
+                                            class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-12">
+                                    <ag-grid-angular #barcodeGrid class="ag-theme-quartz ag-theme-acmecorp"
+                                        style="height: 100%; width: 100%;" [rowData]="barcodes"
+                                        [columnDefs]="barcodeColDefs" [pagination]="pagination"
+                                        [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                                        [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                                        [domLayout]="domLayout"
+                                        [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                                        (gridReady)="onGridReady($event)">
+                                    </ag-grid-angular>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="colors" role="tabpanel" aria-labelledby="colors-tab">
+                        <form #colorsForm="ngForm">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="newColor">Colors</label>
+                                        <select appSelect2 #newColor id="newColor" class="form-control" name="newColor"
+                                            required (selectionChanged)="onProdColorChange($event);">
+                                            <option  [value]="0">Please Select Color</option>
+                                            <option *ngFor="let c of colors" [value]="c.md_id">{{ c.md_name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-warning mt-4" (click)="addProdColor()"><i class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-12">
+                                    <ag-grid-angular #prodColorGrid class="ag-theme-quartz ag-theme-acmecorp"
+                                        style="height: 100%; width: 100%;" [rowData]="prodColors"
+                                        [columnDefs]="prodColorColDefs" [pagination]="pagination"
+                                        [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                                        [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                                        [domLayout]="domLayout"
+                                        [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                                        (gridReady)="onGridReady($event)">
+                                    </ag-grid-angular>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="sizes" role="tabpanel" aria-labelledby="sizes-tab">
+                        <form #sizesForm="ngForm">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="p_name">Available Sizes</label>
+                                        <select appSelect2 #newSize id="newSize" class="form-control" name="newSize"
+                                            required (selectionChanged)="onProdSizeChange($event);">
+                                            <option  [value]="0">Please Select Size</option>
+                                            <option *ngFor="let s of sizes" [value]="s.md_id">{{
+                                                s.md_name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-warning mt-4" (click)="addProdSize()"><i class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-12">
+                                    <ag-grid-angular #prodSizeGrid class="ag-theme-quartz ag-theme-acmecorp"
+                                        style="height: 100%; width: 100%;" [rowData]="prodSizes"
+                                        [columnDefs]="prodSizeColDefs" [pagination]="pagination"
+                                        [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                                        [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                                        [domLayout]="domLayout"
+                                        [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                                        (gridReady)="onGridReady($event)">
+                                    </ag-grid-angular>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="attachments" role="tabpanel" aria-labelledby="sizes-tab">
+                        <form #attachementForm="ngForm">
+                            <div class="form-group">
+                                <label for="image_input">Upload Images</label>
+                                <input type="file" id="image_input" class="form-control" (change)="onFileSelect($event)"
+                                    #fileInput multiple>
+                                <br />
+                            </div>
+
+                            <!-- Preview Section -->
+                            <div class="image-preview-container mt-3">
+                                <div *ngFor="let image of imagePreviews; let i = index"
+                                    class="image-preview position-relative">
+                                    <img [src]="image" alt="Preview" class="img-thumbnail" width="150" height="150">
+                                    <button type="button" class="btn-close" (click)="removeImage(i)" aria-label="Close">
+                                        x </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" (click)="createOrUpdateProduct()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

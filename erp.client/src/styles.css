@@ -1,0 +1,287 @@
+/* Core Data Grid CSS */
+@import 'ag-grid-community/styles/ag-grid.css';
+/* Quartz Theme Specific CSS */
+@import 'ag-grid-community/styles/ag-theme-quartz.css';
+body {
+  margin: 0px !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.select2-container {
+  width: 100% !important;
+  padding: 0;
+}
+
+table.jambo_table thead {
+  background: #1ABB9C !important;
+  color: #ECF0F1;
+}
+
+.modal-xl {
+  max-width: 1600px !important; 
+}
+
+.ag-theme-acmecorp {
+  --ag-borders: none;
+   --ag-header-foreground-color: white;
+   --ag-header-background-color: #3bb89f; 
+  --ag-grid-size: 10px;
+  --ag-font-size: 12px;
+  --ag-font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+  --ag-range-selection-border-color: #fff;
+  --ag-border-radius: 0px;
+  --ag-wrapper-border-radius: 0px;
+}
+
+.select2-container--default .select2-results__options {
+  overflow-y: auto !important; /* Ensures the dropdown itself scrolls if needed */
+}
+
+.cdk-overlay-container {
+  z-index: 100000 !important;
+}
+
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #3bb89f;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.danger-snackbar {
+    --mdc-snackbar-container-color: #dc3545;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
+
+.example-form mat-slide-toggle {
+  margin: 8px 0;
+  display: block;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  transform: scale(1.5); /* Increase the size of the toggle */
+  font-size: 1.2rem;     /* Increase the size of the label */
+  margin: 8px 0;
+}
+
+.toggle-text {
+  margin-bottom: 8px; /* Add space between the text and the toggle */
+  font-size: 1.1rem;  /* Adjust the font size if needed */
+}
+
+/* Ensure the container for the start and end dates has enough space */
+.mat-calendar-range-bottom {
+  white-space: nowrap; /* Prevents text from wrapping */
+  display: flex;
+  justify-content: space-between; /* Aligns the start and end dates */
+  padding: 0 10px; /* Adds padding to avoid overflow */
+}
+
+.mat-calendar-range-label {
+  font-size: 0.9rem; /* Adjust the font size if needed */
+  overflow: hidden; /* Hides overflowed text */
+  text-overflow: ellipsis; /* Adds ellipsis for long text */
+}
+
+/* Custom styles to adjust the logo size for different screen widths */
+.logo-responsive {
+  height: auto;
+  max-width: 170px; /* Maintains aspect ratio */
+}
+
+@media (max-width: 768px) {
+  .logo-responsive {
+    width: 50%; /* Smaller logo on smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-responsive {
+    width: 40%; /* Even smaller logo on extra small screens */
+  }
+}
+.example-form-field {
+  margin-right: 20px;
+}
+
+
+
+
+@media (max-width: 991.98px) {
+  .main-menu {
+    display: none;
+  }
+}
+
+/* Adjust sidenav container for mobile view */
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav-container .mat-sidenav-content {
+  padding: 16px;
+}
+
+.mat-mdc-tab-label-container{
+  height: 30px;
+  border: none;
+}
+
+.mat-tab-label:hover {
+  background-color: #f0f0f0; /* Light background on hover */
+  color: #007bff; /* Change text color */
+  cursor: pointer; /* Show pointer to indicate clickable tab */
+}
+
+
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-preview {
+  position: relative;
+}
+
+.btn-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+
+.mdc-tab-indicator {
+  display: none;
+}
+
+.size-button.selected {
+  background-color: #007bff;  /* Changes background color when selected */
+  color: #fff;                /* Changes text color to white */
+  border-color: #007bff;      /* Updates border color */
+}
+
+.size-button {
+  border: 1px solid #ccc;     /* Adds a light border around the button */
+  padding: 8px 12px;          /* Adds padding for a balanced look */
+  font-size: 14px;            /* Adjusts the font size for readability */
+  border-radius: 5px;         /* Slightly rounds the corners */
+  cursor: pointer;            /* Changes cursor to pointer on hover */
+  transition: all 0.2s ease;  /* Adds a transition effect on hover */
+}
+
+.size-button:hover {
+  background-color: #f8f9fa;  /* Light background color on hover */
+}
+
+
+
+.rating {
+  display: inline-block;
+}
+
+.rating .fa-star {
+  font-size: 24px;
+  color: #ddd; /* Default gray for unselected stars */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.rating .star-selected {
+  color: gold; /* Highlight selected stars in gold */
+}
+
+.example-form mat-slide-toggle {
+  margin: 8px 0;
+  display: block;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  transform: scale(1.5); /* Increase the size of the toggle */
+  font-size: 1.2rem;     /* Increase the size of the label */
+  margin: 8px 0;
+}
+
+.toggle-text {
+  margin-bottom: 8px; /* Add space between the text and the toggle */
+  font-size: 1.1rem;  /* Adjust the font size if needed */
+}
+
+/* Ensure the container for the start and end dates has enough space */
+.mat-calendar-range-bottom {
+  white-space: nowrap; /* Prevents text from wrapping */
+  display: flex;
+  justify-content: space-between; /* Aligns the start and end dates */
+  padding: 0 10px; /* Adds padding to avoid overflow */
+}
+
+.mat-calendar-range-label {
+  font-size: 0.9rem; /* Adjust the font size if needed */
+  overflow: hidden; /* Hides overflowed text */
+  text-overflow: ellipsis; /* Adds ellipsis for long text */
+}
+
+.main_container{
+  background-color: #fff;
+}
+
+
+.cust-card {
+  max-width: 350px;
+  margin: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #fff;
+}
+.cust-card .title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.cust-card.row {
+  margin-bottom: 10px;
+}
+.cust-card .total {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+.cust-card .text-green {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.quantity-control button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+}
+
+.quantity-control input {
+  width: 50px;
+  text-align: center;
+}
