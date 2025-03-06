@@ -35,7 +35,7 @@
             </div>
           
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="this.carts.length>0"> 
             <div class="cust-card mt-2">
                 <div class="title">PRICE DETAILS</div>
                 <div class="row justify-content-between">
@@ -59,9 +59,19 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <button class="btn btn-warning pull-right">PLACE ORDER</button>
+                        <button class="btn btn-warning pull-right" (click)="placeOrder()">PLACE ORDER</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="this.carts.length===0">
+        <div class="col-md-12" >
+            <div class="empty-cart-container">
+                <div class="empty-cart-icon">🛒</div>
+                <div class="empty-cart-text">Your Cart is Empty</div>
+                <div class="empty-cart-subtext">Looks like you haven’t added anything yet.</div>
+                <a (click)="navigateTo('shop')" class="btn btn-danger">Start Shopping</a>
             </div>
         </div>
     </div>

@@ -285,3 +285,26 @@ table.jambo_table thead {
   width: 50px;
   text-align: center;
 }
+
+.empty-cart-container {
+  text-align: center;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.empty-cart-icon {
+  font-size: 60px;
+  color: #dc3545;
+}
+.empty-cart-text {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #343a40;
+}
+.empty-cart-subtext {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 10px 0 30px;
+}

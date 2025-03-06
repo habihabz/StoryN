@@ -93,11 +93,15 @@ export class MycartComponent implements OnInit {
     this.router.navigate(['/single-product', productId]);
   }
 
+  navigateTo(target: string): void {
+    this.router.navigate(['/' + target]);
+  }
+
   increaseQuantity(c_id: number): void {
     const cartItem = this.carts.find(c => c.c_id === c_id);
     if (cartItem) {
       cartItem.c_qty++;
-      cartItem.c_price=cartItem.c_qty*cartItem.p_price;
+      cartItem.c_price = cartItem.c_qty * cartItem.p_price;
     }
     this.getCartTotal();
   }
@@ -106,7 +110,7 @@ export class MycartComponent implements OnInit {
     const cartItem = this.carts.find(c => c.c_id === c_id);
     if (cartItem && cartItem.c_qty > 1) {
       cartItem.c_qty--;
-      cartItem.c_price=cartItem.c_qty*cartItem.p_price;
+      cartItem.c_price = cartItem.c_qty * cartItem.p_price;
     }
     this.getCartTotal();
   }
@@ -135,9 +139,13 @@ export class MycartComponent implements OnInit {
 
   }
   getCartTotal() {
-    
+
     this.totalPrice = this.carts.reduce((sum, cart) => sum + (cart.p_price * cart.c_qty), 0);
-    this.discount=this.totalPrice*0.1;
-    this.netAmount=(this.totalPrice+this.deliveryCharge)-this.discount;
+    this.discount = this.totalPrice * 0.1;
+    this.netAmount = (this.totalPrice + this.deliveryCharge) - this.discount;
+  }
+
+  placeOrder(){
+    alert();
   }
 }

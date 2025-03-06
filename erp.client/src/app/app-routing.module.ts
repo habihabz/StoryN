@@ -32,6 +32,7 @@ import { UserRegistrationComponent } from './pages/website/user-registration/use
 import { FavouriteComponent } from './pages/website/favourite/favourite.component';
 import { BlogComponent } from './pages/website/blog/blog.component';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { CustomerOrderComponent } from './pages/customer.order/customer.order.component';
 
 
 
@@ -152,6 +153,11 @@ const routes: Routes = [
       {
         path: 'price-change',
         component: PriceChangeComponent
+
+      },
+      {
+        path: 'customer-order',
+        component: CustomerOrderComponent
 
       }
     ]

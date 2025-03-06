@@ -59,6 +59,7 @@ import { MycartComponent } from './pages/website/mycart/mycart.component';
 import { FavouriteComponent } from './pages/website/favourite/favourite.component';
 import { BlogComponent } from './pages/website/blog/blog.component';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { CustomerOrderComponent } from './pages/customer.order/customer.order.component';
 
 
 
@@ -114,7 +115,8 @@ const jwtConfig: JwtModuleOptions = {
     MycartComponent,
     FavouriteComponent,
     BlogComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
+    CustomerOrderComponent
   ],
   imports: [
     BrowserModule,
