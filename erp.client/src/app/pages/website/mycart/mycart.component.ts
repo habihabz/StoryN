@@ -11,6 +11,7 @@ import { IuserService } from '../../../services/iuser.service';
 import { DbResult } from '../../../models/dbresult.model';
 import { RequestParms } from '../../../models/requestParms';
 import { GeolocationService } from '../../../services/GeoCurrentLocation.service';
+import { ICustomerOrder } from '../../../services/icustomer.order.service';
 
 @Component({
   selector: 'app-mycart',
@@ -40,6 +41,7 @@ export class MycartComponent implements OnInit {
     private snackbarService: SnackBarService,
     private icartService: ICartService,
     private iuser: IuserService,
+    private icustomerOrder: ICustomerOrder,
     private geolocationService: GeolocationService
 
   ) {
@@ -146,6 +148,21 @@ export class MycartComponent implements OnInit {
   }
 
   placeOrder(){
-    alert();
+    this.requestParms.user=this.currentUser.u_id;
+    this.requestParms.details=JSON.stringify(this.carts);
+    this.icustomerOrder.createOrUpdateCustomerOrder(this.requestParms).subscribe(
+      (data: DbResult) => {
+        if (data.message === 'Success') {
+          this.carts=[];
+          this.getCartTotal();
+          this.snackbarService.showSuccess("Success");
+
+        } else {
+          alert(data.message);
+        }
+      },
+      (error: any) => {
+      }
+    );
   }
 }

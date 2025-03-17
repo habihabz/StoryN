@@ -1,5 +1,5 @@
-import { Component, ElementRef } from '@angular/core';
-import { DomLayoutType } from 'ag-grid-community';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ColDef, DomLayoutType, GridReadyEvent } from 'ag-grid-community';
 import { User } from '../../models/user.model';
 import { Subscription } from 'rxjs';
 import { DbResult } from '../../models/dbresult.model';
@@ -13,6 +13,11 @@ import { GeolocationService } from '../../services/GeoCurrentLocation.service';
 import { Customer } from '../../models/customer.model';
 import { ICustomerOrder } from '../../services/icustomer.order.service';
 import { RequestParms } from '../../models/requestParms';
+import { ActionRendererComponent } from '../../directives/action.renderer';
+import { GridService } from '../../services/igrid.service';
+import { AgGridAngular } from 'ag-grid-angular';
+import { CustomerOrderDetail } from '../../models/customer.order.detail.model';
+declare var $: any;
 
 @Component({
   selector: 'app-customer.order',
@@ -30,15 +35,20 @@ export class CustomerOrderComponent {
   subscription: Subscription = new Subscription();
   customerOrder: CustomerOrder = new CustomerOrder();
   customerOrders: CustomerOrder[] = [];
+  customerOrderDetails: CustomerOrderDetail[] = [];
+
   dbResult: DbResult = new DbResult();
   requestParms: RequestParms = new RequestParms();
+
+  @ViewChild('customerOrderGrid') customerOrderGrid!: AgGridAngular;
 
   constructor(
 
     private router: Router,
     private elRef: ElementRef,
     private iproductService: IProductService,
-    private snackbarService: SnackBarService,
+    private igridService: GridService,
+    private snackBarService: SnackBarService,
     private icartService: ICartService,
     private iuser: IuserService,
     private icustomerOrder: ICustomerOrder,
@@ -47,6 +57,20 @@ export class CustomerOrderComponent {
   ) {
     this.currentUser = iuser.getCurrentUser();
   }
+
+  colDefs: ColDef[] = [
+    { headerName: "Id", field: "co_id" },
+    { headerName: "Customer", field: "co_customer_name" },
+    { headerName: "Address", field: "co_c_address_details" },
+    { headerName: "Quanitity", field: "co_qty" },
+    { headerName: "Amount", field: "co_amount" },
+    {
+      headerName: 'Details', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Details', action: 'onDetails', cssClass: 'btn btn-info', icon: 'fa fa-list', onDetails: (data: any) => this.onAction('details', data)
+      }
+    }
+  ];
 
   ngOnInit(): void {
     this.getCustomerOrders();
@@ -59,14 +83,56 @@ export class CustomerOrderComponent {
 
   }
 
-  getCustomerOrders() {
-    this.icustomerOrder.getCustomerOrders(this.requestParms).subscribe(
-      (data: CustomerOrder[]) => {
-        this.customerOrders = data;
+  frameworkComponents = {
+    actionRenderer: ActionRendererComponent
+  };
+
+  defaultColDef = {
+    sortable: true,
+    filter: true
+  };
+
+  onAction(action: string, data: any) {
+    switch (action) {
+      case 'details':
+        this.onDetails(data);
+        break;
+
+      default:
+        this.snackBarService.showError("Unknown Action " + action);;
+    }
+  }
+
+  onDetails(data: any) { 
+    this.icustomerOrder.getCustomerOrderDetails(data.co_id).subscribe(
+      (data: CustomerOrderDetail[]) => {
+        this.customerOrderDetails = data;
+        $("#customerOrderDetailModal").modal("show");
       },
       (error: any) => {
+
       }
     );
   }
-  
+
+  onGridReady(event: GridReadyEvent) {
+    setTimeout(() => {
+      this.customerOrderGrid.api.sizeColumnsToFit();
+    }, 500); 
+  }
+
+  getCustomerOrders() {
+
+    this.icustomerOrder.getCustomerOrders(this.requestParms).subscribe(
+      (data: CustomerOrder[]) => {
+        this.customerOrders = data;
+
+      },
+      (error: any) => {
+
+      }
+    );
+
+  }
+
 }

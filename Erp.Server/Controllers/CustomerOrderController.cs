@@ -54,14 +54,22 @@ namespace Erp.Server.Controllers
         }
         [HttpPost("createOrUpdateCustomerOrder")]
         [Authorize]
-        public DbResult createOrUpdateCustomerOrder([FromBody] CustomerOrder customerorder)
+        public DbResult createOrUpdateCustomerOrder([FromBody] RequestParams requestParams)
         {
             DbResult dbResult = new DbResult();
-            dbResult = icustomerOrder.createOrUpdateCustomerOrder(customerorder);
+            dbResult = icustomerOrder.createOrUpdateCustomerOrder(requestParams);
             return dbResult;
-        } 
+        }
+
         
-       
+        [HttpPost("getCustomerOrderDetails")]
+        [Authorize]
+        public List<CustomerOrderDetail> getCustomerOrderDetails(int id)
+        {
+            List<CustomerOrderDetail> customerOrderDetails = new List<CustomerOrderDetail>();
+            customerOrderDetails = icustomerOrder.getCustomerOrderDetails(id);
+            return customerOrderDetails;
+        }
 
     }
 }

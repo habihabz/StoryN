@@ -1,1 +1,40 @@
-<p>customer.order works!</p>
+<div class="right_col" style="min-height: 99vh;">
+    <div class="x_panel">
+        <div class="x_content" style="display: block;">
+            <div class="row">
+                <div class="col-md-12">
+                    <ag-grid-angular #customerOrderGrid class="ag-theme-quartz ag-theme-acmecorp" style=" width: 100%;"
+                        [rowData]="customerOrders" [columnDefs]="colDefs" [pagination]="pagination"
+                        [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                        [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                        [domLayout]="domLayout" [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                        (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="customerOrderDetailModal" customer="dialog" aria-labelledby="customerOrderDetailModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" customer="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerFormModalLabel">Customer Order Details</h5>
+            </div>
+            <div class="modal-body">
+                <ag-grid-angular #customerOrderDetailGrid class="ag-theme-quartz ag-theme-acmecorp" style=" width: 100%;"
+                    [rowData]="customerOrderDetails" [columnDefs]="colDefs" [pagination]="pagination"
+                    [defaultColDef]="defaultColDef" [enableCellTextSelection]="true" [components]="frameworkComponents"
+                    [paginationPageSize]="paginationPageSize10" [domLayout]="domLayout"
+                    [paginationPageSizeSelector]="paginationPageSizeSelector10" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

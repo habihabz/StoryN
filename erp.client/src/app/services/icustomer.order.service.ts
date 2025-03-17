@@ -5,6 +5,7 @@ import { DbResult } from '../models/dbresult.model';
 import { environment } from '../../environments/environment';
 import { CustomerOrder } from '../models/customer.order.model';
 import { RequestParms } from '../models/requestParms';
+import { CustomerOrderDetail } from '../models/customer.order.detail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,14 @@ export class ICustomerOrder {
     return this.http.post<DbResult>(this.apiUrl + "/deleteCustomerOrder", id); 
   }
 
-  createOrUpdateCustomerOrder(customerOrder: CustomerOrder): Observable<DbResult> {
-    customerOrder.co_cre_date = new Date().toISOString();
-    return this.http.post<DbResult>(this.apiUrl + "/createOrUpdateCustomerOrder", customerOrder); 
+  createOrUpdateCustomerOrder(requestParms: RequestParms): Observable<DbResult> {
+    return this.http.post<DbResult>(this.apiUrl + "/createOrUpdateCustomerOrder", requestParms); 
   }
   
+  getCustomerOrderDetails(id:number): Observable<CustomerOrderDetail[]> {
+    return this.http.post<CustomerOrderDetail[]>(this.apiUrl + "/getCustomerOrderDetails", id);  
+  }
+
   get refresh$() {
     return this.refreshSubject.asObservable();
   }

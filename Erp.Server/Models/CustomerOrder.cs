@@ -25,13 +25,13 @@ namespace Erp.Server.Models
         public int? co_qty { get; set; } = 0;
 
         [Display(Name = "Amount")]
-        public int? co_amount { get; set; } = 0;
+        public decimal? co_amount { get; set; } = 0;
 
         [Display(Name = "Status")]
         public int? co_status { get; set; } = 0;
 
         [Display(Name = "Status")]
-        public int? co_status_name { get; set; } = 0;
+        public string? co_status_name { get; set; } = string.Empty;
 
         [Display(Name = "Created By")]
         public int? co_cre_by { get; set; }
