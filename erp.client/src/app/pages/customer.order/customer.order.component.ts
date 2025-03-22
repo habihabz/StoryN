@@ -61,15 +61,27 @@ export class CustomerOrderComponent {
   colDefs: ColDef[] = [
     { headerName: "Id", field: "co_id" },
     { headerName: "Customer", field: "co_customer_name" },
-    { headerName: "Address", field: "co_c_address_details" },
+    { headerName: "Address", field: "co_d_address_details" },
     { headerName: "Quanitity", field: "co_qty" },
     { headerName: "Amount", field: "co_amount" },
+    { headerName: "Status", field: "co_status_name" },
     {
       headerName: 'Details', cellRenderer: 'actionRenderer', cellRendererParams:
       {
         name: 'Details', action: 'onDetails', cssClass: 'btn btn-info', icon: 'fa fa-list', onDetails: (data: any) => this.onAction('details', data)
       }
     }
+  ];
+
+  codColDefs: ColDef[] = [
+    { headerName: "Id", field: "cd_id" },
+    { headerName: "Product", field: "cd_product_name" },
+    { headerName: "Size", field: "cd_size_name" },
+    { headerName: "Quanitity", field: "cd_qty" },
+    { headerName: "Amount", field: "cd_amount" },
+    { headerName: "Discount", field: "cd_discount" },
+    { headerName: "Tax Amount", field: "cd_tax_amount" },
+    { headerName: "Net Amount", field: "cd_net_amount" },
   ];
 
   ngOnInit(): void {

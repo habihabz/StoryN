@@ -64,7 +64,7 @@ namespace Erp.Server.Controllers
         
         [HttpPost("getCustomerOrderDetails")]
         [Authorize]
-        public List<CustomerOrderDetail> getCustomerOrderDetails(int id)
+        public List<CustomerOrderDetail> getCustomerOrderDetails([FromBody] int id)
         {
             List<CustomerOrderDetail> customerOrderDetails = new List<CustomerOrderDetail>();
             customerOrderDetails = icustomerOrder.getCustomerOrderDetails(id);

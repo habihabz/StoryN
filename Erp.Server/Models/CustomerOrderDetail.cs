@@ -15,6 +15,18 @@ namespace Erp.Server.Models
         [Display(Name = "Product")]
         public int? cd_product { get; set; }
 
+        [Display(Name = "Product Name")]
+        public string? cd_product_name { get; set; }
+
+        [Display(Name = "Size")]
+        public int? cd_size { get; set; }
+
+        [Display(Name = "Size")]
+        public string? cd_size_name { get; set; }
+
+        [Display(Name = "Size")]
+        public int? cd_qty { get; set; }
+
         [Display(Name = "Amount")]
         public decimal? cd_amount { get; set; } = 0;
 
@@ -29,6 +41,9 @@ namespace Erp.Server.Models
 
         [Display(Name = "Created By")]
         public int? cd_cre_by { get; set; }
+
+        [Display(Name = "Created By")]
+        public string? cd_cre_by_name { get; set; }
 
         [Display(Name = "Created On")]
         [DataType(DataType.DateTime)]

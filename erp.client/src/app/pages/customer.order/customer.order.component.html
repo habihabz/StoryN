@@ -26,7 +26,7 @@
             </div>
             <div class="modal-body">
                 <ag-grid-angular #customerOrderDetailGrid class="ag-theme-quartz ag-theme-acmecorp" style=" width: 100%;"
-                    [rowData]="customerOrderDetails" [columnDefs]="colDefs" [pagination]="pagination"
+                    [rowData]="customerOrderDetails" [columnDefs]="codColDefs" [pagination]="pagination"
                     [defaultColDef]="defaultColDef" [enableCellTextSelection]="true" [components]="frameworkComponents"
                     [paginationPageSize]="paginationPageSize10" [domLayout]="domLayout"
                     [paginationPageSizeSelector]="paginationPageSizeSelector10" (gridReady)="onGridReady($event)">
