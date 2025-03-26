@@ -8,6 +8,6 @@ namespace Erp.Server.Services
         DbResult deleteCustomerOrder(int id);
         CustomerOrder getCustomerOrder(int id);
         List<CustomerOrderDetail> getCustomerOrderDetails(int id);
-        List<CustomerOrder> getCustomerOrders();
+        List<CustomerOrder> getCustomerOrders(RequestParams requestParms);
     }
 }

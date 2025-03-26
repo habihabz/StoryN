@@ -2,6 +2,20 @@
     <div class="x_panel">
         <div class="x_content" style="display: block;">
             <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select appSelect2 #status id="status" class="form-control" name="status" required
+                            (selectionChanged)="onCustomerOrderStatusChange($event);">
+                            <option *ngFor="let cos of customerOrderStatuses" [value]="cos.cos_id">{{ cos.cos_name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <hr />
+            <div class="row">
                 <div class="col-md-12">
                     <ag-grid-angular #customerOrderGrid class="ag-theme-quartz ag-theme-acmecorp" style=" width: 100%;"
                         [rowData]="customerOrders" [columnDefs]="colDefs" [pagination]="pagination"
@@ -25,11 +39,12 @@
                 <h5 class="modal-title" id="customerFormModalLabel">Customer Order Details</h5>
             </div>
             <div class="modal-body">
-                <ag-grid-angular #customerOrderDetailGrid class="ag-theme-quartz ag-theme-acmecorp" style=" width: 100%;"
-                    [rowData]="customerOrderDetails" [columnDefs]="codColDefs" [pagination]="pagination"
-                    [defaultColDef]="defaultColDef" [enableCellTextSelection]="true" [components]="frameworkComponents"
-                    [paginationPageSize]="paginationPageSize10" [domLayout]="domLayout"
-                    [paginationPageSizeSelector]="paginationPageSizeSelector10" (gridReady)="onGridReady($event)">
+                <ag-grid-angular #customerOrderDetailGrid class="ag-theme-quartz ag-theme-acmecorp"
+                    style=" width: 100%;" [rowData]="customerOrderDetails" [columnDefs]="codColDefs"
+                    [pagination]="pagination" [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                    [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                    [domLayout]="domLayout" [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                    (gridReady)="onGridReady($event)">
                 </ag-grid-angular>
             </div>
             <div class="modal-footer d-flex justify-content-end">

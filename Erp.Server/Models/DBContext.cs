@@ -31,6 +31,7 @@ namespace Erp.Server.Models
         public DbSet<Cart> Cart { get; set; }
         public DbSet<CustomerOrder> CustomerOrders { get; set; }
         public DbSet<CustomerOrderDetail> CustomerOrderDetails { get; set; }
+        public DbSet<CustomerOrderStatus> CustomerOrderStatus { get; set; }
 
 
     }

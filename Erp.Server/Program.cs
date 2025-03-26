@@ -104,6 +104,7 @@ builder.Services.AddTransient<IProductReview, ProductReviewRepository>();
 builder.Services.AddTransient<ISellingPrice, sellingPriceRepository>();
 builder.Services.AddTransient<ICart, CartRepository>();
 builder.Services.AddTransient<ICustomerOrder, CustomerOrderRepository>();
+builder.Services.AddTransient<ICustomerOrderStatus, CustomerOrderStatusRepository>();
 
 var app = builder.Build();
 

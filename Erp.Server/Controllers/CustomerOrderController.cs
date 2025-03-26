@@ -29,10 +29,10 @@ namespace Erp.Server.Controllers
         }
         [HttpPost("getCustomerOrders")]
         [Authorize]
-        public List<CustomerOrder> getCustomerOrders()
+        public List<CustomerOrder> getCustomerOrders([FromBody] RequestParams requestParms)
         {
             List<CustomerOrder> customerorders =new List<CustomerOrder>();
-            customerorders = icustomerOrder.getCustomerOrders();
+            customerorders = icustomerOrder.getCustomerOrders(requestParms);
             return customerorders;
         }
         [HttpPost("deleteCustomerOrder")]
@@ -70,6 +70,8 @@ namespace Erp.Server.Controllers
             customerOrderDetails = icustomerOrder.getCustomerOrderDetails(id);
             return customerOrderDetails;
         }
+
+
 
     }
 }

@@ -17,6 +17,8 @@ import { ActionRendererComponent } from '../../directives/action.renderer';
 import { GridService } from '../../services/igrid.service';
 import { AgGridAngular } from 'ag-grid-angular';
 import { CustomerOrderDetail } from '../../models/customer.order.detail.model';
+import { ICustomerOrderStatusService} from '../../services/icustomer.order.status.service';
+import { CustomerOrderStatus } from '../../models/customer.order.status.model';
 declare var $: any;
 
 @Component({
@@ -36,10 +38,10 @@ export class CustomerOrderComponent {
   customerOrder: CustomerOrder = new CustomerOrder();
   customerOrders: CustomerOrder[] = [];
   customerOrderDetails: CustomerOrderDetail[] = [];
-
+  customerOrderStatuses :CustomerOrderStatus[]=[];
   dbResult: DbResult = new DbResult();
   requestParms: RequestParms = new RequestParms();
-
+  customerOrderStatus:CustomerOrderStatus=new CustomerOrderStatus();
   @ViewChild('customerOrderGrid') customerOrderGrid!: AgGridAngular;
 
   constructor(
@@ -52,6 +54,7 @@ export class CustomerOrderComponent {
     private icartService: ICartService,
     private iuser: IuserService,
     private icustomerOrder: ICustomerOrder,
+    private icustomerOrderStatus:ICustomerOrderStatusService,
     private geolocationService: GeolocationService
 
   ) {
@@ -86,13 +89,24 @@ export class CustomerOrderComponent {
 
   ngOnInit(): void {
     this.getCustomerOrders();
+    this.getCustomerOrderStatuses();
     this.subscription.add(
       this.icustomerOrder.refresh$.subscribe(() => {
         this.getCustomerOrders();
-
       })
     );
 
+  }
+
+  getCustomerOrderStatuses() { 
+    this.icustomerOrderStatus.getCustomerOrderStatuses().subscribe(
+      (data: CustomerOrderStatus[]) => {
+        this.customerOrderStatuses = data;
+      },
+      (error: any) => {
+
+      }
+    );
   }
 
   frameworkComponents = {
@@ -134,7 +148,7 @@ export class CustomerOrderComponent {
   }
 
   getCustomerOrders() {
-
+    this.requestParms.user=this.currentUser.u_id;
     this.icustomerOrder.getCustomerOrders(this.requestParms).subscribe(
       (data: CustomerOrder[]) => {
         this.customerOrders = data;
@@ -146,5 +160,8 @@ export class CustomerOrderComponent {
     );
 
   }
-
+  onCustomerOrderStatusChange(cos_id:number){
+    this.requestParms.id=cos_id;
+    this.getCustomerOrders();
+  }
 }

@@ -47,9 +47,11 @@ namespace Erp.Server.Repository
             return customerOrderDetails;
         }
 
-        public List<CustomerOrder> getCustomerOrders()
+        public List<CustomerOrder> getCustomerOrders(RequestParams requestParms)
         {
-            var customerorders = db.Set<CustomerOrder>().FromSqlRaw("EXEC dbo.getCustomerOrders;").ToList();
+            var _id = new SqlParameter("id", requestParms.id + "");
+            var _user = new SqlParameter("user", requestParms.user + "");
+            var customerorders = db.Set<CustomerOrder>().FromSqlRaw("EXEC dbo.getCustomerOrders @id,@user;", _id, _user).ToList();
             return customerorders;
         }
 
