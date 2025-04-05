@@ -105,6 +105,7 @@ builder.Services.AddTransient<ISellingPrice, sellingPriceRepository>();
 builder.Services.AddTransient<ICart, CartRepository>();
 builder.Services.AddTransient<ICustomerOrder, CustomerOrderRepository>();
 builder.Services.AddTransient<ICustomerOrderStatus, CustomerOrderStatusRepository>();
+builder.Services.AddTransient<IAddress, AddressRepository>();
 
 var app = builder.Build();
 

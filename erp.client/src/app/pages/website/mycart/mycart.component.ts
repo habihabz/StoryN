@@ -12,6 +12,8 @@ import { DbResult } from '../../../models/dbresult.model';
 import { RequestParms } from '../../../models/requestParms';
 import { GeolocationService } from '../../../services/GeoCurrentLocation.service';
 import { ICustomerOrder } from '../../../services/icustomer.order.service';
+import { Address } from '../../../models/address.model';
+import { IAddressService } from '../../../services/iaddress.service';
 
 @Component({
   selector: 'app-mycart',
@@ -27,12 +29,13 @@ export class MycartComponent implements OnInit {
   currentUser: User = new User();
   quantity: number = 1;
   requestParms: RequestParms = new RequestParms();
-
   totalQty: number = 0;
   totalPrice: number = 0;
   deliveryCharge: number = 35;
   netAmount: number = 0;
   discount: number = 0
+  addresses:Address[]=[];
+
   constructor(
 
     private router: Router,
@@ -42,6 +45,7 @@ export class MycartComponent implements OnInit {
     private icartService: ICartService,
     private iuser: IuserService,
     private icustomerOrder: ICustomerOrder,
+    private iaddress: IAddressService,
     private geolocationService: GeolocationService
 
   ) {
@@ -52,6 +56,7 @@ export class MycartComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getCarts();
+    this.getMyAddress();
   }
 
 
@@ -160,6 +165,16 @@ export class MycartComponent implements OnInit {
         } else {
           alert(data.message);
         }
+      },
+      (error: any) => {
+      }
+    );
+  }
+  getMyAddress(){
+    this.requestParms.user=this.currentUser.u_id;
+    this.iaddress.getMyAddresses(this.requestParms).subscribe(
+      (data: Address []) => {
+          this.addresses=data;
       },
       (error: any) => {
       }
