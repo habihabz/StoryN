@@ -60,6 +60,9 @@ import { FavouriteComponent } from './pages/website/favourite/favourite.componen
 import { BlogComponent } from './pages/website/blog/blog.component';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { CustomerOrderComponent } from './pages/customer.order/customer.order.component';
+import { PaymentFailureComponent } from './pages/website/payment.failure/payment.failure.component';
+import { PaymentSuccessComponent } from './pages/website/payment.success/payment.success.component';
+import { PaymentComponent } from './pages/website/payment/payment.component';
 
 
 
@@ -116,7 +119,10 @@ const jwtConfig: JwtModuleOptions = {
     FavouriteComponent,
     BlogComponent,
     AccessDeniedComponent,
-    CustomerOrderComponent
+    CustomerOrderComponent,
+    PaymentFailureComponent,
+    PaymentSuccessComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

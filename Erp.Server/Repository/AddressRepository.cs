@@ -18,14 +18,15 @@ namespace Erp.Server.Repository
         public DbResult createOrUpdateAddress(Address address)
         {
             var ad_id = new SqlParameter("ad_id", address.ad_id + "");
-            var ad_user = new SqlParameter("ad_user", address.ad_user + "");
+            var ad_name = new SqlParameter("ad_name", address.ad_name + "");
             var ad_address = new SqlParameter("ad_address", address.ad_address + "");
-            var ad_is_default_yn = new SqlParameter("ad_is_default_yn", address.ad_is_default_yn + "");
+            var ad_pincode = new SqlParameter("ad_pincode", address.ad_pincode + "");
             var ad_phone = new SqlParameter("ad_phone", address.ad_phone + "");
+            var ad_is_default_yn = new SqlParameter("ad_is_default_yn", address.ad_is_default_yn + "");
             var ad_cre_by = new SqlParameter("ad_cre_by", address.ad_cre_by + "");
           
-            var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.createOrUpdateAddress @ad_id,@ad_user,@ad_address,@ad_phone,@ad_is_default_yn,@ad_cre_by;",
-                ad_id, ad_user, ad_address, ad_phone, ad_is_default_yn, ad_cre_by).ToList().FirstOrDefault() ?? new DbResult();
+            var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.createOrUpdateAddress @ad_id,@ad_name,@ad_address,@ad_pincode,@ad_phone,@ad_is_default_yn,@ad_cre_by;",
+                ad_id, ad_name, ad_address, ad_pincode, ad_phone, ad_is_default_yn, ad_cre_by).ToList().FirstOrDefault() ?? new DbResult();
             return dbresult;
         }
 

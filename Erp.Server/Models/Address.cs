@@ -11,16 +11,17 @@ namespace Erp.Server.Models
         public int ad_id { get; set; }
 
         [Display(Name = "User")]
-        public int? ad_user { get; set; } = 0;
-
-        [Display(Name = "User")]
-        public string? ad_user_name { get; set; } = string.Empty;
+        public string? ad_name { get; set; } = string.Empty;
 
         [Display(Name = "address")]
         public string? ad_address { get; set; } = string.Empty;
 
         [Display(Name = "phone")]
         public string? ad_phone { get; set; } = string.Empty;
+   
+        
+        [Display(Name = "pin code")]
+        public int? ad_pincode { get; set; } = 0;
 
         [Display(Name = "Default")]
         public string? ad_is_default_yn { get; set; } = string.Empty;

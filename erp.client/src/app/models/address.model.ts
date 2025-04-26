@@ -1,8 +1,8 @@
 export class Address  {
   ad_id: number;
-  ad_user: number;
-  ad_user_name: string;
+  ad_name: string;
   ad_address: string;
+  ad_pincode: number;
   ad_phone: string;
   ad_is_default_yn: string;
   ad_cre_by: number;
@@ -11,9 +11,9 @@ export class Address  {
 
   constructor() {
     this.ad_id = 0;
-    this.ad_user = 0;
-    this.ad_user_name = '';
+    this.ad_name = '';
     this.ad_address = '';
+    this.ad_pincode=0;
     this.ad_phone = '';
     this.ad_is_default_yn = '';
     this.ad_cre_by = 0;
