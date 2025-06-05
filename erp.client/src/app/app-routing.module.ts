@@ -25,7 +25,6 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { ProductReviewsComponent } from './pages/product.reviews/product.reviews.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { PriceChangeComponent } from './pages/price.change/price.change.component';
-
 import { CustomerLoginComponent } from './pages/website/customer-login/customer-login.component';
 import { MycartComponent } from './pages/website/mycart/mycart.component';
 import { UserRegistrationComponent } from './pages/website/user-registration/user-registration.component';
@@ -33,6 +32,7 @@ import { FavouriteComponent } from './pages/website/favourite/favourite.componen
 import { BlogComponent } from './pages/website/blog/blog.component';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { CustomerOrderComponent } from './pages/customer.order/customer.order.component';
+import { StoriesComponent } from './pages/stories/stories.component';
 
 
 
@@ -66,7 +66,6 @@ const routes: Routes = [
       {
         path: 'favourites',
         component: FavouriteComponent
-
       }
     ]
   },
@@ -158,6 +157,11 @@ const routes: Routes = [
       {
         path: 'customer-order',
         component: CustomerOrderComponent
+
+      },
+      {
+        path: 'stories',
+        component: StoriesComponent
 
       }
     ]

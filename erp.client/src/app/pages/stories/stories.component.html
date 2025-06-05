@@ -1,0 +1,122 @@
+<div class="right_col" role="main" style="min-height: 99vh;">
+    <div class="x_panel">
+        <div class="x_title">
+            <button class="btn btn-warning" (click)="openCreateFormModal()"><i class="fa fa-plus"></i> Create</button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ag-grid-angular #storiesGrid class="ag-theme-quartz ag-theme-acmecorp"
+                    style="height: 80vh; width: 100%;" [rowData]="stories" [columnDefs]="colDefs"
+                    [pagination]="pagination" [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                    [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                    [domLayout]="domLayout" [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                    (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="storyFormModal" role="dialog" aria-labelledby="storyFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ story.st_id ? 'Update story' : 'Create story' }}</h5>
+            </div>
+            <div class="modal-body">
+                <form #userForm="ngForm">
+                    <div class="form-group">
+                        <label for="st_name">Name</label>
+                        <input type="text" id="st_name" class="form-control" [(ngModel)]="story.st_name" name="st_name"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="st_description">Description</label>
+                        <textarea type="text" id="st_description" class="form-control"
+                            [(ngModel)]="story.st_description" name="st_description" required rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="st_category">Category</label>
+                        <select appSelect2 y id="st_category" class="form-control" name="st_category" required
+                            (selectionChanged)="OnCategoryChange($event);">
+                            <option value="0" selected>Select Parrent</option>
+                            <option *ngFor="let ct of categories" [value]="ct.ct_id">{{ ct.ct_name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">Image</label>
+                        <input type="file" name="file" (change)="onFileSelected($event)" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" (click)="createOrUpdateStory()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="storyImageModal" tabindex="-1" role="dialog" aria-labelledby="storyFormModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Story Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img [src]="imageUrl" class="img-fluid rounded shadow" alt="Story Image"
+                    *ngIf="imageUrl; else noImage" />
+                <ng-template #noImage>
+                    <p>No image available.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="stepFormModal" role="dialog" aria-labelledby="storyFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ story.st_id ? 'Update Steps' : 'Create Steps' }}</h5>
+            </div>
+            <div class="modal-body">
+                <form #userForm="ngForm">
+                    <div class="form-group">
+                        <label for="st_description">Question Type</label>
+                        <select id="st_description" class="form-control" [(ngModel)]="story.st_description"
+                            name="st_description" required>
+                            <option value="" disabled selected>Select Question Type</option>
+                            <option value="image">Image</option>
+                            <option value="txt">Text</option>
+                            <option value="txt">Audio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="st_description">Questian</label>
+                        <textarea type="text" id="st_description" class="form-control"
+                            [(ngModel)]="story.st_description" name="st_description" required rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">Image</label>
+                        <input type="file" name="file" (change)="onFileSelected($event)" />
+                    </div>
+                    <div class="form-group">
+                        <label for="st_description">Answer</label>
+                        <textarea type="text" id="st_description" class="form-control"
+                            [(ngModel)]="story.st_description" name="st_description" required rows="5"></textarea>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" (click)="createOrUpdateStory()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

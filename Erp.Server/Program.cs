@@ -85,7 +85,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<DBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr"))
 );
-
+builder.Services.Configure<PublicVariables>(builder.Configuration.GetSection("PublicVariables"));
 builder.Services.AddTransient<IUser, UserRepository>();
 builder.Services.AddTransient<IRole, RoleRepository>();
 builder.Services.AddTransient<ILogin, LoginRepository>();
@@ -106,6 +106,7 @@ builder.Services.AddTransient<ICart, CartRepository>();
 builder.Services.AddTransient<ICustomerOrder, CustomerOrderRepository>();
 builder.Services.AddTransient<ICustomerOrderStatus, CustomerOrderStatusRepository>();
 builder.Services.AddTransient<IAddress, AddressRepository>();
+builder.Services.AddTransient<IStory, StoryRepository>();
 
 var app = builder.Build();
 

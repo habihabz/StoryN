@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 import { ProdAttachement } from '../../../models/prod.attachments.model';
 import { environment } from '../../../../environments/environment';
 import { GeolocationService } from '../../../services/GeoCurrentLocation.service';
+import { Story } from '../../../models/story.model';
+import { IStoryService } from '../../../services/istory.service';
 
 @Component({
   selector: 'app-web.home',
@@ -20,10 +22,8 @@ import { GeolocationService } from '../../../services/GeoCurrentLocation.service
 export class WebHomeComponent   implements OnInit{
   apiUrl = `${environment.serverHostAddress}`;
   country: MasterData = new MasterData();
-  product:Product=new Product();
-  products:Product []=[];
-  tempProducts:Product []=[];
-  categories: Category[] = [];
+  
+  stories: Story[] = [];
   subcategories: MasterData[] = [];
   requestParms: RequestParms = new RequestParms();
   subscription: Subscription = new Subscription();
@@ -32,6 +32,7 @@ export class WebHomeComponent   implements OnInit{
   constructor(
     private elRef: ElementRef,
     private router: Router,
+    private istoryService: IStoryService,
     private iproductService: IProductService,
     private imasterDataService: IMasterDataService,
     private icategoryService: ICategoryService,
@@ -43,31 +44,11 @@ export class WebHomeComponent   implements OnInit{
 
   
   ngOnInit(): void {
-    this.loadCategories();
-    this.getProductsByCountry();
+    this.getStories();
     this.getMasterDatasByType("SubCategory", (data) => { this.subcategories = data; });
-    this.loadUserCountry();
  
   }
-  getProductsByCountry() {
-    this.iproductService.getProductsByCountry(this.country.md_id).subscribe(
-      (data: Product[]) => {
-        this.products = data;
-      },
-      (error: any) => {
-      }
-    );
-  }
-  loadCategories(): void {
-    this.icategoryService.getCategories().subscribe(
-      (data: Category[]) => {
-        this.categories = data;
-      },
-      (error: any) => {
-       
-      }
-    );
-  }
+  
 
   getMasterDatasByType(masterType: string, callback: (data: MasterData[]) => void): void {
     this.requestParms = new RequestParms();
@@ -83,28 +64,22 @@ export class WebHomeComponent   implements OnInit{
     );
   }
 
-  getProductsByCategory(c_id: number) {
-   this.tempProducts=this.products.filter(x=>x.p_category==c_id);
-   return this.tempProducts;
-  }
-  getAttachementOfaProduct(p_attachements:string){
-
-    return JSON.parse(p_attachements);
-  }
+ 
   navigateToProduct(productId: number) {
     this.router.navigate(['/single-product', productId]);
   }
   navigateToBlog(blogId: number): void {
     this.router.navigate(['/blog', blogId]);
   }
-  async loadUserCountry() {
-    try {
-      this.geolocationService.getUserCountry();
-    } catch (error) {
-    
-    }
-  }
-  addToCart(product:Product){
 
+ 
+   getStories() {
+    this.istoryService.getStories().subscribe(
+      (data: Story[]) => {
+        this.stories = data;
+      },
+      (error: any) => {
+      }
+    );
   }
 }

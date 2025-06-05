@@ -6,6 +6,7 @@ import { IroleService } from '../../services/irole.service';
 import { DbResult } from '../../models/dbresult.model';
 import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
+import { GridReadyEvent } from 'ag-grid-community';
 
 declare var $: any;
 
@@ -50,6 +51,8 @@ export class RoleComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe(); // Unsubscribe to avoid memory leaks
   }
+
+
 
   loadRoles(): void {
     this.iroleService.getRoles().subscribe(
