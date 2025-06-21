@@ -107,6 +107,7 @@ builder.Services.AddTransient<ICustomerOrder, CustomerOrderRepository>();
 builder.Services.AddTransient<ICustomerOrderStatus, CustomerOrderStatusRepository>();
 builder.Services.AddTransient<IAddress, AddressRepository>();
 builder.Services.AddTransient<IStory, StoryRepository>();
+builder.Services.AddTransient<IStep, StepRepository>();
 
 var app = builder.Build();
 

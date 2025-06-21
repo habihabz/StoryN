@@ -1,0 +1,37 @@
+<div *ngIf="file" class="mt-3">
+  <!-- Image -->
+  <img *ngIf="isImage(file)" [src]="fullPath"
+    alt="attachment" class="img-fluid mt-2 border" style="max-height:400px;" />
+
+  <!-- Audio -->
+  <audio *ngIf="isAudio(file)" [src]="fullPath"
+    controls class="mt-2 w-100"></audio>
+
+  <!-- Video -->
+  <video *ngIf="isVideo(file)" [src]="fullPath"
+    controls class="mt-2 w-100" style="max-height:400px;"></video>
+
+  <!-- PDF -->
+  <a *ngIf="isPDF(file)" [href]="fullPath" target="_blank"
+    class="d-block mt-2 text-primary">View PDF</a>
+
+  <!-- Word -->
+  <a *ngIf="isDoc(file)" [href]="fullPath" target="_blank"
+    class="d-block mt-2 text-primary">Download Word Document</a>
+
+  <!-- Excel -->
+  <a *ngIf="isExcel(file)" [href]="fullPath" target="_blank"
+    class="d-block mt-2 text-primary">Download Excel File</a>
+
+  <!-- PowerPoint -->
+  <a *ngIf="isPPT(file)" [href]="fullPath" target="_blank"
+    class="d-block mt-2 text-primary">Download PowerPoint</a>
+
+  <!-- Text / CSV / JSON -->
+  <a *ngIf="isTextOrJson(file)" [href]="fullPath" target="_blank"
+    class="d-block mt-2 text-primary">View File</a>
+
+  <!-- Fallback -->
+  <a *ngIf="isOther(file)" [href]="fullPath" target="_blank"
+    class="d-block mt-2 text-primary">Download Attachment</a>
+</div>

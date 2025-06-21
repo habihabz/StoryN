@@ -68,8 +68,8 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <img [src]="imageUrl" class="img-fluid rounded shadow" alt="Story Image"
-                    *ngIf="imageUrl; else noImage" />
+                <img [src]="imageUrl" class="img-fluid rounded shadow" alt="Story Image" *ngIf="imageUrl; else noImage"
+                    width="720px" />
                 <ng-template #noImage>
                     <p>No image available.</p>
                 </ng-template>
@@ -79,42 +79,81 @@
 </div>
 
 <div class="modal fade" id="stepFormModal" role="dialog" aria-labelledby="storyFormModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ story.st_id ? 'Update Steps' : 'Create Steps' }}</h5>
+                <h4 class="modal-title">Steps</h4>
             </div>
             <div class="modal-body">
-                <form #userForm="ngForm">
-                    <div class="form-group">
-                        <label for="st_description">Question Type</label>
-                        <select id="st_description" class="form-control" [(ngModel)]="story.st_description"
-                            name="st_description" required>
-                            <option value="" disabled selected>Select Question Type</option>
-                            <option value="image">Image</option>
-                            <option value="txt">Text</option>
-                            <option value="txt"><Audio></Audio></option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="st_description">Questian</label>
-                        <textarea type="text" id="st_description" class="form-control"
-                            [(ngModel)]="story.st_description" name="st_description" required rows="10"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">Image</label>
-                        <input type="file" name="file" (change)="onFileSelected($event)" />
-                    </div>
-                    <div class="form-group">
-                        <label for="st_description">Answer</label>
-                        <textarea type="text" id="st_description" class="form-control"
-                            [(ngModel)]="story.st_description" name="st_description" required rows="5"></textarea>
-                    </div>
+                <mat-tab-group>
+                    <!-- Loop through existing steps -->
+                    <mat-tab *ngFor="let s of steps; let i = index" [label]="'Step ' + s.sp_priority">
+                        <mat-card class="m-3">
+                            <mat-card-content>
+                                 <div class="mt-3 d-flex justify-content-end">
+                                    <button  class="btn btn-danger" (click)="deleteStep(s.sp_id)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="mb-3">
+                                    <p><strong>Step Number:</strong> {{ s.sp_priority }}</p>
+                                    <p><strong>Question:</strong></p>
+                                    <div *ngIf="s.sp_attachment" class="mt-3">
+                                         <app-attachment-viewer *ngIf="s.sp_attachment" [file]="s.sp_attachment"></app-attachment-viewer>
+                                    </div>
+                                    <br />
+                                    <p *ngIf="s.sp_question" class="border p-2 bg-light">{{ s.sp_question }}</p>
+                                    <p *ngIf="s.sp_hint"><strong>Hint:</strong> {{ s.sp_hint }}</p>
+                                    <p><strong>Answer:</strong></p>
+                                    <p class="border p-2 bg-light">{{ s.sp_answer }}</p>
+                                </div>
 
-                </form>
+                               
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-tab>
+
+                    <mat-tab label="+ Add New Step">
+                        <form #userForm="ngForm">
+                            <div class="form-group">
+                                <label for="sp_priority">Priority</label>
+                                <input type="number" id="sp_priority" class="form-control"
+                                    [(ngModel)]="step.sp_priority" name="sp_priority" required min="1" />
+                            </div>
+                            <div class="form-group">
+                                <label for="sp_question">Question</label>
+                                <textarea type="text" id="sp_question" class="form-control"
+                                    [(ngModel)]="step.sp_question" name="sp_question" required rows="10"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="sp_attachment">Attachment</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="sp_attachment" name="sp_attachment"
+                                        (change)="onFileSelectedForStep($event)">
+                                    <label class="custom-file-label" for="sp_attachment">
+                                        {{ selectedFileNameOfStep || 'Choose file' }}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sp_hint">Hint</label>
+                                <input type="sp_hint" name="sp_hint" [(ngModel)]="step.sp_hint" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="sp_answer">Answer</label>
+                                <textarea type="text" id="sp_answer" class="form-control" [(ngModel)]="step.sp_answer"
+                                    name="sp_answer" required rows="5"></textarea>
+                            </div>
+
+                        </form>
+
+                    </mat-tab>
+                </mat-tab-group>
+
+
             </div>
             <div class="modal-footer d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary" (click)="createOrUpdateStory()">Save</button>
+                <button type="submit" class="btn btn-primary" (click)="createOrUpdateStep()">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

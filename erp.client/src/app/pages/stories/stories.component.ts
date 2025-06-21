@@ -20,6 +20,8 @@ import { IStoryService } from '../../services/istory.service';
 import { Story } from '../../models/story.model';
 import { HttpClient } from '@angular/common/http';
 import { Category } from '../../models/category.model';
+import { Step } from '../../models/step.model';
+import { IStepService } from '../../services/istep.service';
 declare var $: any;
 
 @Component({
@@ -28,7 +30,7 @@ declare var $: any;
   styleUrl: './stories.component.css'
 })
 export class StoriesComponent {
-  private apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}`;
   imageUrl: string = '';
   pagination = true;
   paginationPageSize5 = 5;
@@ -47,6 +49,9 @@ export class StoriesComponent {
   prodAttachements: ProdAttachement[] = [];
   imagePreviews: string[] = [];
   selectedFile: File | null = null;
+  selectedStepFile: File | null = null;
+  steps: Step[] = [];
+  step: Step = new Step();
 
   @ViewChild('storiesGrid') storysGrid!: AgGridAngular;
 
@@ -60,6 +65,7 @@ export class StoriesComponent {
     private istoryService: IStoryService,
     private imasterDataService: IMasterDataService,
     private icategoryService: ICategoryService,
+    private istepService: IStepService,
     private http: HttpClient
 
   ) {
@@ -183,7 +189,20 @@ export class StoriesComponent {
   }
 
   onSteps(data: any) {
+    this.story = data;
+    this.getStepsOfAStory();
+
     $('#stepFormModal').modal('show');
+  }
+
+  getStepsOfAStory() {
+    this.istepService.getStepsOfAStory(this.story.st_id).subscribe(
+      (data: Step[]) => {
+        this.steps = data;
+      },
+      (error: any) => {
+      }
+    );
   }
 
   // Helper to parse JSON fields safely
@@ -227,6 +246,7 @@ export class StoriesComponent {
       }
     );
   }
+
   onGridReady(event: GridReadyEvent) {
     this.storysGrid.api.sizeColumnsToFit();
 
@@ -282,6 +302,72 @@ export class StoriesComponent {
       },
       (error: any) => {
         console.error('Error fetching categories', error);
+      }
+    );
+  }
+
+
+  onFileSelectedForStep(event: any): void {
+    const file = event.target.files[0];
+    this.selectedStepFile = file ? file : null;
+  }
+
+  get selectedFileNameOfStep(): string {
+    return this.selectedStepFile ? this.selectedStepFile.name : '';
+  }
+  createOrUpdateStep() {
+
+    const formData = new FormData();
+    formData.append("sp_id", this.step.sp_id?.toString() || "0");
+    formData.append("sp_story", this.story.st_id?.toString() || "0");
+    formData.append("sp_question", this.step.sp_question || "");
+    formData.append("sp_attachment", this.step.sp_attachment || "");
+    formData.append("sp_hint", this.step.sp_hint || "");
+    formData.append("sp_answer", this.step.sp_answer || "");
+    formData.append("sp_priority", this.step.sp_priority?.toString() || "0");
+    formData.append("sp_cre_by", this.currentUser.u_id.toString());
+
+    if (this.selectedStepFile) {
+      formData.append("file", this.selectedStepFile);
+    }
+
+    this.step.sp_cre_by = this.currentUser.u_id;
+
+    this.istepService.createOrUpdateStep(formData).subscribe(
+      (data: DbResult) => {
+        this.dbResult = data;
+        if (data.message === "Success") {
+          this.istepService.refreshSteps();
+          this.selectedStepFile = null;
+          this.getStepsOfAStory();
+          const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
+          if (fileInput) fileInput.value = '';
+
+          this.step = new Step();
+        } else {
+          alert(data.message);
+        }
+      },
+      (error: any) => {
+        // handle error if needed
+      }
+    );
+  }
+
+  
+
+  deleteStep(sp_id: number) {
+    this.istepService.deleteStep(sp_id).subscribe(
+      (result: DbResult) => {
+        if (result.message === "Success") {
+          this.steps = this.steps.filter(s => s.sp_id !== sp_id);
+          this.snackBarService.showSuccess("Successfully Removed");
+        } else {
+          alert(result.message);
+        }
+      },
+      (error: any) => {
+        console.error('Error deleting income', error);
       }
     );
   }

@@ -21,13 +21,13 @@ import { environment } from '../environments/environment';
 import { MenuComponent } from './pages/menu/menu.component';
 import { MenuAllocationComponent } from './pages/menu.allocation/menu.allocation.component';
 import { Select2Directive } from './directives/select2.directive';
-import { DataTablesModule} from 'angular-datatables';
+import { DataTablesModule } from 'angular-datatables';
 import { CustomerComponent } from './pages/customer/customer.component';
 import { SupplierComponent } from './pages/supplier/supplier.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { IncomeComponent } from './pages/income/income.component'
 import { MasterDataComponent } from './pages/master-data/master-data.component';
-import { AgGridModule } from 'ag-grid-angular'; 
+import { AgGridModule } from 'ag-grid-angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProductsComponent } from './pages/products/products.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -47,9 +47,9 @@ import { SingleProductComponent } from './pages/website/single-product/single-pr
 import { ContactUsComponent } from './pages/website/contact.us/contact.us.component';
 import { BlogsComponent } from './pages/website/blogs/blogs.component';
 import { ShopComponent } from './pages/website/shop/shop.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { ProductReviewsComponent } from './pages/product.reviews/product.reviews.component';
 import { MatListModule } from '@angular/material/list';
 import { PriceChangeComponent } from './pages/price.change/price.change.component';
@@ -64,6 +64,9 @@ import { PaymentFailureComponent } from './pages/website/payment.failure/payment
 import { PaymentSuccessComponent } from './pages/website/payment.success/payment.success.component';
 import { PaymentComponent } from './pages/website/payment/payment.component';
 import { StoriesComponent } from './pages/stories/stories.component';
+import { SharedModule } from './shared/shared.module';
+import { StoryComponent } from './pages/website/story/story.component';
+import { PlaygoundComponent } from './pages/website/playgound/playgound.component';
 
 
 
@@ -124,16 +127,18 @@ const jwtConfig: JwtModuleOptions = {
     PaymentFailureComponent,
     PaymentSuccessComponent,
     PaymentComponent,
-    StoriesComponent
-  
+    StoriesComponent,
+    StoryComponent,
+    PlaygoundComponent
+
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule ,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    JwtModule.forRoot(jwtConfig), 
+    JwtModule.forRoot(jwtConfig),
     DataTablesModule,
     AgGridModule,
     MatSnackBarModule,
@@ -144,13 +149,13 @@ const jwtConfig: JwtModuleOptions = {
     MatIconModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    MatSidenavModule  ,
+    MatSidenavModule,
     MatTabsModule,
     MatTableModule,
     MatCardModule,
     MatChipsModule,
-    MatListModule
-
+    MatListModule,
+    SharedModule
   ],
   providers: [
     {

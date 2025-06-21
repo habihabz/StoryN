@@ -82,4 +82,10 @@ export class WebHomeComponent   implements OnInit{
       }
     );
   }
+
+  playGame(st_id:number){
+
+       this.router.navigate(['/story', st_id]);
+  }
+
 }

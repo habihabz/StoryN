@@ -1,14 +1,14 @@
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <div *ngFor="let story of this.stories" class="movie_card" id="bright">
-                <div class="info_section">
+        <div class="col-md-12 ">
+            <div *ngFor="let story of this.stories" class="movie_card " id="bright">
+                <div class="info_section p-4">
                     <div class="movie_header">
                         <img class="locandina" src="{{apiUrl+'/'+story.st_image}}" />
                         <h1>{{story.st_name}}</h1>
                         <h4>2017, David Ayer</h4>
                         <span class="minutes">{{ story.st_category_name}}</span>
-                       <!--<p class="type">{{ story.st_category_name}}</p>--> 
+                        <!--<p class="type">{{ story.st_category_name}}</p>-->
                     </div>
                     <div class="movie_desc">
                         <p class="text">
@@ -16,12 +16,15 @@
                         </p>
                     </div>
                     <div class="movie_social">
-                        <ul>
-                            <li> Start&nbsp;<i class="fa fa-play"></i></li>
-                        </ul>
+                        <button class="btn btn-lg px-4 py-2 d-flex align-items-center justify-content-center gap-2"
+                            style="background: none; border: none; color: white;" (click)="playGame(story.st_id)">
+                            Start Play
+                            <i class="fa fa-play fa-2x"></i>
+                        </button>
                     </div>
+
                 </div>
-                <div class="blur_back bright_back">
+                <div class="blur_back" style="background:#053834">
 
                 </div>
             </div>

@@ -33,6 +33,8 @@ import { BlogComponent } from './pages/website/blog/blog.component';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { CustomerOrderComponent } from './pages/customer.order/customer.order.component';
 import { StoriesComponent } from './pages/stories/stories.component';
+import { StoryComponent } from './pages/website/story/story.component';
+import { PlaygoundComponent } from './pages/website/playgound/playgound.component';
 
 
 
@@ -49,6 +51,8 @@ const routes: Routes = [
         component: WebHomeComponent
       },
       { path: 'single-product/:id', component: SingleProductComponent },
+      { path: 'story/:id', component: StoryComponent },
+      { path: 'play-ground/:id', component: PlaygoundComponent },
       {
         path: 'contact-us', component: ContactUsComponent
       },
@@ -83,7 +87,7 @@ const routes: Routes = [
     component: LoginComponent
   },
   { path: 'logout', component: LoginComponent },
-  
+
   {
     path: 'access-denied',
     component: AccessDeniedComponent

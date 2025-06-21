@@ -5,7 +5,9 @@ namespace Erp.Server.Models
 {
     public class PublicVariables
     {
-        public string? StoryImagePath { get; set; } 
+        public string? StoryImagePath { get; set; }
+
+        public string? StepAttachmentPath { get; set; }
     }
 
 }

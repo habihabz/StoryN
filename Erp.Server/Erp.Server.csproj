@@ -41,4 +41,8 @@
     <Folder Include="wwwroot\uploads\product\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Models\Step.cs" />
+  </ItemGroup>
+
 </Project>
