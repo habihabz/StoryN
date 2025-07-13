@@ -20,11 +20,14 @@ namespace Erp.Server.Repository
             var st_description = new SqlParameter("st_description", story.st_description + "");
             var st_category = new SqlParameter("st_category", story.st_category + "");
             var st_image = new SqlParameter("st_image", story.st_image + "");
+            var st_start_image = new SqlParameter("st_start_image", story.st_start_image + "");
+            var st_end_image = new SqlParameter("st_end_image", story.st_end_image + "");
             var st_active_yn = new SqlParameter("st_active_yn", story.st_active_yn + "");
             var st_cre_by = new SqlParameter("st_cre_by", story.st_cre_by + "");
 
-            var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.createOrUpdateStory @st_id,@st_name,@st_description,@st_category,@st_image,@st_active_yn,@st_cre_by;",
-                st_id, st_name, st_description, st_category, st_image, st_active_yn, st_cre_by).ToList().FirstOrDefault() ?? new DbResult();
+            var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.createOrUpdateStory " +
+                "@st_id,@st_name,@st_description,@st_category,@st_image,@st_start_image,@st_end_image, @st_active_yn,@st_cre_by;",
+                st_id, st_name, st_description, st_category, st_image, st_start_image, st_end_image, st_active_yn, st_cre_by).ToList().FirstOrDefault() ?? new DbResult();
             return dbresult;
         }
 
@@ -46,6 +49,14 @@ namespace Erp.Server.Repository
         {
             var storys = db.Set<Story>().FromSqlRaw("EXEC dbo.getStories;").ToList();
             return storys;
+        }
+
+        public DbResult startGame(RequestParams requestParams)
+        {
+            var _story = new SqlParameter("story", requestParams.story + "");
+            var _user = new SqlParameter("user", requestParams.user + "");
+            var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.startGame @story,@user;", _story,_user).ToList().FirstOrDefault() ?? new DbResult();
+            return dbresult;
         }
     }
 }

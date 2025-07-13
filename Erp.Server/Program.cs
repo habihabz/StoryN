@@ -5,17 +5,24 @@ using Erp.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Logging;
-using System.Text;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
+using System.Text;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register services
-builder.Services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+            .WithOrigins("http://localhost:4200", "http://localhost:82", "http://192.168.29.251:82")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
+// JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,28 +38,12 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KDSFADSJFNFDGJASDFGADFNEJFWRWERdDSFHAKSD")),
         ValidateIssuer = false,
         ValidateAudience = false,
-        ValidateLifetime = true, // Enable lifetime validation
+        ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
-
-    options.Events = new JwtBearerEvents
-    {
-
-    };
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder
-            .WithOrigins("https://localhost:4200", "http://localhost:4200")  // Replace with your Angular app URL
-            .AllowAnyMethod()
-            .AllowAnyHeader());
-});
-
-// Add services to the container
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+// Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -81,10 +72,14 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Retrieve configuration instance to get connection string
-builder.Services.AddDbContext<DBContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr"))
-);
+// Database + DI
+builder.Services.AddDbContext<DBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr")));
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
+// Services
+builder.Services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
 builder.Services.Configure<PublicVariables>(builder.Configuration.GetSection("PublicVariables"));
 builder.Services.AddTransient<IUser, UserRepository>();
 builder.Services.AddTransient<IRole, RoleRepository>();
@@ -108,35 +103,32 @@ builder.Services.AddTransient<ICustomerOrderStatus, CustomerOrderStatusRepositor
 builder.Services.AddTransient<IAddress, AddressRepository>();
 builder.Services.AddTransient<IStory, StoryRepository>();
 builder.Services.AddTransient<IStep, StepRepository>();
+builder.Services.AddTransient<IAnswer, AnswerRepository>();
+builder.Services.AddTransient<IFileUpload, FileUploadService>();
 
 var app = builder.Build();
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
-//// Middleware to log incoming request details
-//app.Use(async (context, next) =>
-//{
-//    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-//    logger.LogInformation("Handling request: {Method} {Path}", context.Request.Method, context.Request.Path);
-//    await next();
-//    logger.LogInformation("Finished handling request.");
-//});
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Swagger
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    c.RoutePrefix = string.Empty; // This serves Swagger UI at http://localhost:81/
+});
 
+// CORS + HTTPS
 app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // Authentication should come before authorization
-app.UseAuthorization();  // Authorization should come after authentication
+// Serve wwwroot (if used)
+app.UseStaticFiles();
 
+// Auth
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Routes
 app.MapControllers();
-app.MapFallbackToFile("/Index.html");
 
+// Run
 app.Run();

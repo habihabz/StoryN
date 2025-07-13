@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { DbResult } from '../models/dbresult.model';
 import { environment } from '../../environments/environment';
 import { Story } from '../models/story.model';
+import { RequestParms } from '../models/requestParms';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,10 @@ export class IStoryService {
 
   createOrUpdateStory(formData: FormData): Observable<DbResult> {
     return this.http.post<DbResult>(this.apiUrl + "/createOrUpdateStory", formData); 
+  }
+
+  startGame(requestParms:RequestParms): Observable<DbResult> {
+    return this.http.post<DbResult>(this.apiUrl + "/startGame", requestParms); 
   }
 
   get refreshStories$() {

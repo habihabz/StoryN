@@ -35,6 +35,8 @@ import { CustomerOrderComponent } from './pages/customer.order/customer.order.co
 import { StoriesComponent } from './pages/stories/stories.component';
 import { StoryComponent } from './pages/website/story/story.component';
 import { PlaygoundComponent } from './pages/website/playgound/playgound.component';
+import { StoryEndComponent } from './pages/website/story.end/story.end.component';
+import { StoryStartComponent } from './pages/website/story.start/story.start.component';
 
 
 
@@ -46,10 +48,7 @@ const routes: Routes = [
     path: '',
     component: SitelayoutComponent,
     children: [
-      {
-        path: 'web-home',
-        component: WebHomeComponent
-      },
+
       { path: 'single-product/:id', component: SingleProductComponent },
       { path: 'story/:id', component: StoryComponent },
       { path: 'play-ground/:id', component: PlaygoundComponent },
@@ -70,8 +69,15 @@ const routes: Routes = [
       {
         path: 'favourites',
         component: FavouriteComponent
-      }
+      },
+      { path: 'story-end/:id', component: StoryEndComponent },
+      { path: 'story-start/:id', component: StoryStartComponent }
     ]
+  }
+  ,
+  {
+    path: 'web-home',
+    component: WebHomeComponent
   },
   {
     path: 'user-registration',

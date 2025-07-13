@@ -1,0 +1,22 @@
+<div class="position-relative" style="height: 95vh; overflow: hidden;">
+
+  <!-- Background Image -->
+  <img [src]="apiUrl + '/' + story.st_end_image" alt="Background"
+       class="position-absolute top-0 start-0 w-100 h-100"
+       style="object-fit: cover; object-position: center;" />
+
+  <!-- Overlay Content -->
+  <div class="position-relative h-75 d-flex justify-content-center align-items-end text-white">
+    <div class="alert alert-dark text-center shadow-lg rounded px-3 py-2 w-75" style="max-width: 300px;">
+      <h5 class="mb-2">🎮 Game Over!</h5>
+      <br/>
+      <small class="d-block mb-1">Thank you for playing. Results will be shared shortly.</small>
+      <hr/>
+      <small class="d-block text-muted mb-2">Explore more stories while you wait.</small>
+      <button class="btn btn-primary btn-sm px-3" (click)="goToHome()">
+        <i class="fa fa-home me-1"></i> Home
+      </button>
+    </div>
+  </div>
+
+</div>

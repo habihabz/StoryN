@@ -22,6 +22,9 @@ import { HttpClient } from '@angular/common/http';
 import { Category } from '../../models/category.model';
 import { Step } from '../../models/step.model';
 import { IStepService } from '../../services/istep.service';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { IAnswerService } from '../../services/ianswer.service';
+import { DataTableStructure } from '../../methods/datatable.structure';
 declare var $: any;
 
 @Component({
@@ -49,12 +52,16 @@ export class StoriesComponent {
   prodAttachements: ProdAttachement[] = [];
   imagePreviews: string[] = [];
   selectedFile: File | null = null;
+  selectedStartFile: File | null = null;
+  selectedEndFile: File | null = null;
   selectedStepFile: File | null = null;
+
   steps: Step[] = [];
   step: Step = new Step();
+  reportData: any[] = [];
 
   @ViewChild('storiesGrid') storysGrid!: AgGridAngular;
-
+  @ViewChild('reportGrid') reportGrid!: AgGridAngular;
   constructor(
     private iuserService: IuserService,
     private elRef: ElementRef,
@@ -66,7 +73,9 @@ export class StoriesComponent {
     private imasterDataService: IMasterDataService,
     private icategoryService: ICategoryService,
     private istepService: IStepService,
-    private http: HttpClient
+    private http: HttpClient,
+    private ianswerService: IAnswerService,
+    private dataTableStructure: DataTableStructure,
 
   ) {
     this.currentUser = iuserService.getCurrentUser();
@@ -78,18 +87,36 @@ export class StoriesComponent {
   colDefs: ColDef[] = [
     { headerName: "Id", field: "st_id" },
     { headerName: "Name", field: "st_name" },
-    { headerName: "Description", field: "st_description" },
+    
     { headerName: "Category", field: "st_category_name" },
     {
-      headerName: 'Image', cellRenderer: 'actionRenderer', cellRendererParams:
+      headerName: 'Poster', cellRenderer: 'actionRenderer', cellRendererParams:
       {
         name: '', action: 'onViewImage', cssClass: 'btn btn-default', icon: 'fa fa-eye', onViewImage: (data: any) => this.onAction('viewImage', data)
+      },
+    },
+    {
+      headerName: 'Starting Image', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: '', action: 'onViewStartImage', cssClass: 'btn btn-default', icon: 'fa fa-eye', onViewStartImage: (data: any) => this.onAction('viewStartImage', data)
+      },
+    },
+    {
+      headerName: 'Ending Image', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: '', action: 'onViewEndImage', cssClass: 'btn btn-default', icon: 'fa fa-eye', onViewEndImage: (data: any) => this.onAction('viewEndImage', data)
       },
     },
     {
       headerName: 'Steps', cellRenderer: 'actionRenderer', cellRendererParams:
       {
         name: 'Step', action: 'onSteps', cssClass: 'btn btn-standard', icon: 'fa fa-list', onSteps: (data: any) => this.onAction('steps', data)
+      },
+    },
+    {
+      headerName: 'Analytics', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Analytics', action: 'onAnalytics', cssClass: 'btn btn-warning', icon: 'fa fa-line-chart', onAnalytics: (data: any) => this.onAction('analytics', data)
       },
     },
     {
@@ -104,10 +131,15 @@ export class StoriesComponent {
         name: 'Delete', action: 'onDelete', cssClass: 'btn btn-danger', icon: 'fa fa-trash', onDelete: (data: any) => this.onAction('delete', data)
       },
     },
+    {
+      headerName: "Description",
+      field: "st_description",
+      valueFormatter: (params) => params.value ? params.value.substring(0, 100) : ''
+    },
     { headerName: "Created By", field: "st_cre_by_name" },
     { headerName: "Created Date", field: "st_cre_date" },
   ];
-
+  reportDefs: ColDef[] = [];
   frameworkComponents = {
     actionRenderer: ActionRendererComponent
   };
@@ -157,7 +189,15 @@ export class StoriesComponent {
       case 'steps':
         this.onSteps(data);
         break;
-
+      case 'analytics':
+        this.onAnalytics(data);
+        break;
+      case 'viewStartImage':
+        this.onViewStartImage(data);
+        break;
+      case 'viewEndImage':
+        this.onViewEndImage(data);
+        break;
       default:
         this.snackBarService.showError("Unknown Action " + action);;
     }
@@ -184,8 +224,24 @@ export class StoriesComponent {
   }
 
   onViewImage(data: any) {
-    this.imageUrl = `https://localhost:7299/${data.st_image}`;
-    $('#storyImageModal').modal('show');
+    if (data.st_image) {
+      this.imageUrl = `${this.apiUrl}/${data.st_image}`;
+      $('#storyImageModal').modal('show');
+    }
+  }
+
+  onViewStartImage(data: any) {
+    if (data.st_start_image) {
+      this.imageUrl = `${this.apiUrl}/${data.st_start_image}`;
+      $('#storyImageModal').modal('show');
+    }
+  }
+
+  onViewEndImage(data: any) {
+    if (data.st_end_image) {
+      this.imageUrl = `${this.apiUrl}/${data.st_end_image}`;
+      $('#storyImageModal').modal('show');
+    }
   }
 
   onSteps(data: any) {
@@ -194,6 +250,13 @@ export class StoriesComponent {
 
     $('#stepFormModal').modal('show');
   }
+
+  onAnalytics(data: any) {
+    this.story = data;
+    this.getSubmittedStoryAnswers(this.story.st_id);
+    $('#analyticsModal').modal('show');
+  }
+
 
   getStepsOfAStory() {
     this.istepService.getStepsOfAStory(this.story.st_id).subscribe(
@@ -240,7 +303,11 @@ export class StoriesComponent {
     this.istoryService.getStories().subscribe(
       (data: Story[]) => {
         this.stories = data;
-        this.storysGrid.api.sizeColumnsToFit();
+        setTimeout(() => {
+          if (this.storysGrid?.api) {
+            this.storysGrid.api.autoSizeAllColumns();
+          }
+        }, 500);
       },
       (error: any) => {
       }
@@ -248,7 +315,7 @@ export class StoriesComponent {
   }
 
   onGridReady(event: GridReadyEvent) {
-    this.storysGrid.api.sizeColumnsToFit();
+    this.storysGrid.api.autoSizeAllColumns();
 
   }
 
@@ -271,6 +338,12 @@ export class StoriesComponent {
     if (this.selectedFile) {
       formData.append("file", this.selectedFile);
     }
+    if (this.selectedStartFile) {
+      formData.append("startImage", this.selectedStartFile);
+    }
+    if (this.selectedEndFile) {
+      formData.append("endImage", this.selectedEndFile);
+    }
     this.story.st_cre_by = this.currentUser.u_id;
     this.istoryService.createOrUpdateStory(formData).subscribe(
       (data: DbResult) => {
@@ -279,6 +352,8 @@ export class StoriesComponent {
           this.istoryService.refreshStories();
           $('#storyFormModal').modal('hide');
           this.selectedFile = null;
+          this.selectedStartFile = null;
+          this.selectedEndFile = null;
           const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
           if (fileInput) fileInput.value = '';
           this.story = new Story();
@@ -354,7 +429,7 @@ export class StoriesComponent {
     );
   }
 
-  
+
 
   deleteStep(sp_id: number) {
     this.istepService.deleteStep(sp_id).subscribe(
@@ -370,5 +445,59 @@ export class StoriesComponent {
         console.error('Error deleting income', error);
       }
     );
+  }
+
+  onTabChange(event: MatTabChangeEvent): void {
+    const tabLabel = event.tab.textLabel;
+    switch (tabLabel) {
+      case "Details":
+        this.getSubmittedStoryAnswers(this.story.st_id);
+        break;
+      case "Proggression": break;
+      case "Result": break;
+    }
+  }
+
+
+  getSubmittedStoryAnswers(st_id: number) {
+    this.ianswerService.getSubmittedStoryAnswers(st_id).subscribe(
+      (data: any[]) => {
+        this.reportDefs = this.dataTableStructure.getDatatableStructure(data);
+        this.reportData = data;
+
+        // Use firstDataRendered to auto-size when grid is ready
+        const onFirstDataRendered = () => {
+          setTimeout(() => {
+            this.reportGrid.api.autoSizeAllColumns();
+          }, 300); // small delay to ensure rendering completes
+          this.reportGrid.api.removeEventListener('firstDataRendered', onFirstDataRendered); // clean up
+        };
+
+        this.reportGrid.api.addEventListener('firstDataRendered', onFirstDataRendered);
+      },
+      (error: any) => {
+        if (error.status !== 401) {
+          // handle error
+        }
+      }
+    );
+  }
+  onExport() {
+    if (this.reportGrid.api) {
+      this.reportGrid.api.exportDataAsCsv
+        ({
+          fileName: 'Purchase Repoort.csv',
+        });
+    } else {
+      console.warn('Grid API is not available yet.'); // Optional: Handle case when API is not available
+    }
+  }
+  onStartImageSelected(event: any): void {
+    const file = event.target.files[0];
+    this.selectedStartFile = file ? file : null;
+  }
+  onEndingImageSelected(event: any): void {
+    const file = event.target.files[0];
+    this.selectedEndFile = file ? file : null;
   }
 }

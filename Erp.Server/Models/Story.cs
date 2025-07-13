@@ -24,6 +24,15 @@ namespace Erp.Server.Models
         [Display(Name = "Image Path")]
         public string? st_image { get; set; } = string.Empty;
 
+
+        [Display(Name = "Start Image Path")]
+        public string? st_start_image { get; set; } = string.Empty;
+
+
+        [Display(Name = "End Image")]
+        public string? st_end_image { get; set; } = string.Empty;
+
+
         [Display(Name = "Active")]
         public string? st_active_yn { get; set; } = "Y";
 
@@ -40,8 +49,14 @@ namespace Erp.Server.Models
         [NotMapped]
         public IFormFile? file { get; set; }
 
+        [NotMapped]
+        public IFormFile? startImage { get; set; }
 
-        
+        [NotMapped]
+        public IFormFile? endImage { get; set; }
+
+
+
 
     }
 }

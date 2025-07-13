@@ -29,7 +29,12 @@ export class IAnswerService {
   }
 
   createOrUpdateAnswer(answer: Answer): Observable<DbResult> {
+    answer.a_cre_date = new Date().toISOString();
     return this.http.post<DbResult>(this.apiUrl + "/createOrUpdateAnswer", answer);
+  }
+
+  getSubmittedStoryAnswers(st_id: number): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/getSubmittedStoryAnswers`, st_id);
   }
 
 

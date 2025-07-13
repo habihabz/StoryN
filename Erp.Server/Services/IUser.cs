@@ -10,5 +10,6 @@ namespace Erp.Server.Services
         User getUserByUsername(string username);
         List<User> getUsers();
         DbResult registerUser(User user);
+        DbResult updateUserPassword(User user);
     }
 }

@@ -5,6 +5,8 @@ import { IuserService } from '../../../services/iuser.service';
 import { User } from '../../../models/user.model';
 import { IStoryService } from '../../../services/istory.service';
 import { environment } from '../../../../environments/environment';
+import { RequestParms } from '../../../models/requestParms';
+import { DbResult } from '../../../models/dbresult.model';
 
 @Component({
   selector: 'app-story',
@@ -16,6 +18,7 @@ export class StoryComponent {
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();
+  requestParms: RequestParms = new RequestParms();
 
   constructor(
     private router: Router,
@@ -43,9 +46,7 @@ export class StoryComponent {
     );
   }
 
-  playGame(st_id: number) {
-    this.router.navigate(['/play-ground', st_id]);
+  startGame(st_id: number) {
+    this.router.navigate(['/story-start', st_id]);
   }
-
-  
 }

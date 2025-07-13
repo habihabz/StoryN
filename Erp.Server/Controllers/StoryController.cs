@@ -1,4 +1,5 @@
 ﻿using Erp.Server.Models;
+using Erp.Server.Repository;
 using Erp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,14 +17,18 @@ namespace Erp.Server.Controllers
         private readonly IStory istory;
         private readonly IWebHostEnvironment env;
         private readonly PublicVariables publicVariables;
+        private readonly IFileUpload iFileUpload;
 
-        public StoryController(ILogger<StoryController> _logger,IUser _iuser,IStory _istory, IWebHostEnvironment _env, IOptions<PublicVariables> _publicVariables)
+        public StoryController(ILogger<StoryController> _logger,IUser _iuser,IStory _istory, IWebHostEnvironment _env,
+            IOptions<PublicVariables> _publicVariables,
+            IFileUpload _iFileUpload)
         {
             logger = _logger;
             iuser = _iuser;
             istory = _istory;
             env = _env;
             publicVariables = _publicVariables.Value;
+            iFileUpload = _iFileUpload;
 
         }
         [HttpPost("getStories")]
@@ -56,28 +61,49 @@ namespace Erp.Server.Controllers
         [Consumes("multipart/form-data")]
         public async Task<DbResult> createOrUpdateStory([FromForm] Story story)
         {
+
+            var uploads = Path.Combine(env.WebRootPath, publicVariables.StoryImagePath);
+            Directory.CreateDirectory(uploads);
+
             if (story.file != null && story.file.Length > 0)
             {
-                var uploads = Path.Combine(env.WebRootPath, publicVariables.StoryImagePath);
-                Directory.CreateDirectory(uploads);
-
-                var originalName = Path.GetFileNameWithoutExtension(story.file.FileName);
-                var extension = Path.GetExtension(story.file.FileName);
-                var fileName = $"{Guid.NewGuid()}{extension}";
-                var filePath = Path.Combine(uploads, fileName);
-
-                story.st_image = Path.Combine(publicVariables.StoryImagePath, fileName); // store relative path
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                var st_image = await iFileUpload.UploadFileAsync(story.file, publicVariables.StoryImagePath);
+                if (!string.IsNullOrWhiteSpace(st_image))
                 {
-                    await story.file.CopyToAsync(stream);
+                    story.st_image = st_image;
                 }
             }
 
-            var dbResult =  istory.createOrUpdateStory(story); // if possible, make this async
+            if (story.startImage != null && story.startImage.Length > 0)
+            {
+                var st_start_image = await iFileUpload.UploadFileAsync(story.startImage, publicVariables.StoryImagePath);
+                if (!string.IsNullOrWhiteSpace(st_start_image))
+                {
+                    story.st_start_image = st_start_image;
+                }
+            }
+            if (story.endImage != null && story.endImage.Length > 0)
+            {
+                string? end_image = await iFileUpload.UploadFileAsync(story.endImage, publicVariables.StoryImagePath);
+
+                if (!string.IsNullOrWhiteSpace(end_image))
+                {
+                    story.st_end_image = end_image;
+                }
+            }
+
+            var dbResult =  istory.createOrUpdateStory(story); 
             return dbResult;
         }
 
-
+        [HttpPost("startGame")]
+        [Authorize]
+        public DbResult startGame([FromBody] RequestParams requestParams)
+        {
+            DbResult dbResult = new DbResult();
+            dbResult = istory.startGame(requestParams);
+            return dbResult;
+        }
+        
     }
 }

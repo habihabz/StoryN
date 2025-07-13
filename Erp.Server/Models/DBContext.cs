@@ -35,7 +35,7 @@ namespace Erp.Server.Models
         public DbSet<Address> Address { get; set; }
         public DbSet<Story> Stories { get; set; }
         public DbSet<Step> Steps { get; set; }
-
+        public DbSet<Answer> Answers { get; set; }
 
     }
 

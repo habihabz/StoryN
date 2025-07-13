@@ -65,5 +65,14 @@ namespace Erp.Server.Controllers
             dbResult = iusers.registerUser(user);
             return dbResult;
         }
+
+        [HttpPost("updateUserPassword")]
+        [Authorize]
+        public DbResult updateUserPassword([FromBody] User user)
+        {
+            DbResult dbResult = new DbResult();
+            dbResult = iusers.updateUserPassword(user);
+            return dbResult;
+        }
     }
 }

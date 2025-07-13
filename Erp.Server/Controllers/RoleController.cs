@@ -23,9 +23,9 @@ namespace Erp.Server.Controllers
         }
         [HttpPost("getRoles")]
         [Authorize]
-        public IEnumerable<Role> getRoles()
+        public List<Role> getRoles()
         {
-            IEnumerable<Role> roles =Enumerable.Empty<Role>();
+            List<Role> roles =new List<Role>();
             roles = irole.getRoles();
             return roles;
         }

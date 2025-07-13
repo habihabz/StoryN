@@ -39,6 +39,7 @@ export class IuserService {
 
   createOrUpdateUser(user: User): Observable<DbResult> {
     user.u_cre_date = new Date().toISOString();
+    user.u_date_of_birth= new Date().toISOString();
     const headers = this.getHttpHeaders();
     return this.http.post<DbResult>(`${this.apiUrl}/createOrUpdateUser`, user, { headers }); 
   }
@@ -54,6 +55,11 @@ export class IuserService {
 
   refreshUsers(): void {
     this.refreshUsersSubject.next();
+  }
+
+   updateUserPassword(user: User): Observable<DbResult> {
+    user.u_cre_date = new Date().toISOString();
+    return this.http.post<DbResult>(`${this.apiUrl}/updateUserPassword`, user); 
   }
 
   getCurrentUser(): User  {

@@ -1,32 +1,80 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 ">
-            <div *ngFor="let story of this.stories" class="movie_card " id="bright">
-                <div class="info_section p-4">
-                    <div class="movie_header">
-                        <img class="locandina" src="{{apiUrl+'/'+story.st_image}}" />
-                        <h1>{{story.st_name}}</h1>
-                        <h4>2017, David Ayer</h4>
-                        <span class="minutes">{{ story.st_category_name}}</span>
-                        <!--<p class="type">{{ story.st_category_name}}</p>-->
-                    </div>
-                    <div class="movie_desc">
-                        <p class="text">
-                            {{story.st_description}}
-                        </p>
-                    </div>
-                    <div class="movie_social">
-                        <button class="btn btn-lg px-4 py-2 d-flex align-items-center justify-content-center gap-2"
-                            style="background: none; border: none; color: white;" (click)="playGame(story.st_id)">
-                            Start Play
-                            <i class="fa fa-play fa-2x"></i>
-                        </button>
-                    </div>
+<header class="header" id="header" style="background-color: black;">
+    <nav class="navbar container">
+        <img src="./assets/img/logo/logo.png" alt="Logo" class="img-fluid my-3"
+            style="width: 150px; height: 50px; object-fit: contain ;">
+        <div class="menu" id="menu">
+            <ul class="menu-list">
+                <li class="menu-item">
+                    <a href="#" class="menu-link ">
+                        <span class="menu-name"> <i class="fa fa-home fs-4"></i> Home</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4">
+                            </i> User</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="menu-icon ion-md-search"></i>
+                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4">
+                            </i> Category</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="menu-icon ion-md-search"></i>
+                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4">
+                            </i> Settings</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link is-active">
+                        <i class="menu-icon ion-md-home"></i>
+                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4"></i> Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
+<div class="content with-sidebar px-2 px-md-3 pb-5 pb-md-0">
+    <div class="row g-0">
+        <div class="col-12 m-0 p-0">
+            <div class="ratio ratio-16x9 position-relative">
+                <!-- Video -->
+                <video src="./assets/video/video.mp4" class="w-100 h-100" muted loop autoplay playsinline
+                    style="object-fit: cover;"></video>
+                <!-- Overlay -->
+                <div class="position-absolute bottom-0 start-0 text-white p-4 w-100">
+                    <h1 class="h3 h2-md h1-lg m-0">{{ latest.st_name }} </h1>
+                    <p class="small">{{ latest.st_category_name }}</p>
                 </div>
-                <div class="blur_back" style="background:#053834">
+            </div>
+        </div>
+    </div>
+    <div class="row g-3 ">
+        <div *ngFor="let story of filteredStories" class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card  text-white  h-100" style="background-color: black;">
+                <!-- Responsive Image -->
+                <img [src]="apiUrl + '/' + story.st_image" class="card-img-top"
+                    style="height: 160px; object-fit: cover;" />
+                <div class="card-body">
+                    <h6 class="card-title mb-1 text-truncate">{{ story.st_name }}</h6>
+                    <p class="small mb-1">{{ story.st_category_name }}</p>
+                    <p class="card-text small d-none d-md-block text-truncate">
+                        {{ story.st_description }}
+                    </p>
+                </div>
+                <div class="card-footer p-2">
+                    <button class="btn btn-sm text-light d-flex align-items-center gap-1"
+                        style="background: none; border: none;" (click)="playGame(story.st_id)">
+                        Start Play &nbsp;<i class="fa fa-play"></i>
+                    </button>
+                </div>
 
-                </div>
             </div>
         </div>
     </div>

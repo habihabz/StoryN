@@ -1,38 +1,90 @@
-<div class="position-relative" style="height: 88vh; overflow: hidden; background-color: black;">
-    <!-- Background Image -->
-
-
-    <!-- Centered Black Transparent Card -->
-    <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 2; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); 
-        border-radius: 1rem; padding: 2rem; color: #fff; width: 60%; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-        <h1 class="mb-3 text-white ">{{ story.st_name }}</h1>
-        <h4 class="mb-3 text-white "> Level {{ step.sp_priority }}</h4>
-        <hr/>
-        <div class="row">
-            <div class="col-md-12">
-                <div *ngIf="step.sp_attachment" class="mt-3">
-                    <app-attachment-viewer *ngIf="step.sp_attachment" [file]="step.sp_attachment"></app-attachment-viewer>
-                </div>
-                <p>{{ step.sp_question }}</p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="sp_answer">Answer</label>
-                    <textarea type="text" id="sp_answer" class="form-control" [(ngModel)]="step.sp_answer"
-                        name="sp_answer" required rows="2"></textarea>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="row">
-                <div class="col-md-12 justify-content-end">
-                    <button type="submit" class="btn btn-secondary"> <i class="fa fa-eraser"></i> clear</button>
-                    <button type="button" class="btn btn-success pull-right" data-dismiss="modal" (click)="submitAnswer()"><i
-                            class="fa fa-check"></i> Submit</button>
-                </div>
-            </div>
-        </div>
+<div class="container-fluid" style="min-height: 95vh; padding-top: 2rem; padding-bottom: 2rem; background-color: black;">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col-md-8 mx-auto text-center">
+      <h1 class="fw-bold mb-2">{{ story.st_name }}</h1>
+      <h4 class="fw-light mb-3">Level {{ step.sp_priority }}</h4>
+      <hr class="border-light w-50 mx-auto" />
     </div>
+  </div>
+
+  <!-- Attachment Viewer -->
+  <div class="row mb-4">
+    <div class="col-md-8 mx-auto text-center">
+      <div *ngIf="step.sp_attachment" class="mb-3">
+        <app-attachment-viewer [file]="step.sp_attachment"></app-attachment-viewer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question and Hint -->
+  <div class="row mb-4">
+    <div class="col-md-8 mx-auto text-center">
+      <p class="lead mb-3">{{ step.sp_question }}</p>
+      <p class="text-muted fst-italic">{{ step.sp_hint }}</p>
+    </div>
+  </div>
+
+  <!-- Answer Field -->
+  <div class="row mb-4">
+    <div class="col-md-8 mx-auto">
+      <label for="a_answer" class="form-label fw-semibold">Your Answer</label>
+      <textarea
+        id="a_answer"
+        class="form-control"
+        [(ngModel)]="answer.a_answer"
+        name="a_answer"
+        required
+        rows="4"
+        style="resize: none; border-radius: 0.5rem;"
+      ></textarea>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="row">
+    <div class="col-md-8 mx-auto text-center">
+      <button type="button" class="btn btn-outline-light me-3" (click)="answer.a_answer = ''">
+        <i class="fa fa-eraser"></i> Clear
+      </button>
+      <button type="button" class="btn btn-success" (click)="createOrUpdateAnswer()">
+        <i class="fa fa-check"></i> Submit
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="position-relative" style="height: 95vh; overflow: hidden; background-color: black;">
+  
+    <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 2; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); 
+              border-radius: 1rem; padding: 2rem 2.5rem; color: #fff; width: 60%; max-width: 800px; 
+              box-shadow: 0 0 20px rgba(0,0,0,0.6);">
+
+      
+        <h1 class="mb-2 text-white fw-bold">{{ story.st_name }}</h1>
+        <h4 class="mb-4 text-white fw-light">Level {{ step.sp_priority }}</h4>
+        <hr class="border-light" />
+
+    
+        <div class="mb-4">
+            <div *ngIf="step.sp_attachment" class="mb-3">
+                <app-attachment-viewer [file]="step.sp_attachment"></app-attachment-viewer>
+            </div>
+            <p class="lead">{{ step.sp_question }}</p>
+            <br/>
+            <p class="lead">{{ step.sp_hint }}</p>
+        </div>
+
+     
+        <div class="mb-4">
+           
+        </div>
+
+   
+        <div class="d-flex justify-content-between">
+          
+        </div>
+
+    </div>
+</div> -->

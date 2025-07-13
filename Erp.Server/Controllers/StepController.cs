@@ -61,14 +61,14 @@ namespace Erp.Server.Controllers
         {
             if (step.file != null && step.file.Length > 0)
             {
-                var uploads = Path.Combine(env.WebRootPath, publicVariables.StepAttachmentPath);
+                var uploads = Path.Combine(env.WebRootPath, publicVariables.StepAttachmentPath??"");
                 Directory.CreateDirectory(uploads);
 
                 var extension = Path.GetExtension(step.file.FileName);
                 var fileName = $"{Guid.NewGuid()}{extension}";
                 var filePath = Path.Combine(uploads, fileName);
 
-                step.sp_attachment = Path.Combine(publicVariables.StepAttachmentPath, fileName);
+                step.sp_attachment = Path.Combine(publicVariables.StepAttachmentPath ?? "", fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {

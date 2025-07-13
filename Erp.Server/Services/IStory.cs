@@ -8,5 +8,6 @@ namespace Erp.Server.Services
         DbResult deleteStory(int id);
         Story getStory(int id);
         List<Story> getStories();
+        DbResult startGame(RequestParams requestParams);
     }
 }

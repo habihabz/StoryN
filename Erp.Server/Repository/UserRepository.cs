@@ -79,5 +79,15 @@ namespace Erp.Server.Repository
                 u_id, u_name, u_username, u_password, u_phone, u_email, u_date_of_birth, u_agree_terms, u_is_get_updates, u_role_id, u_is_admin, u_active_yn, u_cre_by).ToList().FirstOrDefault() ?? new DbResult();
             return dbresult;
         }
+        public DbResult updateUserPassword(User user)
+        {
+            var u_id = new SqlParameter("u_id", user.u_id + "");
+            var u_password = new SqlParameter("u_password", user.u_password + "");
+            var u_cre_by = new SqlParameter("u_cre_by", user.u_cre_by + "");
+
+            var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.updateUserPassword @u_id,@u_password,@u_cre_by;",
+                u_id, u_password, u_cre_by).ToList().FirstOrDefault() ?? new DbResult();
+            return dbresult;
+        }
     }
 }

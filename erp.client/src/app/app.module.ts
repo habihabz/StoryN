@@ -67,7 +67,9 @@ import { StoriesComponent } from './pages/stories/stories.component';
 import { SharedModule } from './shared/shared.module';
 import { StoryComponent } from './pages/website/story/story.component';
 import { PlaygoundComponent } from './pages/website/playgound/playgound.component';
-
+import { StoryEndComponent } from './pages/website/story.end/story.end.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { StoryStartComponent } from './pages/website/story.start/story.start.component';
 
 
 // Define a function to get the token
@@ -129,8 +131,10 @@ const jwtConfig: JwtModuleOptions = {
     PaymentComponent,
     StoriesComponent,
     StoryComponent,
-    PlaygoundComponent
-
+    PlaygoundComponent,
+    StoryEndComponent,
+    StoryStartComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -155,7 +159,8 @@ const jwtConfig: JwtModuleOptions = {
     MatCardModule,
     MatChipsModule,
     MatListModule,
-    SharedModule
+    SharedModule,
+    MatProgressBarModule
   ],
   providers: [
     {

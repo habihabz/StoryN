@@ -8,6 +8,9 @@ import { environment } from '../../../../environments/environment';
 import { Step } from '../../../models/step.model';
 import { RequestParms } from '../../../models/requestParms';
 import { IStepService } from '../../../services/istep.service';
+import { IAnswerService } from '../../../services/ianswer.service';
+import { Answer } from '../../../models/answer.model';
+import { DbResult } from '../../../models/dbresult.model';
 
 @Component({
   selector: 'app-playgound',
@@ -20,6 +23,7 @@ export class PlaygoundComponent {
   story: Story = new Story();
   currentUser: User = new User();
   step: Step = new Step();
+  answer: Answer = new Answer();
   requestParms: RequestParms = new RequestParms();
 
   constructor(
@@ -28,6 +32,7 @@ export class PlaygoundComponent {
     private route: ActivatedRoute,
     private istoryService: IStoryService,
     private istepService: IStepService,
+    private ianswerService: IAnswerService,
     private iuser: IuserService
   ) {
     this.currentUser = iuser.getCurrentUser();
@@ -64,18 +69,28 @@ export class PlaygoundComponent {
     this.istepService.getNextStepOfaStory(this.requestParms).subscribe(
       (data: Step) => {
         this.step = data;
+        if (this.step.sp_id == 0) {
+          this.router.navigate(['/story-end',this.storyId]);
+        }
       },
       (error: any) => {
       }
     );
   }
-  
-  submitAnswer() {
-    this.requestParms.story = this.storyId;
-    this.requestParms.user = this.currentUser.u_id;
-    this.istepService.getNextStepOfaStory(this.requestParms).subscribe(
-      (data: Step) => {
-        this.step = data;
+
+  createOrUpdateAnswer() {
+    this.answer.a_story = this.storyId;
+    this.answer.a_step = this.step.sp_id;
+    this.answer.a_cre_by = this.currentUser.u_id;
+    this.ianswerService.createOrUpdateAnswer(this.answer).subscribe(
+      (data: DbResult) => {
+        if (data.message == 'Success') {
+          this.answer = new Answer();
+          this.getNextStepOfaStory();
+        }
+        else {
+          alert(data.message);
+        }
       },
       (error: any) => {
       }
