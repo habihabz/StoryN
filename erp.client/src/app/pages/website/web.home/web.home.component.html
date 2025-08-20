@@ -1,62 +1,17 @@
-<header class="header" id="header" style="background-color: black;">
-    <nav class="navbar container">
-        <img src="./assets/img/logo/logo.png" alt="Logo" class="img-fluid my-3"
-            style="width: 150px; height: 50px; object-fit: contain ;">
-        <div class="menu" id="menu">
-            <ul class="menu-list">
-                <li class="menu-item">
-                    <a href="#" class="menu-link ">
-                        <span class="menu-name"> <i class="fa fa-home fs-4"></i> Home</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4">
-                            </i> User</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="menu-icon ion-md-search"></i>
-                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4">
-                            </i> Category</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="menu-icon ion-md-search"></i>
-                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4">
-                            </i> Settings</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link is-active">
-                        <i class="menu-icon ion-md-home"></i>
-                        <span class="menu-name" (click)="navigateTo('user-registration')"><i class="fa fa-user fs-4"></i> Settings</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
 
 <div class="content with-sidebar px-2 px-md-3 pb-5 pb-md-0">
     <div class="row g-0">
         <div class="col-12 m-0 p-0">
             <div class="ratio ratio-16x9 position-relative">
                 <!-- Video -->
-                <video src="./assets/video/video.mp4" class="w-100 h-100" muted loop autoplay playsinline
+                <video src="./assets/video/video.mp4" class="w-100 h-100" muted  autoplay loop  playsinline
                     style="object-fit: cover;"></video>
                 <!-- Overlay -->
-                <div class="position-absolute bottom-0 start-0 text-white p-4 w-100">
-                    <h1 class="h3 h2-md h1-lg m-0">{{ latest.st_name }} </h1>
-                    <p class="small">{{ latest.st_category_name }}</p>
-                </div>
             </div>
         </div>
     </div>
     <div class="row g-3 ">
-        <div *ngFor="let story of filteredStories" class="col-sm-6 col-md-4 col-lg-3">
+        <div *ngFor="let story of filteredStories" class="col-sm-6 col-md-4 col-lg-2">
             <div class="card  text-white  h-100" style="background-color: black;">
                 <!-- Responsive Image -->
                 <img [src]="apiUrl + '/' + story.st_image" class="card-img-top"

@@ -11,6 +11,7 @@ import { IStepService } from '../../../services/istep.service';
 import { IAnswerService } from '../../../services/ianswer.service';
 import { Answer } from '../../../models/answer.model';
 import { DbResult } from '../../../models/dbresult.model';
+import { SnackBarService } from '../../../services/isnackbar.service';
 
 @Component({
   selector: 'app-playgound',
@@ -18,7 +19,7 @@ import { DbResult } from '../../../models/dbresult.model';
   styleUrl: './playgound.component.css'
 })
 export class PlaygoundComponent {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();
@@ -33,7 +34,8 @@ export class PlaygoundComponent {
     private istoryService: IStoryService,
     private istepService: IStepService,
     private ianswerService: IAnswerService,
-    private iuser: IuserService
+    private iuser: IuserService,
+    private isnackBarService :SnackBarService
   ) {
     this.currentUser = iuser.getCurrentUser();
     if (this.currentUser.u_id == 0) {
@@ -87,9 +89,10 @@ export class PlaygoundComponent {
         if (data.message == 'Success') {
           this.answer = new Answer();
           this.getNextStepOfaStory();
+          this.isnackBarService.showSuccess("Right Answer.");
         }
         else {
-          alert(data.message);
+          this.isnackBarService.showError(data.message);
         }
       },
       (error: any) => {

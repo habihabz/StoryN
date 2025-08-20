@@ -14,7 +14,7 @@ import { DbResult } from '../../../models/dbresult.model';
   styleUrl: './story.component.css'
 })
 export class StoryComponent {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();

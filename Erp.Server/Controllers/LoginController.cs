@@ -60,7 +60,7 @@ namespace Erp.Server.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while processing the login request.");
-                return StatusCode(StatusCodes.Status500InternalServerError, new Credentials { message = "An error occurred while processing the request." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Credentials { message = ex.InnerException.ToString() });
             }
         }
     }

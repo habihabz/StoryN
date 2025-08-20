@@ -1,14 +1,16 @@
-<div class="position-relative" style="height: 95vh; overflow: hidden;">
+<div class="position-relative" style="height: 95vh; overflow: hidden; margin-top: 40px;">
 
   <!-- Background Image -->
   <img [src]="apiUrl + '/' + story.st_start_image" alt="Background" class="position-absolute top-0 start-0 w-100 h-100"
-    style="object-fit: cover; object-position: center;" />
+    style="object-fit: fit; object-position: center;" />
 
   <!-- Bottom Left Button -->
   <div class="position-absolute bottom-0 start-0 p-4"
     style="z-index: 1000; background: rgba(0,0,0,0.0); max-width: 40%;">
-    <button class="btn btn-sm btn-light d-flex align-items-center gap-2 px-3 py-2" (click)="goToPlaygound()">
-      <span>Go ahead</span> <i class="fa fa-play fa-2x"></i>
+    <button class="btn btn-sm btn-light align-items-center gap-3 text-black fs-7 py-3 px-4"
+      style="background: #fff; border: 2px solid white; border-radius: 4px;" (click)="goToPlaygound()">
+      Go ahead &nbsp;<i class="fa fa-play"></i>
     </button>
   </div>
+
 </div>

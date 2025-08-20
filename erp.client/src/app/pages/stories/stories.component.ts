@@ -33,7 +33,7 @@ declare var $: any;
   styleUrl: './stories.component.css'
 })
 export class StoriesComponent {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   imageUrl: string = '';
   pagination = true;
   paginationPageSize5 = 5;

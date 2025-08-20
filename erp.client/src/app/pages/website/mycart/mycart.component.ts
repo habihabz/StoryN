@@ -24,7 +24,7 @@ declare var Razorpay: any;
   styleUrl: './mycart.component.css'
 })
 export class MycartComponent implements OnInit {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   private paymentUrl = `${environment.serverHostAddress}/api/payment/create-order`;
   razorpayLoaded = false;
   country: MasterData = new MasterData();

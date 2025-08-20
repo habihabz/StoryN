@@ -71,14 +71,14 @@ const routes: Routes = [
         component: FavouriteComponent
       },
       { path: 'story-end/:id', component: StoryEndComponent },
-      { path: 'story-start/:id', component: StoryStartComponent }
+      { path: 'story-start/:id', component: StoryStartComponent },
+      {
+        path: 'web-home',
+        component: WebHomeComponent
+      }
     ]
   }
   ,
-  {
-    path: 'web-home',
-    component: WebHomeComponent
-  },
   {
     path: 'user-registration',
     component: UserRegistrationComponent

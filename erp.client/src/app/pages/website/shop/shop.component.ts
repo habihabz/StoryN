@@ -20,7 +20,7 @@ import { GeolocationService } from '../../../services/GeoCurrentLocation.service
   styleUrl: './shop.component.css'
 })
 export class ShopComponent implements OnInit {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   product: Product = new Product();
   products: Product[] = [];
   filteredProducts: Product[] = [];

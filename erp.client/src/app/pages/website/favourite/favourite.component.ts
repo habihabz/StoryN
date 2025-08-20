@@ -17,7 +17,7 @@ import { RequestParms } from '../../../models/requestParms';
   styleUrl: './favourite.component.css'
 })
 export class FavouriteComponent  implements OnInit{
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`; 
   country: MasterData = new MasterData();
   selectedImagePath: string = '';
   cart: Cart = new Cart();

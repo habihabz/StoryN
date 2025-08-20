@@ -160,7 +160,8 @@ const jwtConfig: JwtModuleOptions = {
     MatChipsModule,
     MatListModule,
     SharedModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSnackBarModule
   ],
   providers: [
     {

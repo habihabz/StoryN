@@ -31,6 +31,7 @@ namespace Erp.Server.Models
         public string? u_role_name { get; set; } = string.Empty;
 
         [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date)]
         public DateTime? u_date_of_birth { get; set; } 
 
         [Display(Name = "Gets Updates")]

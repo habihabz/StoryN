@@ -12,8 +12,8 @@ export class SnackBarService {
     this.snackBar.open(message, 'Close', {
       duration: duration,
       verticalPosition: 'top',
-      horizontalPosition: 'right',
-      panelClass: panelClass
+      horizontalPosition: 'center',
+       panelClass: [...panelClass, 'center-snackbar']
     });
   }
 
@@ -24,6 +24,6 @@ export class SnackBarService {
 
   // Show error message
   showError(message: string) {
-    this.showSnackBar(message, ['danger-snackbar'],3000);
+    this.showSnackBar(message, ['danger-snackbar'],2000);
   }
 }

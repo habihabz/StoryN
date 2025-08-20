@@ -25,7 +25,7 @@ namespace Erp.Server.Controllers
 
         }
         [HttpPost("getCustomers")]
-        [Authorize]
+      //  [Authorize]
         public IEnumerable<Customer> getCustomers()
         {
             IEnumerable<Customer> customers =Enumerable.Empty<Customer>();

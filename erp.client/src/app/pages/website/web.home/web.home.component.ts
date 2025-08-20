@@ -20,7 +20,7 @@ import { IStoryService } from '../../../services/istory.service';
   styleUrl: './web.home.component.css'
 })
 export class WebHomeComponent implements OnInit {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   country: MasterData = new MasterData();
 
   stories: Story[] = [];
@@ -100,7 +100,7 @@ export class WebHomeComponent implements OnInit {
   }
 
   get filteredStories() {
-    return this.stories?.filter(story => story.st_id != this.latest.st_id);
+    return this.stories;
   }
   
 }

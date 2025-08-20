@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { DbResult } from '../../../models/dbresult.model';
 import { User } from '../../../models/user.model';
 import { IuserService } from '../../../services/iuser.service';
+import { SnackBarService } from '../../../services/isnackbar.service';
 
 @Component({
   selector: 'app-user-registration',
@@ -14,28 +15,31 @@ import { IuserService } from '../../../services/iuser.service';
 export class UserRegistrationComponent {
   users: User[] = [];
   user: User = new User();
-  is_get_updates:boolean=false;
-  agree_terms:boolean=false;
-  constructor(private iuserService: IuserService, private router: Router) {
+  is_get_updates: boolean = false;
+  agree_terms: boolean = false;
+  constructor(
+    private iuserService: IuserService,
+    private isnackBarService: SnackBarService,
+    private router: Router) {
 
 
   }
 
   registerUser(): void {
-    
+
     if (this.user.u_name != '' && this.user.u_phone != '' &&
       this.user.u_email != '' && this.user.u_username != ''
-      && this.user.u_password != '' && this.user.u_date_of_birth != '' )
-      {
-      
-      this.user.u_is_get_updates= this.is_get_updates+'';
-      this.user.u_agree_terms= this.agree_terms+'';
+      && this.user.u_password != '' && this.user.u_date_of_birth != '') {
+
+      this.user.u_is_get_updates = this.is_get_updates + '';
+      this.user.u_agree_terms = this.agree_terms + '';
       this.iuserService.registerUser(this.user).subscribe(
         (data: DbResult) => {
           if (data.message === "Success") {
+            this.isnackBarService.showSuccess("Successfully Created Please Login");
             this.router.navigate(['login']);
           } else {
-            alert(data.message);
+             this.isnackBarService.showError(data.message);
           }
         },
         (error: any) => {
@@ -44,9 +48,8 @@ export class UserRegistrationComponent {
       );
 
     }
-    else
-    {
-      alert("Please Enter All Datails !!")
+    else {
+      this.isnackBarService.showError("Please Enter All Datails !!");
     }
 
   }

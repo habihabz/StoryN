@@ -6,23 +6,26 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.FileProviders;
 using System.Text;
-using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS
+// ---------------- CORS ----------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder
-            .WithOrigins("http://localhost:4200", "http://localhost:82", "http://192.168.29.251:82")
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+    options.AddPolicy("AllowSpecificOrigin", policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:4200",
+            "http://localhost:82",
+            "http://192.168.29.251:82",
+            "https://storynarg.com")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
 });
 
-// JWT Authentication
+// ---------------- Authentication ----------------
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -35,7 +38,8 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KDSFADSJFNFDGJASDFGADFNEJFWRWERdDSFHAKSD")),
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes("KDSFADSJFNFDGJASDFGADFNEJFWRWERdDSFHAKSD")),
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
@@ -43,7 +47,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Swagger
+// ---------------- Swagger ----------------
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -67,20 +71,34 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
 
-// Database + DI
+// ---------------- Database ----------------
 builder.Services.AddDbContext<DBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr")));
+{
+    var connectionString = builder.Environment.IsDevelopment()
+        ? builder.Configuration.GetConnectionString("DevelopmentConnectionStr")
+        : builder.Configuration.GetConnectionString("ConnectionStr");
+
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new Exception("Database connection string is missing in configuration.");
+    }
+
+    options.UseSqlServer(connectionString, sqlServerOptions =>
+        sqlServerOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null));
+});
+
+// ---------------- Repositories & Services ----------------
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Services
 builder.Services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
 builder.Services.Configure<PublicVariables>(builder.Configuration.GetSection("PublicVariables"));
+
 builder.Services.AddTransient<IUser, UserRepository>();
 builder.Services.AddTransient<IRole, RoleRepository>();
 builder.Services.AddTransient<ILogin, LoginRepository>();
@@ -106,29 +124,43 @@ builder.Services.AddTransient<IStep, StepRepository>();
 builder.Services.AddTransient<IAnswer, AnswerRepository>();
 builder.Services.AddTransient<IFileUpload, FileUploadService>();
 
+// ---------------- App Pipeline ----------------
 var app = builder.Build();
 
-// Swagger
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+app.UseDeveloperExceptionPage();
+// Swagger must be before auth so docs can load without a token
+//if (app.Environment.IsDevelopment())
+//{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = "swagger";
+    });
+//}
+
+app.Use(async (context, next) =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    c.RoutePrefix = string.Empty; // This serves Swagger UI at http://localhost:81/
+    try
+    {
+        await next.Invoke();
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"ERROR: {ex}");
+    }
 });
-
-// CORS + HTTPS
 app.UseCors("AllowSpecificOrigin");
-app.UseHttpsRedirection();
-
-// Serve wwwroot (if used)
 app.UseStaticFiles();
 
-// Auth
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Routes
 app.MapControllers();
 
-// Run
+// Map fallback for SPA last
+app.MapFallbackToFile("index.html");
+
 app.Run();

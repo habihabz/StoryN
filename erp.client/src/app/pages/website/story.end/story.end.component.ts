@@ -13,7 +13,7 @@ import { RequestParms } from '../../../models/requestParms';
   styleUrl: './story.end.component.css'
 })
 export class StoryEndComponent {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();

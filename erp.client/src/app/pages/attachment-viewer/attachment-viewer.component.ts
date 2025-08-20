@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 })
 export class AttachmentViewerComponent {
   
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   @Input() file: string = '';
 
   get fullPath(): string {

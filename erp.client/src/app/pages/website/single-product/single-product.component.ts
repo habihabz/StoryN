@@ -24,7 +24,7 @@ declare var $: any;
   styleUrl: './single-product.component.css'
 })
 export class SingleProductComponent implements OnInit {
-  apiUrl = `${environment.serverHostAddress}`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
   country:MasterData=new  MasterData();
   productId!: number;
   product: Product = new Product();

@@ -1,7 +1,7 @@
-<div class="container-fluid" style="min-height: 95vh; padding-top: 2rem; padding-bottom: 2rem; background-color: black;">
+<div class="container-fluid" style="min-height: 97vh; padding-top: 2rem; padding-bottom: 2rem; background-color: black; margin-top: 40px;">
   <!-- Header Section -->
   <div class="row mb-4">
-    <div class="col-md-8 mx-auto text-center">
+    <div class="col-lg-6 col-md-8  col-sm-12 mx-auto text-center">
       <h1 class="fw-bold mb-2">{{ story.st_name }}</h1>
       <h4 class="fw-light mb-3">Level {{ step.sp_priority }}</h4>
       <hr class="border-light w-50 mx-auto" />
@@ -10,7 +10,7 @@
 
   <!-- Attachment Viewer -->
   <div class="row mb-4">
-    <div class="col-md-8 mx-auto text-center">
+    <div class="col-lg-6 col-md-8  col-sm-12 mx-auto text-center">
       <div *ngIf="step.sp_attachment" class="mb-3">
         <app-attachment-viewer [file]="step.sp_attachment"></app-attachment-viewer>
       </div>
@@ -19,7 +19,7 @@
 
   <!-- Question and Hint -->
   <div class="row mb-4">
-    <div class="col-md-8 mx-auto text-center">
+    <div class="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
       <p class="lead mb-3">{{ step.sp_question }}</p>
       <p class="text-muted fst-italic">{{ step.sp_hint }}</p>
     </div>
@@ -27,7 +27,7 @@
 
   <!-- Answer Field -->
   <div class="row mb-4">
-    <div class="col-md-8 mx-auto">
+    <div class="col-lg-6 col-md-8 col-sm-12 mx-auto">
       <label for="a_answer" class="form-label fw-semibold">Your Answer</label>
       <textarea
         id="a_answer"
@@ -35,7 +35,7 @@
         [(ngModel)]="answer.a_answer"
         name="a_answer"
         required
-        rows="4"
+        rows="6"
         style="resize: none; border-radius: 0.5rem;"
       ></textarea>
     </div>
@@ -43,7 +43,7 @@
 
   <!-- Buttons -->
   <div class="row">
-    <div class="col-md-8 mx-auto text-center">
+    <div class="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
       <button type="button" class="btn btn-outline-light me-3" (click)="answer.a_answer = ''">
         <i class="fa fa-eraser"></i> Clear
       </button>

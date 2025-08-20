@@ -19,14 +19,75 @@
 <link rel="stylesheet" href="/assets/css/slick.css">
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="stylesheet" href="/assets/css/responsive.css">
-<header class="header-area" >
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <a class="navbar-brand" href="#">
+<style>
+    .navbar-collapse {
+        transition: height 0.3s ease;
+        overflow: hidden;
+    }
+
+    .navbar-collapse.show {
+        overflow: visible;
+    }
+
+    /* Optional: force it to show over background layers */
+    @media (max-width: 991.98px) {
+        .navbar-collapse {
+            position: absolute;
+            top: 56px;
+            /* Height of navbar */
+            left: 0;
+            width: 100%;
+            background-color: #343a40;
+            /* Match navbar bg */
+            z-index: 999;
+            padding: 1rem;
+        }
+    }
+
+    .fixed-top {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+</style>
+<header class="header-area">
+    <!-- navbar.component.html -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
             <img src="./assets/img/logo/logo.png" alt="Logo" style="height: 40px; width: auto; ">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
+            <!-- Collapse Button -->
+            <button class="navbar-toggler" type="button" (click)="toggleMenu()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible Menu -->
+            <div class="collapse navbar-collapse" [class.show]="menuVisible">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/" (click)="closeMenu()">Home</a>
+                    </li>
+
+                    <ng-container *ngIf="isLoggedIn; else guestLinks">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" (click)="closeMenu()">Welcome, {{ currentUser.u_name }}</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link"  (click)="logout()">Logout</a>
+                        </li>
+                    </ng-container>
+
+                    <ng-template #guestLinks>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/user-registration" (click)="closeMenu()">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/login" (click)="closeMenu()">Login</a>
+                        </li>
+                       
+                    </ng-template>
+                </ul>
+            </div>
+        </div>
     </nav>
+
+
 </header>

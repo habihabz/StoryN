@@ -66,7 +66,7 @@ namespace Erp.Server.Repository
             var u_password = new SqlParameter("u_password", user.u_password + "");
             var u_phone = new SqlParameter("u_phone", user.u_phone + "");
             var u_email = new SqlParameter("u_email", user.u_email + "");
-            var u_date_of_birth = new SqlParameter("u_date_of_birth", user.u_date_of_birth + "");
+            var u_date_of_birth = new SqlParameter("u_date_of_birth", user.u_date_of_birth?.ToString("yyyy-MM-dd") + "");
             var u_agree_terms = new SqlParameter("u_agree_terms", user.u_agree_terms + "");
             var u_is_get_updates = new SqlParameter("u_is_get_updates", user.u_is_get_updates + "");
             var u_is_admin = new SqlParameter("u_is_admin", user.u_is_admin + "");

@@ -20,6 +20,7 @@ export class WebsiteTopComponent {
   requestParms: RequestParms = new RequestParms();
   currentUser: User = new User();
   currentCountry: string = '';
+  menuVisible = false;
   constructor(
     private elRef: ElementRef,
     private router: Router,
@@ -42,12 +43,12 @@ export class WebsiteTopComponent {
   async fetchCurrentCountry() {
     try {
       this.currentCountry = await this.geolocationService.getUserCountry();
-      this.requestParms.name=this.currentCountry;
+      this.requestParms.name = this.currentCountry;
       this.geolocationService.getCountry(this.requestParms).subscribe(
         (data: MasterData) => {
-          this.country=data;
-        
-          sessionStorage.setItem('country',JSON.stringify(data))
+          this.country = data;
+
+          sessionStorage.setItem('country', JSON.stringify(data))
         },
         (error: any) => {
           console.error('Error fetching roles', error);
@@ -56,5 +57,21 @@ export class WebsiteTopComponent {
     } catch (error) {
       console.error('Error fetching country:', error);
     }
+  }
+
+  toggleMenu() {
+    this.menuVisible = !this.menuVisible;
+  }
+
+  closeMenu() {
+    this.menuVisible = false;
+  }
+  get isLoggedIn(): boolean {
+    return !!this.currentUser?.u_id; // or another relevant property
+  }
+  logout(): void {
+    localStorage.removeItem('token'); // Remove token on logout
+    this.router.navigate(['login']);
+    this.closeMenu();
   }
 }

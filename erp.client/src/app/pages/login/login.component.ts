@@ -13,12 +13,12 @@ import { UserCredential } from '../../models/usercredential.model';
 export class LoginComponent implements OnInit {
   user: User = new User();
   credential: UserCredential = new UserCredential();
-  currentYear: number=new Date().getFullYear();
+  currentYear: number = new Date().getFullYear();
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private router: Router,
     private iloginService: ILoginService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.currentYear = new Date().getFullYear();
@@ -31,32 +31,47 @@ export class LoginComponent implements OnInit {
         if (data.message === "Success") {
           // Store JWT token in local storage
           localStorage.setItem('token', data.token);
-          sessionStorage.setItem('user',JSON.stringify(data.user))
+          sessionStorage.setItem('user', JSON.stringify(data.user))
           // Navigate to the home page
-          if(data.user.u_is_admin=='Y'){
+          if (data.user.u_is_admin == 'Y') {
             this.router.navigate(['dashboard']);
           }
-          else
-          {
+          else {
             this.router.navigate(['web-home']);
           }
-        
+
         } else {
           // Handle failed login
           alert(data.message || 'Login failed');
         }
       },
       error: (error: HttpErrorResponse) => {
-        // Handle error response
-        console.error('Login error:', error);
-        // Extract and display the error message
-        const errorMessage = error.error?.message || 'An unknown error occurred';
+        let errorMessage = '';
+
+        if (error.error instanceof ErrorEvent) {
+          // Client-side or network error
+          errorMessage = `Client error: ${error.error.message}`;
+        }
+        else if (error.error?.message) {
+          // API returned an error message
+          errorMessage = `Server error: ${error.error.message}`;
+        }
+        else {
+          // Unknown error - show more details
+          errorMessage = `Unknown error:
+        Status: ${error.status}
+        Status Text: ${error.statusText}
+        Message: ${error.message}
+        URL: ${error.url || 'N/A'}`;
+        }
+
+        console.error('Full error object:', errorMessage); // For debugging
         alert(errorMessage);
       }
     });
   }
   navigateTo(moveto: string) {
- 
+
     this.router.navigate(['/' + moveto]);
   }
   logout(): void {
