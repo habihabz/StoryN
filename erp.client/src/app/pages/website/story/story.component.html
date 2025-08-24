@@ -1,39 +1,30 @@
-<div class="position-relative" style="height: 95vh; overflow: hidden; margin-top: 40px;" style="background-color:black">
-    <!-- Background Image (Always on top) -->
-    <img [src]="apiUrl + '/' + story.st_image" alt="Background" class="w-100"
-        style="object-fit: cover; height: auto; max-height: 100vh;" />
+<div class="container-fluid bg-black" style="height: 100vh; background-color: black;">
+    <div class="row">
+        <div class="col-md-12 m-0 p-0">
+            <img [src]="apiUrl + '/' + story.st_image" alt="Background" class="w-100"
+                style="object-fit: cover; height: auto; max-height: 100%;" />
 
-    <!-- Overlay for Desktop (absolute on image) -->
-    <div class="position-absolute bottom-0 start-0 text-white p-4 d-none d-md-block"
-        style="z-index: 1000; background: rgba(0, 0, 0, 0); max-width: 40%;">
-        <div class="movie_header mb-2">
-            <h2>{{ story.st_name }}</h2>
-            <span class="minutes">{{ story.st_category_name }}</span>
+            <div class="container-fluid" style="background-color: black; color: gray;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="movie_header mb-2">
+                            <h1 class="text-black">{{ story.st_name }}</h1>
+                            <span class="minutes">{{ story.st_category_name }}</span>
+                        </div>
+                        <div class="movie_desc mb-2" style="max-height: 600px; overflow-y: auto; width: 100%;">
+                            <p class="text">{{ story.st_description }}</p>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
         </div>
-        <div class="movie_desc mb-2" style="max-height: 600px; overflow-y: auto; width: 100%;">
-            <p class="text">{{ story.st_description }}</p>
-        </div>
-        <div class="movie_social">
-            <button class="btn btn-sm btn-light align-items-center gap-3 text-black fs-6 py-3 px-4"
-                style="background: #fff; border: 2px solid white; border-radius: 4px;" (click)="startGame(story.st_id)">
-                Start Play &nbsp;<i class="fa fa-play"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- Overlay as block content below image for Mobile -->
-    <div class="d-block d-md-none text-white p-3">
-        <div class="movie_header mb-2">
-            <h4 class="mb-1">{{ story.st_name }}</h4>
-            <span class="minutes small">{{ story.st_category_name }}</span>
-        </div>
-        <div class="movie_desc mb-2">
-            <p class="text small">{{ story.st_description }}</p>
-        </div>
-        <div class="movie_social">
-            <button class="btn btn-sm btn-light d-flex align-items-center gap-2 px-3 py-2"
-                (click)="startGame(story.st_id)">
-                <span>Start Play</span> <i class="fa fa-play"></i>
+        <div class="position-fixed bottom-0 start-0 p-4"
+            style="z-index: 1000; background: rgba(0,0,0,0.0); max-width: 40%;">
+            <button type="button" class="btn btn-secondary text-wrap d-inline-flex align-items-center"
+                style="white-space: normal;" (click)="startGame(story.st_id)">
+                <span class="me-2">Start Play</span>
+                <i class="fa fa-play"></i>
             </button>
         </div>
     </div>

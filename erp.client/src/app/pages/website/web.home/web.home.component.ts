@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../../models/product.model';
 import { Router } from '@angular/router';
 import { IProductService } from '../../../services/iproduct.service';
@@ -24,12 +24,15 @@ export class WebHomeComponent implements OnInit {
   country: MasterData = new MasterData();
 
   stories: Story[] = [];
+  secondandThird: Story[] = [];
   latest: Story = new Story();
   subcategories: MasterData[] = [];
   requestParms: RequestParms = new RequestParms();
   subscription: Subscription = new Subscription();
   attachments: ProdAttachement[] = [];
   attachment: ProdAttachement = new ProdAttachement();
+  isMuted = true;
+  @ViewChild('myVideo') myVideo!: ElementRef<HTMLVideoElement>;
   constructor(
     private elRef: ElementRef,
     private router: Router,
@@ -49,8 +52,18 @@ export class WebHomeComponent implements OnInit {
     this.getMasterDatasByType("SubCategory", (data) => { this.subcategories = data; });
 
   }
+  ngAfterViewInit() {
+    const video = this.myVideo.nativeElement;
+    video.muted = true;  // start muted so autoplay works
+    video.play().catch(err => console.log('Autoplay blocked:', err));
+  }
 
-
+  toggleSound() {
+    const video = this.myVideo.nativeElement;
+    this.isMuted = !this.isMuted;
+    video.muted = this.isMuted;
+    video.play(); // continue playing
+  }
   getMasterDatasByType(masterType: string, callback: (data: MasterData[]) => void): void {
     this.requestParms = new RequestParms();
     this.requestParms.type = masterType;
@@ -72,7 +85,7 @@ export class WebHomeComponent implements OnInit {
   navigateToBlog(blogId: number): void {
     this.router.navigate(['/blog', blogId]);
   }
-  
+
   navigateTo(page: string) {
     this.router.navigate([`/${page}`]);
   }
@@ -80,11 +93,11 @@ export class WebHomeComponent implements OnInit {
   getStories() {
     this.istoryService.getStories().subscribe(
       (data: Story[]) => {
-        this.stories = data;
+        // sort by st_id ascending
+        this.stories = data.sort((a, b) => a.st_id - b.st_id);
         this.getLatestGame();
       },
-      (error: any) => {
-      }
+      (error: any) => { }
     );
   }
 
@@ -93,14 +106,30 @@ export class WebHomeComponent implements OnInit {
   }
 
   getLatestGame() {
-    this.latest = this.stories.reduce((latest, current) => {
-      return new Date(current.st_cre_date) > new Date(latest.st_cre_date) ? current : latest;
-    });
-    this.latest.st_image = this.latest.st_image?.replace(/[^\x00-\x7F]/g, "");
+    if (this.stories.length > 0) {
+      this.latest = this.stories[this.stories.length - 1]; // last one = highest st_id
+      this.latest.st_image = this.latest.st_image?.replace(/[^\x00-\x7F]/g, "");
+    }
   }
 
   get filteredStories() {
     return this.stories;
   }
-  
+  get next2() {
+    // take the 2 before latest
+    return this.stories.slice(-3, -1);
+  }
+
+  get next3() {
+    // all except latest, second, third
+    return this.stories.slice(0, -3);
+  }
+
+  startVideo() {
+    this.myVideo.nativeElement.play();
+  }
+
+  pauseVideo() {
+    this.myVideo.nativeElement.pause();
+  }
 }

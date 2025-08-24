@@ -1,16 +1,20 @@
-<div class="position-relative" style="height: 95vh; overflow: hidden; margin-top: 40px;">
+<div class="container-fluid" style="height: 100vh;">
+  <div class="row">
+    <div class="col-md-12 m-0 p-0">
+      <!-- Background Image -->
+      <img [src]="apiUrl + '/' + story.st_start_image" alt="Background" class="w-100 h-100"
+        style="object-fit: contain;" />
 
-  <!-- Background Image -->
-  <img [src]="apiUrl + '/' + story.st_start_image" alt="Background" class="position-absolute top-0 start-0 w-100 h-100"
-    style="object-fit: fit; object-position: center;" />
+      <!-- Bottom Left Button -->
 
-  <!-- Bottom Left Button -->
-  <div class="position-absolute bottom-0 start-0 p-4"
-    style="z-index: 1000; background: rgba(0,0,0,0.0); max-width: 40%;">
-    <button class="btn btn-sm btn-light align-items-center gap-3 text-black fs-7 py-3 px-4"
-      style="background: #fff; border: 2px solid white; border-radius: 4px;" (click)="goToPlaygound()">
-      Go ahead &nbsp;<i class="fa fa-play"></i>
-    </button>
+    </div>
+    <div class="position-fixed bottom-0 start-0 p-4"
+      style="z-index: 1000; background: rgba(0,0,0,0.0); max-width: 40%;">
+      <button type="button" class="btn btn-secondary text-wrap d-inline-flex align-items-center"
+        style="white-space: normal;" (click)="goToPlaygound()">
+        <span class="me-2">Go ahead</span>
+        <i class="fa fa-play"></i>
+      </button>
+    </div>
   </div>
-
 </div>

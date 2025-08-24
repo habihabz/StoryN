@@ -3,12 +3,20 @@
 /* Quartz Theme Specific CSS */
 @import 'ag-grid-community/styles/ag-theme-quartz.css';
 @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800");
+
 body {
   margin: 0px !important;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .select2-container {
   width: 100% !important;
@@ -21,13 +29,13 @@ table.jambo_table thead {
 }
 
 .modal-xl {
-  max-width: 1600px !important; 
+  max-width: 1600px !important;
 }
 
 .ag-theme-acmecorp {
   --ag-borders: none;
-   --ag-header-foreground-color: white;
-   --ag-header-background-color: #3bb89f; 
+  --ag-header-foreground-color: white;
+  --ag-header-background-color: #3bb89f;
   --ag-grid-size: 10px;
   --ag-font-size: 12px;
   --ag-font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
@@ -37,7 +45,8 @@ table.jambo_table thead {
 }
 
 .select2-container--default .select2-results__options {
-  overflow-y: auto !important; /* Ensures the dropdown itself scrolls if needed */
+  overflow-y: auto !important;
+  /* Ensures the dropdown itself scrolls if needed */
 }
 
 .cdk-overlay-container {
@@ -50,6 +59,7 @@ table.jambo_table thead {
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
   }
+
   &.danger-snackbar {
     --mdc-snackbar-container-color: #dc3545;
     --mat-mdc-snack-bar-button-color: #fff;
@@ -63,47 +73,61 @@ table.jambo_table thead {
   outline: none;
   border: none;
   box-shadow: none;
-  transform: scale(1.5); /* Increase the size of the toggle */
-  font-size: 1.2rem;     /* Increase the size of the label */
+  transform: scale(1.5);
+  /* Increase the size of the toggle */
+  font-size: 1.2rem;
+  /* Increase the size of the label */
   margin: 8px 0;
 }
 
 .toggle-text {
-  margin-bottom: 8px; /* Add space between the text and the toggle */
-  font-size: 1.1rem;  /* Adjust the font size if needed */
+  margin-bottom: 8px;
+  /* Add space between the text and the toggle */
+  font-size: 1.1rem;
+  /* Adjust the font size if needed */
 }
 
 /* Ensure the container for the start and end dates has enough space */
 .mat-calendar-range-bottom {
-  white-space: nowrap; /* Prevents text from wrapping */
+  white-space: nowrap;
+  /* Prevents text from wrapping */
   display: flex;
-  justify-content: space-between; /* Aligns the start and end dates */
-  padding: 0 10px; /* Adds padding to avoid overflow */
+  justify-content: space-between;
+  /* Aligns the start and end dates */
+  padding: 0 10px;
+  /* Adds padding to avoid overflow */
 }
 
 .mat-calendar-range-label {
-  font-size: 0.9rem; /* Adjust the font size if needed */
-  overflow: hidden; /* Hides overflowed text */
-  text-overflow: ellipsis; /* Adds ellipsis for long text */
+  font-size: 0.9rem;
+  /* Adjust the font size if needed */
+  overflow: hidden;
+  /* Hides overflowed text */
+  text-overflow: ellipsis;
+  /* Adds ellipsis for long text */
 }
 
 /* Custom styles to adjust the logo size for different screen widths */
 .logo-responsive {
   height: auto;
-  max-width: 170px; /* Maintains aspect ratio */
+  max-width: 170px;
+  /* Maintains aspect ratio */
 }
 
 @media (max-width: 768px) {
   .logo-responsive {
-    width: 50%; /* Smaller logo on smaller screens */
+    width: 50%;
+    /* Smaller logo on smaller screens */
   }
 }
 
 @media (max-width: 576px) {
   .logo-responsive {
-    width: 40%; /* Even smaller logo on extra small screens */
+    width: 40%;
+    /* Even smaller logo on extra small screens */
   }
 }
+
 .example-form-field {
   margin-right: 20px;
 }
@@ -126,15 +150,18 @@ table.jambo_table thead {
   padding: 16px;
 }
 
-.mat-mdc-tab-label-container{
+.mat-mdc-tab-label-container {
   height: 30px;
   border: none;
 }
 
 .mat-tab-label:hover {
-  background-color: #f0f0f0; /* Light background on hover */
-  color: #007bff; /* Change text color */
-  cursor: pointer; /* Show pointer to indicate clickable tab */
+  background-color: #f0f0f0;
+  /* Light background on hover */
+  color: #007bff;
+  /* Change text color */
+  cursor: pointer;
+  /* Show pointer to indicate clickable tab */
 }
 
 
@@ -168,22 +195,32 @@ table.jambo_table thead {
 }
 
 .size-button.selected {
-  background-color: #007bff;  /* Changes background color when selected */
-  color: #fff;                /* Changes text color to white */
-  border-color: #007bff;      /* Updates border color */
+  background-color: #007bff;
+  /* Changes background color when selected */
+  color: #fff;
+  /* Changes text color to white */
+  border-color: #007bff;
+  /* Updates border color */
 }
 
 .size-button {
-  border: 1px solid #ccc;     /* Adds a light border around the button */
-  padding: 8px 12px;          /* Adds padding for a balanced look */
-  font-size: 14px;            /* Adjusts the font size for readability */
-  border-radius: 5px;         /* Slightly rounds the corners */
-  cursor: pointer;            /* Changes cursor to pointer on hover */
-  transition: all 0.2s ease;  /* Adds a transition effect on hover */
+  border: 1px solid #ccc;
+  /* Adds a light border around the button */
+  padding: 8px 12px;
+  /* Adds padding for a balanced look */
+  font-size: 14px;
+  /* Adjusts the font size for readability */
+  border-radius: 5px;
+  /* Slightly rounds the corners */
+  cursor: pointer;
+  /* Changes cursor to pointer on hover */
+  transition: all 0.2s ease;
+  /* Adds a transition effect on hover */
 }
 
 .size-button:hover {
-  background-color: #f8f9fa;  /* Light background color on hover */
+  background-color: #f8f9fa;
+  /* Light background color on hover */
 }
 
 
@@ -194,13 +231,15 @@ table.jambo_table thead {
 
 .rating .fa-star {
   font-size: 24px;
-  color: #ddd; /* Default gray for unselected stars */
+  color: #ddd;
+  /* Default gray for unselected stars */
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .rating .star-selected {
-  color: gold; /* Highlight selected stars in gold */
+  color: gold;
+  /* Highlight selected stars in gold */
 }
 
 .example-form mat-slide-toggle {
@@ -209,31 +248,41 @@ table.jambo_table thead {
   outline: none;
   border: none;
   box-shadow: none;
-  transform: scale(1.5); /* Increase the size of the toggle */
-  font-size: 1.2rem;     /* Increase the size of the label */
+  transform: scale(1.5);
+  /* Increase the size of the toggle */
+  font-size: 1.2rem;
+  /* Increase the size of the label */
   margin: 8px 0;
 }
 
 .toggle-text {
-  margin-bottom: 8px; /* Add space between the text and the toggle */
-  font-size: 1.1rem;  /* Adjust the font size if needed */
+  margin-bottom: 8px;
+  /* Add space between the text and the toggle */
+  font-size: 1.1rem;
+  /* Adjust the font size if needed */
 }
 
 /* Ensure the container for the start and end dates has enough space */
 .mat-calendar-range-bottom {
-  white-space: nowrap; /* Prevents text from wrapping */
+  white-space: nowrap;
+  /* Prevents text from wrapping */
   display: flex;
-  justify-content: space-between; /* Aligns the start and end dates */
-  padding: 0 10px; /* Adds padding to avoid overflow */
+  justify-content: space-between;
+  /* Aligns the start and end dates */
+  padding: 0 10px;
+  /* Adds padding to avoid overflow */
 }
 
 .mat-calendar-range-label {
-  font-size: 0.9rem; /* Adjust the font size if needed */
-  overflow: hidden; /* Hides overflowed text */
-  text-overflow: ellipsis; /* Adds ellipsis for long text */
+  font-size: 0.9rem;
+  /* Adjust the font size if needed */
+  overflow: hidden;
+  /* Hides overflowed text */
+  text-overflow: ellipsis;
+  /* Adds ellipsis for long text */
 }
 
-.main_container{
+.main_container {
   background-color: #fff;
 }
 
@@ -247,14 +296,17 @@ table.jambo_table thead {
   padding: 20px;
   background-color: #fff;
 }
+
 .cust-card .title {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 20px;
 }
+
 .cust-card.row {
   margin-bottom: 10px;
 }
+
 .cust-card .total {
   font-size: 16px;
   font-weight: bold;
@@ -262,6 +314,7 @@ table.jambo_table thead {
   padding-top: 15px;
   border-top: 1px solid #ddd;
 }
+
 .cust-card .text-green {
   color: #2e7d32;
   font-weight: bold;
@@ -294,16 +347,19 @@ table.jambo_table thead {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .empty-cart-icon {
   font-size: 60px;
   color: #dc3545;
 }
+
 .empty-cart-text {
   font-size: 24px;
   font-weight: bold;
   margin-top: 20px;
   color: #343a40;
 }
+
 .empty-cart-subtext {
   font-size: 16px;
   color: #6c757d;
@@ -315,7 +371,8 @@ table.jambo_table thead {
   margin: 0;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   font-family: "Montserrat", helvetica, arial, sans-serif;
   font-size: 14px;
@@ -327,10 +384,12 @@ html, body {
   width: 500px;
   margin: 2rem 0;
 }
+
 .movie_card:hover {
   transform: scale(1.02);
   transition: all 0.4s;
 }
+
 .movie_card .info_section {
   position: relative;
   width: 100%;
@@ -339,19 +398,23 @@ html, body {
   z-index: 2;
   border-radius: 10px;
 }
+
 .movie_card .info_section .movie_header {
   position: relative;
   padding: 25px;
   height: 40%;
 }
+
 .movie_card .info_section .movie_header h1 {
   color: #fff;
   font-weight: 400;
 }
+
 .movie_card .info_section .movie_header h4 {
   color: #9ac7fa;
   font-weight: 400;
 }
+
 .movie_card .info_section .movie_header .minutes {
   display: inline-block;
   margin-top: 10px;
@@ -360,11 +423,13 @@ html, body {
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.13);
 }
+
 .movie_card .info_section .movie_header .type {
   display: inline-block;
   color: #cee4fd;
   margin-left: 10px;
 }
+
 .movie_card .info_section .movie_header .locandina {
   position: relative;
   float: left;
@@ -372,22 +437,27 @@ html, body {
   height: 120px;
   box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.5);
 }
+
 .movie_card .info_section .movie_desc {
   padding: 25px;
   height: 50%;
 }
+
 .movie_card .info_section .movie_desc .text {
   color: #cfd6e1;
 }
+
 .movie_card .info_section .movie_social {
   height: 10%;
   padding-left: 15px;
   padding-bottom: 20px;
 }
+
 .movie_card .info_section .movie_social ul {
   list-style: none;
   padding: 0;
 }
+
 .movie_card .info_section .movie_social ul li {
   display: inline-block;
   color: rgba(255, 255, 255, 0.4);
@@ -395,14 +465,17 @@ html, body {
   transition-delay: 0.15s;
   margin: 0 10px;
 }
+
 .movie_card .info_section .movie_social ul li:hover {
   transition: color 0.3s;
   color: rgba(255, 255, 255, 0.8);
 }
+
 .movie_card .info_section .movie_social ul li i {
   font-size: 19px;
   cursor: pointer;
 }
+
 .movie_card .blur_back {
   position: absolute;
   top: 0;
@@ -419,7 +492,10 @@ html, body {
   }
 
   .movie_desc {
-    width: 50%;
+    max-height: 600px;
+    overflow-y: auto;
+    width: 100%;
+    padding-bottom: 80px;
   }
 
   .info_section {
@@ -431,6 +507,7 @@ html, body {
     background-position: -100% 10% !important;
   }
 }
+
 @media screen and (max-width: 768px) {
   .movie_card {
     width: 95%;
@@ -450,7 +527,10 @@ html, body {
   }
 
   .movie_desc {
+    max-height: 600px;
+    overflow-y: auto;
     width: 100%;
+    padding-bottom: 80px;
   }
 
   .info_section {
@@ -458,9 +538,11 @@ html, body {
     display: inline-grid;
   }
 }
+
 #bright {
   box-shadow: 0px 0px 150px -45px rgba(255, 51, 0, 0.5);
 }
+
 #bright:hover {
   box-shadow: 0px 0px 120px -55px rgba(255, 51, 0, 0.5);
 }
@@ -470,6 +552,7 @@ html, body {
 #tomb {
   box-shadow: 0px 0px 150px -45px rgba(19, 160, 134, 0.6);
 }
+
 #tomb:hover {
   box-shadow: 0px 0px 120px -55px rgba(19, 160, 134, 0.6);
 }
@@ -480,6 +563,7 @@ html, body {
   box-shadow: 0px 0px 150px -45px rgba(199, 147, 75, 0.7);
   margin-bottom: 200px;
 }
+
 #ave:hover {
   box-shadow: 0px 0px 120px -55px rgba(199, 147, 75, 0.7);
 }
@@ -506,18 +590,22 @@ html, body {
 .horizontal-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
+
 button.no-bg-btn:hover {
   color: #ddd;
 }
+
 .story-card {
   width: 50vh;
-  flex: 0 0 auto; /* Prevents shrinking and allows horizontal scroll */
+  flex: 0 0 auto;
+  /* Prevents shrinking and allows horizontal scroll */
 }
 
-.content{
+.content {
   background-color: black;
 }
-.bg-dark{
+
+.bg-dark {
   background-color: black;
 }
 
@@ -540,9 +628,9 @@ button.no-bg-btn:hover {
   --color-teal-800: hsl(162, 88%, 30%);
   --shadow-small: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-medium: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
-  	0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-  	0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 *,
@@ -566,7 +654,7 @@ html {
 }
 
 body {
-   overflow-x: hidden;
+  overflow-x: hidden;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -593,7 +681,7 @@ video {
   max-width: 100%;
   height: auto;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .container {
@@ -641,15 +729,17 @@ video {
   padding: 0 1rem;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
-  background:whitesmoke;
+  background: whitesmoke;
   box-shadow: var(--shadow-medium);
-  color:white;
+  color: white;
 }
+
 .menu-list {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
+
 .menu-link {
   display: flex;
   flex-direction: column;
@@ -659,16 +749,19 @@ video {
   outline: none;
 
 }
+
 .menu-link.is-active {
   position: relative;
   color: goldenrod;
   transition: all 0.35s ease;
 }
+
 .menu-icon {
   font-size: 1.35rem;
   line-height: 1;
   color: inherit;
 }
+
 .menu-name {
   display: none;
   font-family: inherit;
@@ -685,13 +778,15 @@ video {
     visibility: visible;
   }
 }
+
 @media only screen and (min-width: 576px) {
   .menu-list {
     justify-content: center;
     -moz-column-gap: 3rem;
-         column-gap: 3rem;
+    column-gap: 3rem;
   }
 }
+
 @media only screen and (min-width: 768px) {
   .header {
     background: var(--color-white);
@@ -708,6 +803,7 @@ video {
     background: none;
     box-shadow: none;
   }
+
   .menu-link.is-active::before {
     position: absolute;
     content: "";
@@ -719,14 +815,17 @@ video {
     outline: none;
     background: var(--color-teal-800);
   }
+
   .menu-link:hover {
     color: var(--color-teal-800);
     transition: all 0.35s ease;
   }
+
   .menu-icon {
     display: none;
     visibility: hidden;
   }
+
   .menu-name {
     font-size: 1rem;
     font-weight: 500;
@@ -734,6 +833,7 @@ video {
     margin-bottom: 0.2rem;
   }
 }
+
 .card-img-top {
   max-width: 100%;
   height: auto;
@@ -754,11 +854,13 @@ video {
     transform: translate(-50%, 100%);
     opacity: 0;
   }
+
   to {
     transform: translate(-50%, 0);
     opacity: 1;
   }
 }
+
 .center-snackbar {
   position: fixed !important;
   top: 50% !important;
@@ -770,3 +872,8 @@ video {
   animation: fadeInScale 0.3s ease-in-out;
 }
 
+.blackBG {
+  background-color: black !important;
+  color: white !important;
+  border: none !important;
+}

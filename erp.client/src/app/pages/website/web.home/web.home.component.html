@@ -1,19 +1,91 @@
+<div class="container-fluid blackBG">
+    <div class="row">
+        <div class="col-12 m-0 p-0">
+            <div class="ratio ratio-16x9 position-relative">
+                <video #myVideo src="./assets/video/video.mp4" class="w-100 h-100 mt-0 mt-md-0" muted autoplay loop
+                    playsinline style="object-fit: cover;">
+                </video>
 
-<div class="content with-sidebar px-2 px-md-3 pb-5 pb-md-0">
+                <!-- Button in top-right corner -->
+                
+            </div>
+            <button class="btn btn-sm position-absolute top-0 end-0 m-3" (click)="toggleSound()">
+                    {{ isMuted ? '🔊' : '🔇' }}
+                </button>
+        </div>
+    </div>
+    <br />
+    <div class="row g-3">
+        <div *ngFor="let story of next2" class="col-6 col-md-6 col-lg-6">
+            <div class="card blackBG h-100" (click)="playGame(story.st_id)">
+                <img [src]="apiUrl + '/' + story.st_image" class="card-img-top" style="object-fit: fit; height: 200%" />
+                <div class="card-body">
+                    <h6 class="card-title mb-1 text-truncate text-light">{{ story.st_name }}</h6>
+                    <p class="small mb-1">{{ story.st_category_name }}</p>
+                    <p class="card-text small d-none d-md-block text-truncate">{{ story.st_description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div *ngFor="let story of next3" class="col-4 col-md-4 col-lg-3">
+            <div class="card blackBG" (click)="playGame(story.st_id)">
+                <img [src]="apiUrl + '/' + story.st_image" class="card-img-top m-0 p-0"
+                    style=" object-fit: fit;height: 100%" />
+                <div class="card-body ">
+
+                    <h6 class="card-title mb-2 text-truncate text-light">{{ story.st_name }}</h6>
+                    <p class="small mb-1">{{ story.st_category_name }}</p>
+                    <p class="card-text small d-none d-md-block text-truncate">
+                        {{ story.st_description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--<div class="content with-sidebar px-2 px-md-3 pb-5 pb-md-0">
     <div class="row g-0">
         <div class="col-12 m-0 p-0">
             <div class="ratio ratio-16x9 position-relative">
-                <!-- Video -->
-                <video src="./assets/video/video.mp4" class="w-100 h-100" muted  autoplay loop  playsinline
+             
+                <video src="./assets/video/video.mp4" class="w-100 h-100 mt-5 mt-md-0" muted  autoplay loop  playsinline
                     style="object-fit: cover;"></video>
-                <!-- Overlay -->
+            </div>
+            <br/>
+        </div>
+    </div>
+     <div class="row">
+        <div *ngFor="let story of next2" class="col-sm-6 col-md-6 col-lg-3">
+            <div class="card  text-white  h-100" style="background-color: black;">
+                <img [src]="apiUrl + '/' + story.st_image" class="card-img-top"
+                    style="height: 200px; object-fit: fit;" />
+                <div class="card-body">
+                    <h6 class="card-title mb-1 text-truncate">{{ story.st_name }}</h6>
+                    <p class="small mb-1">{{ story.st_category_name }}</p>
+                    <p class="card-text small d-none d-md-block text-truncate">
+                        {{ story.st_description }}
+                    </p>
+                </div>
+                <div class="card-footer p-2">
+                    <button class="btn btn-sm text-light d-flex align-items-center gap-1"
+                        style="background: none; border: none;" (click)="playGame(story.st_id)">
+                        Start Play &nbsp;<i class="fa fa-play"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
     <div class="row g-3 ">
-        <div *ngFor="let story of filteredStories" class="col-sm-6 col-md-4 col-lg-2">
+        <div *ngFor="let story of next3" class="col-sm-6 col-md-4 col-lg-2">
             <div class="card  text-white  h-100" style="background-color: black;">
-                <!-- Responsive Image -->
+             
                 <img [src]="apiUrl + '/' + story.st_image" class="card-img-top"
                     style="height: 160px; object-fit: cover;" />
                 <div class="card-body">
@@ -33,4 +105,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
