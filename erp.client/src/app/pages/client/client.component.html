@@ -1,0 +1,77 @@
+<div class="right_col" role="main" style="min-height: 99vh;">
+    <div class="x_panel">
+        <div class="x_title">
+            <button class="btn btn-warning" (click)="openCreateFormModal()">
+                <i class="fa fa-plus"></i> Create
+            </button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ag-grid-angular #clientsGrid class="ag-theme-quartz ag-theme-acmecorp"
+                    style="height: 80vh; width: 100%;" [rowData]="clients" [columnDefs]="colDefs"
+                    [pagination]="pagination" [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                    [components]="frameworkComponents" [paginationPageSize]="paginationPageSize10"
+                    [domLayout]="domLayout" [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                    (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="clientFormModal" tabindex="-1" role="dialog" aria-labelledby="clientFormModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ client.cl_id ? 'Update Client' : 'Create Client' }}</h5>
+            </div>
+            <div class="modal-body">
+                <form #clientForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="cl_name">Name</label>
+                                <input type="text" id="cl_name" class="form-control" [(ngModel)]="client.cl_name"
+                                    name="cl_name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cl_type">Type</label>
+
+                                <select appSelect2 id="cl_type" class="form-control" name="cl_type" required
+                                    (selectionChanged)="onClientTypeChange($event);">
+                                    <option *ngFor="let ct of clientTypes" [value]="ct.md_id">{{
+                                        ct.md_name }}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cl_address">Address</label>
+                                <input type="text" id="cl_address" class="form-control" [(ngModel)]="client.cl_address"
+                                    name="cl_address">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cl_email">Email</label>
+                                <input type="email" id="cl_email" class="form-control" [(ngModel)]="client.cl_email"
+                                    name="cl_email">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cl_phone">Phone</label>
+                                <input type="text" id="cl_phone" class="form-control" [(ngModel)]="client.cl_phone"
+                                    name="cl_phone">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" (click)="createOrUpdateClient()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

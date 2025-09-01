@@ -37,6 +37,8 @@ import { StoryComponent } from './pages/website/story/story.component';
 import { PlaygoundComponent } from './pages/website/playgound/playgound.component';
 import { StoryEndComponent } from './pages/website/story.end/story.end.component';
 import { StoryStartComponent } from './pages/website/story.start/story.start.component';
+import { RoomComponent } from './pages/room/room.component';
+import { ClientComponent } from './pages/client/client.component';
 
 
 
@@ -172,6 +174,16 @@ const routes: Routes = [
       {
         path: 'stories',
         component: StoriesComponent
+
+      },
+      {
+        path: 'rooms',
+        component: RoomComponent
+
+      },
+      {
+        path: 'clients',
+        component: ClientComponent
 
       }
     ]

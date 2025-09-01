@@ -70,6 +70,8 @@ import { PlaygoundComponent } from './pages/website/playgound/playgound.componen
 import { StoryEndComponent } from './pages/website/story.end/story.end.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { StoryStartComponent } from './pages/website/story.start/story.start.component';
+import { RoomComponent } from './pages/room/room.component';
+import { ClientComponent } from './pages/client/client.component';
 
 
 // Define a function to get the token
@@ -133,7 +135,9 @@ const jwtConfig: JwtModuleOptions = {
     StoryComponent,
     PlaygoundComponent,
     StoryEndComponent,
-    StoryStartComponent
+    StoryStartComponent,
+    RoomComponent,
+    ClientComponent
     
   ],
   imports: [

@@ -6,7 +6,7 @@ import { IuserService } from '../../../services/iuser.service';
 import { environment } from '../../../../environments/environment';
 import { User } from '../../../models/user.model';
 import { RequestParms } from '../../../models/requestParms';
-
+declare var $: any;
 @Component({
   selector: 'app-story.end',
   templateUrl: './story.end.component.html',
@@ -35,6 +35,7 @@ export class StoryEndComponent {
   }
 
   goToHome() {
+    $("#gameOverModal").modal("hide");
     this.router.navigate(['/']);
   }
 
@@ -46,5 +47,8 @@ export class StoryEndComponent {
       (error: any) => {
       }
     );
+  }
+  gameover(){
+    $("#gameOverModal").modal("show");
   }
 }

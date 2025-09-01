@@ -1,0 +1,58 @@
+<div class="right_col" role="main" style="min-height: 99vh;">
+    <div class="x_panel">
+        <div class="x_title">
+            <button class="btn btn-warning" (click)="openCreateFormModal()"><i class="fa fa-plus"></i> Create</button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ag-grid-angular #roomsGrid class="ag-theme-quartz ag-theme-acmecorp" style="height: 80vh; width: 100%;"
+                    [rowData]="rooms" [columnDefs]="colDefs" [pagination]="pagination" [defaultColDef]="defaultColDef"
+                    [enableCellTextSelection]="true" [components]="frameworkComponents"
+                    [paginationPageSize]="paginationPageSize10" [domLayout]="domLayout"
+                    [paginationPageSizeSelector]="paginationPageSizeSelector10" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="roomFormModal" tabindex="-1" role="dialog" aria-labelledby="roomFormModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ room.rm_id ? 'Update Room' : 'Create Room' }}</h5>
+            </div>
+            <div class="modal-body">
+                <form #userForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="rm_name">Name</label>
+                                <input type="text" id="rm_name" class="form-control" [(ngModel)]="room.rm_name"
+                                    name="rm_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rm_client">Client</label>
+                                <select appSelect2 id="rm_client" class="form-control" name="rm_client" required
+                                    (selectionChanged)="onClientChange($event);">
+                                    <option *ngFor="let cl of clients" [value]="cl.cl_id">{{
+                                        cl.cl_name }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="rm_expire_date">Expire Date</label>
+                                <input type="date" id="rm_expire_date" class="form-control"
+                                    [(ngModel)]="room.rm_expire_date" name="rm_expire_date" required [min]="today">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" (click)="createOrUpdateRoom()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

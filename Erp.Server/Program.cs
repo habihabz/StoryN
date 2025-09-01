@@ -95,10 +95,8 @@ builder.Services.AddDbContext<DBContext>(options =>
 // ---------------- Repositories & Services ----------------
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
 builder.Services.Configure<PublicVariables>(builder.Configuration.GetSection("PublicVariables"));
-
 builder.Services.AddTransient<IUser, UserRepository>();
 builder.Services.AddTransient<IRole, RoleRepository>();
 builder.Services.AddTransient<ILogin, LoginRepository>();
@@ -123,6 +121,8 @@ builder.Services.AddTransient<IStory, StoryRepository>();
 builder.Services.AddTransient<IStep, StepRepository>();
 builder.Services.AddTransient<IAnswer, AnswerRepository>();
 builder.Services.AddTransient<IFileUpload, FileUploadService>();
+builder.Services.AddTransient<IRoom, RoomRepository>();
+builder.Services.AddTransient<IClient, ClientRepository>();
 
 // ---------------- App Pipeline ----------------
 var app = builder.Build();

@@ -23,8 +23,6 @@ import { ProdColor } from '../../models/prod.color.model';
 import { Barcode } from '../../models/barcode.model';
 import { ProdAttachement } from '../../models/prod.attachments.model';
 import { environment } from '../../../environments/environment';
-
-
 declare var $: any;
 
 @Component({

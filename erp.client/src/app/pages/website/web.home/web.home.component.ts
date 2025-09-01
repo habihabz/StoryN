@@ -43,7 +43,7 @@ export class WebHomeComponent implements OnInit {
     private geolocationService: GeolocationService,
 
   ) {
-    this.country = this.geolocationService.getCurrentCountry();
+    //this.country = this.geolocationService.getCurrentCountry();
   }
 
 

@@ -32,7 +32,7 @@ namespace Erp.Server.Controllers
 
         }
         [HttpPost("getStories")]
-        [Authorize]
+       // [Authorize]
         public List<Story> getStories()
         {
             List<Story> storys =new List<Story>();
@@ -49,7 +49,7 @@ namespace Erp.Server.Controllers
         }
 
         [HttpPost("getStory")]
-        [Authorize]
+        //[Authorize]
         public Story getStory([FromBody] int id)
         {
             Story story = new Story();

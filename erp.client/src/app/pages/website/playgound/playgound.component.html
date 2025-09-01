@@ -2,17 +2,17 @@
   <!-- Header Section -->
   <div class="row mb-4">
     <div class="col-lg-6 col-md-8  col-sm-12 mx-auto text-center">
-      <h1 class="fw-bold mb-2">{{ story.st_name }}</h1>
-      <h4 class="fw-light mb-3">Level {{ step.sp_priority }}</h4>
+      <h3 class="fw-bold mb-2 text-white">{{ story.st_name }}</h3>
+      <h5 class="fw-light mb-3 text-white">Level {{ step.sp_priority }}</h5>
       <hr class="border-light w-50 mx-auto" />
     </div>
   </div>
 
   <!-- Attachment Viewer -->
   <div class="row mb-4">
-    <div class="col-lg-6 col-md-8  col-sm-12 mx-auto text-center">
-      <div *ngIf="step.sp_attachment" class="mb-3">
-        <app-attachment-viewer [file]="step.sp_attachment"></app-attachment-viewer>
+    <div class="col-lg-6 col-md-8  col-sm-12 mx-auto justify-content-center">
+      <div *ngIf="step.sp_attachment" class="mb-3 justify-content-center">
+        <app-attachment-viewer [file]="step.sp_attachment" ></app-attachment-viewer>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
   <!-- Question and Hint -->
   <div class="row mb-4">
     <div class="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
-      <p class="lead mb-3">{{ step.sp_question }}</p>
+      <p class="lead mb-3 text-white">{{ step.sp_question }}</p>
       <p class="text-muted fst-italic">{{ step.sp_hint }}</p>
     </div>
   </div>

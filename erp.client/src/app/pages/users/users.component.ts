@@ -58,7 +58,6 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
     this.loadUsers();
     this.subscription.add(
       this.iuserService.refreshUsers$.subscribe(() => {

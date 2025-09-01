@@ -55,7 +55,7 @@ namespace Erp.Server.Controllers
 
         [HttpPost("getMenusByType")]
         [Authorize]
-        public List<Menu> getMenusByType([FromBody] RequestParams requestParams )
+        public List<Menu> getMenusByType([FromBody] RequestParams requestParams)
         {
             List<Menu> menus = new List<Menu>();
             menus = imenu.getMenusByType(requestParams.type);
