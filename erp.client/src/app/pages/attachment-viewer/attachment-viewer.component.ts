@@ -9,10 +9,11 @@ import { environment } from '../../../environments/environment';
 export class AttachmentViewerComponent {
   
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   @Input() file: string = '';
 
   get fullPath(): string {
-    return this.apiUrl + '/' + this.file;
+    return this.attachmentUrl + '/' + this.file;
   }
 
   isImage(file: string): boolean {

@@ -21,8 +21,8 @@ import { IStoryService } from '../../../services/istory.service';
 })
 export class WebHomeComponent implements OnInit {
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   country: MasterData = new MasterData();
-
   stories: Story[] = [];
   secondandThird: Story[] = [];
   latest: Story = new Story();

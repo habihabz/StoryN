@@ -123,6 +123,7 @@ builder.Services.AddTransient<IAnswer, AnswerRepository>();
 builder.Services.AddTransient<IFileUpload, FileUploadService>();
 builder.Services.AddTransient<IRoom, RoomRepository>();
 builder.Services.AddTransient<IClient, ClientRepository>();
+builder.Services.AddTransient<IRoomStory, RoomStoryRepository>();
 
 // ---------------- App Pipeline ----------------
 var app = builder.Build();

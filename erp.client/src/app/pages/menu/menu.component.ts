@@ -89,7 +89,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       })
     );
 
-   
+
   }
   onAction(action: string, data: any) {
     switch (action) {
@@ -139,7 +139,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   loadMenus(): void {
     this.imenuService.getMenus().subscribe(
       (data: Menu[]) => {
@@ -153,9 +153,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   loadMenuTypes(): void {
+
     this.imenuService.getMenuTypes().subscribe(
       (data: MenuType[]) => {
         this.menuTypes = data;
+
       },
       (error: any) => {
         console.error('Error fetching menu type', error);
@@ -169,6 +171,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.requestParms.type = "Menu";
       this.imenuService.getMenusByType(this.requestParms).subscribe(
         (data: Menu[]) => {
+         // alert(JSON.stringify(data));
           this.parrentmenus = data;
         },
         (error: any) => {
@@ -184,9 +187,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe(); // Unsubscribe to avoid memory leaks
   }
-
+  onMenuTypeChange(menuType:string) {
+    this.selectedMenuType=menuType;
+    this.getMenusByType(menuType)
+  }
   getMenusByType(menuType: any) {
-    this.selectedMenuType = menuType;
+    this.requestParms = new RequestParms();
     this.requestParms.type = menuType;
     this.imenuService.getMenusByType(this.requestParms).subscribe(
       (data: Menu[]) => {
@@ -223,7 +229,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           console.error('Error fetching users', error);
         }
       );
-    }else{
+    } else {
       alert("Please Enter All the Data !!");
     }
   }
@@ -231,7 +237,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.menu = new Menu();
     $('#menuFormModal').modal("hide");
   }
-  OnParrentChange(m_parrent:any){
-    this.menu.m_parrent=m_parrent;
+  OnParrentChange(m_parrent: any) {
+    this.menu.m_parrent = m_parrent;
   }
 }

@@ -25,6 +25,7 @@ declare var Razorpay: any;
 })
 export class MycartComponent implements OnInit {
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   private paymentUrl = `${environment.serverHostAddress}/api/payment/create-order`;
   razorpayLoaded = false;
   country: MasterData = new MasterData();
@@ -78,7 +79,7 @@ export class MycartComponent implements OnInit {
 
   selectImage(index: number) {
     const selectedAttachment = this.getAttachementOfaProduct(this.cart.p_attachements)[index];
-    this.selectedImagePath = this.apiUrl + '/' + selectedAttachment.pa_image_path;
+    this.selectedImagePath = this.attachmentUrl + '/' + selectedAttachment.pa_image_path;
   }
 
   getListFromJSON(jsonStr: string) {
@@ -193,7 +194,7 @@ export class MycartComponent implements OnInit {
   CreateOrUpdateAddress() {
 
     this.address.ad_cre_by = this.currentUser.u_id;
-    if (this.address.ad_name!='' && this.address.ad_address != '' && this.address.ad_phone != '') {
+    if (this.address.ad_name != '' && this.address.ad_address != '' && this.address.ad_phone != '') {
       this.iaddress.createOrUpdateAddress(this.address).subscribe(
         (dbResult: DbResult) => {
           if (dbResult.message == 'Success') {
@@ -211,34 +212,33 @@ export class MycartComponent implements OnInit {
         }
       );
     }
-    else
-    {
+    else {
       this.snackbarService.showError("Please Enter All Data");
     }
 
   }
 
-  onShowAddressForm(){
+  onShowAddressForm() {
     this.showAddressForm = !this.showAddressForm
-    this.address=new Address();
+    this.address = new Address();
   }
 
   deleteAddress(ad_id: number) {
-      this.iaddress.deleteAddress(ad_id).subscribe(
-        (dbResult: DbResult) => {
-          if (dbResult.message == 'Success') {
-            this.snackbarService.showSuccess("Deleted");
-            this.getMyAddress();
+    this.iaddress.deleteAddress(ad_id).subscribe(
+      (dbResult: DbResult) => {
+        if (dbResult.message == 'Success') {
+          this.snackbarService.showSuccess("Deleted");
+          this.getMyAddress();
 
-          }
-          else {
-            this.snackbarService.showError(dbResult.message);
-          }
-        },
-        (error: any) => {
         }
-      );
-   
+        else {
+          this.snackbarService.showError(dbResult.message);
+        }
+      },
+      (error: any) => {
+      }
+    );
+
   }
 
 
@@ -265,7 +265,7 @@ export class MycartComponent implements OnInit {
 
     const Razorpay = (window as any).Razorpay;
 
-    this.http.post<any>(this.paymentUrl, { amount: this.netAmount})
+    this.http.post<any>(this.paymentUrl, { amount: this.netAmount })
       .subscribe(order => {
         const options = {
           key: order.key,
@@ -278,7 +278,7 @@ export class MycartComponent implements OnInit {
             upi: true
           },
           handler: (response: any) => {
-            this.placeOrder() ;
+            this.placeOrder();
           },
           prefill: {
             email: 'abimanjeri@gmail.com',

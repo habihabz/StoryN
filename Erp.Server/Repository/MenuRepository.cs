@@ -34,9 +34,9 @@ namespace Erp.Server.Repository
             return menu;
         }
 
-        public List<Menu> getMenusByType(string type)
+        public List<Menu> getMenusByType(RequestParams requestParams)
         {
-            var _type = new SqlParameter("type", type + "");
+            var _type = new SqlParameter("type", requestParams.type + "");
             var menus = db.Set<Menu>().FromSqlRaw("EXEC dbo.getMenusByType @type;", _type).ToList();
             return menus;
            

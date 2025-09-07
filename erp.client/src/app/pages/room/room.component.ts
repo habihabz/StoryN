@@ -28,6 +28,10 @@ import { IroomService } from '../../services/iroom.service';
 import { IclientService } from '../../services/iclient.service';
 import { Client } from '../../models/client.model';
 import { format } from 'date-fns';
+import { RoomStory } from '../../models/room.story.model';
+import { Story } from '../../models/story.model';
+import { IStoryService } from '../../services/istory.service';
+import { IRoomStoryService } from '../../services/iroom.story.service';
 declare var $: any;
 
 @Component({
@@ -46,6 +50,9 @@ export class RoomComponent implements OnInit {
   subscription: Subscription = new Subscription();
   rooms: Room[] = [];
   room: Room = new Room();
+  stories: Story[] = [];
+  roomStory: RoomStory = new RoomStory();
+  roomStories: RoomStory[] = [];
   clients: Client[] = [];
   dbResult: DbResult = new DbResult();
   requestParms: RequestParms = new RequestParms();
@@ -62,6 +69,8 @@ export class RoomComponent implements OnInit {
     private snackBarService: SnackBarService,
     private igridService: GridService,
     private iroomService: IroomService,
+    private iroomStoryService: IRoomStoryService,
+    private istoryService: IStoryService,
     private iclientService: IclientService,
     private imasterDataService: IMasterDataService,
   ) {
@@ -92,6 +101,12 @@ export class RoomComponent implements OnInit {
       },
     },
     {
+      headerName: 'Stories', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Stories', action: 'onStories', cssClass: 'btn btn-secondary', icon: 'fa fa-list', onStories: (data: any) => this.onAction('stories', data)
+      },
+    },
+    {
       headerName: 'Edit', cellRenderer: 'actionRenderer', cellRendererParams:
       {
         name: 'Edit', action: 'onEdit', cssClass: 'btn btn-info', icon: 'fa fa-edit', onEdit: (data: any) => this.onAction('edit', data)
@@ -103,6 +118,39 @@ export class RoomComponent implements OnInit {
         name: 'Delete', action: 'onDelete', cssClass: 'btn btn-danger', icon: 'fa fa-trash', onDelete: (data: any) => this.onAction('delete', data)
       },
     }
+  ];
+
+  rmDefs: ColDef[] = [
+    { headerName: "Id", field: "rs_id" },
+    { headerName: "Story Name", field: "rs_story_name" },
+    {
+      headerName: "Expire Date",
+      field: "rs_expire_date",
+      valueFormatter: (params) => {
+        return format(new Date(params.value), 'yyyy-MM-dd');
+      },
+    },
+    {
+      headerName: 'Edit', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Edit', action: 'onEditRoomStory', cssClass: 'btn btn-info', icon: 'fa fa-edit',
+        onEditRoomStory: (data: any) => this.onAction('editRoomStory', data)
+      },
+    },
+    {
+      headerName: 'Delete', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Delete', action: 'onDeleteRoomStory', cssClass: 'btn btn-danger', icon: 'fa fa-trash', onDeleteRoomStory: (data: any) => this.onAction('deleteRoomStory', data)
+      },
+    },
+    { headerName: "Created By", field: "rs_cre_by_name" },
+    {
+      headerName: "Created On",
+      field: "rs_cre_date",
+      valueFormatter: (params) => {
+        return format(new Date(params.value), 'yyyy-MM-dd hh:mm:ss a');
+      },
+    },
   ];
 
 
@@ -120,10 +168,16 @@ export class RoomComponent implements OnInit {
     const now = new Date();
     this.today = now.toISOString().split('T')[0];
     this.getClients();
+    this.getStories();
     this.getRooms();
     this.subscription.add(
       this.iroomService.refreshRooms$.subscribe(() => {
         this.getRooms();
+      })
+    );
+    this.subscription.add(
+      this.iroomStoryService.refreshRoomStories$.subscribe(() => {
+        this.getRoomStoriesByRoom(this.room.rm_id);
       })
     );
   }
@@ -150,6 +204,15 @@ export class RoomComponent implements OnInit {
       case 'delete':
         this.onDelete(data);
         break;
+      case 'stories':
+        this.onStories(data);
+        break;
+      case 'editRoomStory':
+        this.onEditRoomStory(data);
+        break;
+      case 'deleteRoomStory':
+        this.onDeleteRoomStory(data);
+        break;
       default:
         this.snackBarService.showError("Unknown Action " + action);;
     }
@@ -161,6 +224,7 @@ export class RoomComponent implements OnInit {
     this.setSelect2Values();
     $('#roomFormModal').modal('show');
   }
+
 
   onDelete(data: any) {
     this.iroomService.deleteRoom(data.rm_id).subscribe(
@@ -177,8 +241,38 @@ export class RoomComponent implements OnInit {
       }
     );
   }
+  onStories(data: any) {
+    this.room = { ...data };
+    this.setSelect2Values();
+    this.getRoomStoriesByRoom(this.room.rm_id);
+    $('#storiesModal').modal('show');
+  }
 
+  onEditRoomStory(data: any) {
+    this.roomStory = { ...data };
+    this.roomStory.rs_expire_date =this.formatDate(data.rs_expire_date);
+      this.setSelect2Values();
+  }
 
+  private formatDate(date: any): string {
+    if (!date) return '';
+    return new Date(date).toISOString().split('T')[0]; // yyyy-MM-dd
+  }
+  onDeleteRoomStory(data: any) {
+    this.iroomStoryService.deleteRoomStory(data.rs_id).subscribe(
+      (result: DbResult) => {
+        if (result.message === "Success") {
+          this.roomStories = this.roomStories.filter(rs => rs.rs_id !== data.rs_id);
+          this.snackBarService.showSuccess("Successfully Removed");
+        } else {
+          alert(result.message);
+        }
+      },
+      (error: any) => {
+        console.error('Error deleting income', error);
+      }
+    );
+  }
   getRooms() {
     this.iroomService.getRooms().subscribe(
       (data: Room[]) => {
@@ -201,6 +295,15 @@ export class RoomComponent implements OnInit {
     );
   }
 
+  getStories() {
+    this.istoryService.getStories().subscribe(
+      (data: Story[]) => {
+        this.stories = data;
+      },
+      (error: any) => {
+      }
+    );
+  }
   onGridReady(event: GridReadyEvent) {
     this.igridService.resizeGridColumns(this.roomsGrid.api);
   }
@@ -218,7 +321,6 @@ export class RoomComponent implements OnInit {
         if (data.message === "Success") {
           this.clear();
           $('#roomFormModal').modal('hide');
-
           this.iroomService.refreshRooms();
           this.snackBarService.showSuccess("Successfully Saved");
         } else {
@@ -237,7 +339,47 @@ export class RoomComponent implements OnInit {
 
   setSelect2Values() {
     $("#rm_client").val(this.room.rm_client).trigger('change');
+    $("#rs_story").val(this.roomStory.rs_story).trigger('change');
   }
 
-  onClientChange(c_id: any) { this.room.rm_client = c_id; }
+  onClientChange(c_id: number) { this.room.rm_client = c_id; }
+  onRoomStoryChange(rs_story: number) { this.roomStory.rs_story = rs_story; }
+
+
+  CreateOrUpdateRoomStory() {
+
+
+    this.roomStory.rs_room = this.room.rm_id;
+    if (this.roomStory.rs_room != 0 && this.room.rm_id != 0) {
+      this.roomStory.rs_cre_by = this.currentUser.u_id;
+      this.iroomStoryService.createOrUpdateRoomStory(this.roomStory).subscribe(
+        (data: DbResult) => {
+          this.dbResult = data;
+          if (data.message === "Success") {
+            this.getRoomStoriesByRoom(this.room.rm_id);
+            this.roomStory=new RoomStory();
+             this.setSelect2Values();
+            this.snackBarService.showSuccess("Successfully Saved");
+          } else {
+            this.snackBarService.showError(data.message);
+          }
+        },
+        (error: any) => {
+          this.snackBarService.showError("Error occurred while saving the Room Story.");
+        }
+      );
+    } else {
+      this.snackBarService.showError("Please Enter All Data!!");
+    }
+  }
+
+  getRoomStoriesByRoom(rs_room: number) {
+    this.iroomStoryService.getRoomStoriesByRoom(rs_room).subscribe(
+      (data: RoomStory[]) => {
+        this.roomStories = data;
+      },
+      (error: any) => {
+      }
+    );
+  }
 }

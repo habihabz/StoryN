@@ -57,8 +57,9 @@ namespace Erp.Server.Controllers
         [Authorize]
         public List<Menu> getMenusByType([FromBody] RequestParams requestParams)
         {
+            Trace.WriteLine("Type: " + requestParams.type);
             List<Menu> menus = new List<Menu>();
-            menus = imenu.getMenusByType(requestParams.type);
+            menus = imenu.getMenusByType(requestParams);
             return menus;
         } 
 

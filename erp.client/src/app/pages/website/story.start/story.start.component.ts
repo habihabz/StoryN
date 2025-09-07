@@ -14,12 +14,13 @@ import { DbResult } from '../../../models/dbresult.model';
   styleUrl: './story.start.component.css'
 })
 export class StoryStartComponent {
-apiUrl = `${environment.serverHostAddress}/api/`;
+  apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();
   requestParms: RequestParms = new RequestParms();
-  countdown:string='3.59';
+  countdown: string = '3.59';
 
   constructor(
     private router: Router,
@@ -42,7 +43,7 @@ apiUrl = `${environment.serverHostAddress}/api/`;
     this.istoryService.startGame(this.requestParms).subscribe(
       (data: DbResult) => {
         if (data.message == 'Success') {
-          this.router.navigate(['/play-ground',  this.storyId]);
+          this.router.navigate(['/play-ground', this.storyId]);
         }
         else {
 
@@ -63,6 +64,6 @@ apiUrl = `${environment.serverHostAddress}/api/`;
       }
     );
   }
-  
-  
+
+
 }

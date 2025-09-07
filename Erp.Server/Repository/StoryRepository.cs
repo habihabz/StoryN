@@ -58,5 +58,12 @@ namespace Erp.Server.Repository
             var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.startGame @story,@user;", _story,_user).ToList().FirstOrDefault() ?? new DbResult();
             return dbresult;
         }
+
+        public List<Story> getStoriesByRoom(int rs_room)
+        {
+            var _rs_room = new SqlParameter("rs_room", rs_room + "");
+            var stories = db.Set<Story>().FromSqlRaw("EXEC dbo.getStoriesByRoom @rs_room;", _rs_room).ToList();
+            return stories;
+        }
     }
 }

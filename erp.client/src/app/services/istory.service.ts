@@ -35,6 +35,10 @@ export class IStoryService {
     return this.http.post<DbResult>(this.apiUrl + "/startGame", requestParms); 
   }
 
+  getStoriesByRoom(id: number): Observable<Story[]> {
+    return this.http.post<Story[]>(this.apiUrl + "/getStoriesByRoom", id);  
+  }
+
   get refreshStories$() {
     return this.refreshStoriesSubject.asObservable();
   }

@@ -21,6 +21,7 @@ import { GeolocationService } from '../../../services/GeoCurrentLocation.service
 })
 export class ShopComponent implements OnInit {
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   product: Product = new Product();
   products: Product[] = [];
   filteredProducts: Product[] = [];

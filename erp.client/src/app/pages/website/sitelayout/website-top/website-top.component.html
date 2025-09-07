@@ -62,8 +62,11 @@
             <!-- Collapsible Menu -->
             <div class="collapse navbar-collapse" [class.show]="menuVisible">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                     <li class="nav-item">
                         <a class="nav-link" routerLink="/" (click)="closeMenu()">Home</a>
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" [routerLink]="['/room-details', '']" >Room</a>
                     </li>
                     <ng-container *ngIf="isLoggedIn; else guestLinks">
                         <li class="nav-item">

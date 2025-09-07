@@ -56,3 +56,61 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="storiesModal" role="dialog" aria-labelledby="roomFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Stories</h5>
+            </div>
+            <div class="modal-body">
+                <form #userForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="rs_story">Stories</label>
+                                <select appSelect2 id="rs_story" class="form-control" name="rs_story" required
+                                    (selectionChanged)="onRoomStoryChange($event);">
+                                    <option [value]="0">Please Select Story</option>
+                                    <option *ngFor="let st of stories" [value]="st.st_id">{{
+                                        st.st_id+' - '+st.st_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="rm_expire_date">Expire Date</label>
+                                <input type="date" id="rm_expire_date" class="form-control"
+                                    [(ngModel)]="roomStory.rs_expire_date" name="rm_expire_date" required [min]="today">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn mt-4"
+                                [ngClass]="roomStory.rs_id && roomStory.rs_id !== 0 ? 'btn-primary' : 'btn-success'"
+                                (click)="CreateOrUpdateRoomStory()">
+                                {{ roomStory.rs_id && roomStory.rs_id !== 0 ? 'Update' : 'Add' }}
+                            </button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ag-grid-angular #roomStoriesGrid class="ag-theme-quartz ag-theme-acmecorp"
+                                style="height: 100%; width: 100%;" [rowData]="roomStories" [columnDefs]="rmDefs"
+                                [pagination]="pagination" [defaultColDef]="defaultColDef"
+                                [enableCellTextSelection]="true" [components]="frameworkComponents"
+                                [paginationPageSize]="paginationPageSize10" [domLayout]="domLayout"
+                                [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                                (gridReady)="onGridReady($event)">
+                            </ag-grid-angular>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

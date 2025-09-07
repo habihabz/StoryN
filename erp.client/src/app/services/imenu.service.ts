@@ -16,44 +16,30 @@ import { MenuAllocation } from '../models/menu.allocation.model';
 export class IMenuService {
   private apiUrl = `${environment.serverHostAddress}/api/Menu`;
   private refreshMenusSubject = new Subject<void>();
-  parms :any ;
 
   constructor(private http: HttpClient, private iLoginService: ILoginService) { }
 
-  private getHttpHeaders(): HttpHeaders {
-    const token = this.iLoginService.getToken(); // Retrieve the token from AuthService
-    return new HttpHeaders({
-      'Authorization': token ? `Bearer ${token}` : '',
-      'Content-Type': 'application/json'  // Ensure Content-Type is set to application/json
-    });
-  }
 
   getMenus(): Observable<Menu[]> {
-    const headers = this.getHttpHeaders();
-    return this.http.post<Menu[]>(`${this.apiUrl}/getMenus`, {}, { headers });  
+  
+    return this.http.post<Menu[]>(`${this.apiUrl}/getMenus`, {});  
   }
 
   getMenu(id: number): Observable<Menu> {
-    const headers = this.getHttpHeaders();
-    return this.http.post<Menu>(`${this.apiUrl}/getMenu`, id, { headers });  
+
+    return this.http.post<Menu>(`${this.apiUrl}/getMenu`, id);  
   }
 
   getMenuTypes(): Observable<MenuType[]> {
-    const headers = this.getHttpHeaders();
-    return this.http.post<MenuType[]>(`${this.apiUrl}/getMenuTypes`, {}, { headers });  
+    return this.http.post<MenuType[]>(`${this.apiUrl}/getMenuTypes`, {});  
   }
 
   getMenusByType( requestParms : RequestParms): Observable<Menu[]> {
-   
-    const headers = this.getHttpHeaders();
-    return this.http.post<Menu[]>(`${this.apiUrl}/getMenusByType`, requestParms, { headers });
+    return this.http.post<Menu[]>(`${this.apiUrl}/getMenusByType`, requestParms);
   }
 
   getMenusByRoleAndType( requestParms : RequestParms): Observable<Menu[]> {
-   
-    const headers = this.getHttpHeaders();
-    return this.http.post<Menu[]>(`${this.apiUrl}/getMenusByRoleAndType`, requestParms, { headers });
-
+    return this.http.post<Menu[]>(`${this.apiUrl}/getMenusByRoleAndType`, requestParms);
   }
 
   deleteMenu(id: number): Observable<DbResult> {

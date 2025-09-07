@@ -39,6 +39,7 @@ import { StoryEndComponent } from './pages/website/story.end/story.end.component
 import { StoryStartComponent } from './pages/website/story.start/story.start.component';
 import { RoomComponent } from './pages/room/room.component';
 import { ClientComponent } from './pages/client/client.component';
+import { RoomDetailsComponent } from './pages/website/room-details/room-details.component';
 
 
 
@@ -77,7 +78,8 @@ const routes: Routes = [
       {
         path: 'web-home',
         component: WebHomeComponent
-      }
+      },
+      { path: 'room-details/:roomcode', component: RoomDetailsComponent }
     ]
   }
   ,

@@ -104,6 +104,14 @@ namespace Erp.Server.Controllers
             dbResult = istory.startGame(requestParams);
             return dbResult;
         }
-        
+
+        [HttpPost("getStoriesByRoom")]
+        // [Authorize]
+        public List<Story> getStoriesByRoom([FromBody] int rs_room)
+        {
+            List<Story> storys = new List<Story>();
+            storys = istory.getStoriesByRoom(rs_room);
+            return storys;
+        }
     }
 }

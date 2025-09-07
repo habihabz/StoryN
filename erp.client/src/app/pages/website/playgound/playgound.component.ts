@@ -20,6 +20,7 @@ import { SnackBarService } from '../../../services/isnackbar.service';
 })
 export class PlaygoundComponent {
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();
@@ -35,7 +36,7 @@ export class PlaygoundComponent {
     private istepService: IStepService,
     private ianswerService: IAnswerService,
     private iuser: IuserService,
-    private isnackBarService :SnackBarService
+    private isnackBarService: SnackBarService
   ) {
     this.currentUser = iuser.getCurrentUser();
     if (this.currentUser.u_id == 0) {
@@ -72,7 +73,7 @@ export class PlaygoundComponent {
       (data: Step) => {
         this.step = data;
         if (this.step.sp_id == 0) {
-          this.router.navigate(['/story-end',this.storyId]);
+          this.router.navigate(['/story-end', this.storyId]);
         }
       },
       (error: any) => {

@@ -18,7 +18,7 @@
     <div class="row g-3">
         <div *ngFor="let story of next2" class="col-6 col-md-6 col-lg-6">
             <div class="card blackBG h-100" (click)="playGame(story.st_id)">
-                <img [src]="apiUrl + '/' + story.st_image" class="card-img-top" style="object-fit: fit; height: 200%" />
+                <img [src]="attachmentUrl + '/' + story.st_image" class="card-img-top" style="object-fit: fit; height: 200%" />
                 <div class="card-body">
                     <h6 class="card-title mb-1 text-truncate text-light">{{ story.st_name }}</h6>
                     <p class="small mb-1">{{ story.st_category_name }}</p>
@@ -31,7 +31,7 @@
     <div class="row">
         <div *ngFor="let story of next3" class="col-4 col-md-4 col-lg-3">
             <div class="card blackBG" (click)="playGame(story.st_id)">
-                <img [src]="apiUrl + '/' + story.st_image" class="card-img-top m-0 p-0"
+                <img [src]="attachmentUrl + '/' + story.st_image" class="card-img-top m-0 p-0"
                     style=" object-fit: fit;height: 100%" />
                 <div class="card-body ">
 

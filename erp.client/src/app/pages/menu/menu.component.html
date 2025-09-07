@@ -4,7 +4,7 @@
       <div class="form-group">
         <label for="menuType">Type</label>
         <select appSelect2 id="menuType" class="form-control" [(ngModel)]="this.menuType.menuType" name="type" required
-          (selectionChanged)="getMenusByType($event)">
+          (selectionChanged)="onMenuTypeChange($event)">
           <option *ngFor="let mt of menuTypes" [value]="mt.menuType">{{ mt.menuType }}</option>
         </select>
       </div>
@@ -42,14 +42,14 @@
               Name is required
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="menu.m_type!='Menu'">
             <label for="m_link">Link</label>
             <input type="text" id="m_link" class="form-control" [(ngModel)]="menu.m_link" name="m_link" required>
             <div class="invalid-feedback" *ngIf="menuForm.submitted && !menu.m_link">
               Link is required
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="menu.m_type!='MenuItem'">
             <label for="m_fa_icon">Icon</label>
             <input type="text" id="m_fa_icon" class="form-control" [(ngModel)]="menu.m_fa_icon" name="m_fa_icon">
           </div>
@@ -57,7 +57,7 @@
             <label for="m_name">Type</label>
             <input type="text" id="m_type" class="form-control" [(ngModel)]="menu.m_type" name="m_type" required (change)="getParrentMenusByType()">
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="menu.m_type!='Menu'">
             <label for="m_parrent">Parrent</label>
             <select  appSelect2  #m_parrent id="m_parrent" class="form-control" [(ngModel)]="menu.m_parrent" name="m_parrent" required (selectionChanged)="OnParrentChange($event);">
               <ng-container *ngIf="parrentmenus.length > 0; else noData">

@@ -7,7 +7,7 @@ namespace Erp.Server.Services
         public List<Menu> getMenus();
         Menu getMenu(int id);
         List<MenuType> getMenuTypes();
-        List<Menu> getMenusByType(string type);
+        List<Menu> getMenusByType(RequestParams requestParams);
         List<Menu> getMenusByRoleAndType(int id, string type);
         DbResult deleteMenu(int id);
         DbResult createOrUpdateMenu(Menu menu);

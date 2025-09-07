@@ -1,0 +1,18 @@
+<div class="container-fluid bg-black" style="height: 100vh; background-color: black;">
+    <div class="row">
+        <div *ngFor="let story of stories" class="col-4 col-md-4 col-lg-3">
+            <div class="card blackBG" (click)="playGame(story.st_id)">
+                <img [src]="attachmentUrl + '/' + story.st_image" class="card-img-top m-0 p-0"
+                    style=" object-fit: fit;height: 100%" />
+                <div class="card-body ">
+
+                    <h6 class="card-title mb-2 text-truncate text-light">{{ story.st_name }}</h6>
+                    <p class="small mb-1">{{ story.st_category_name }}</p>
+                    <p class="card-text small d-none d-md-block text-truncate">
+                        {{ story.st_description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

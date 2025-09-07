@@ -38,6 +38,7 @@ namespace Erp.Server.Models
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<RoomStory> RoomStories { get; set; }
 
     }
 

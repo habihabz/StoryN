@@ -14,6 +14,7 @@ declare var $: any;
 })
 export class StoryEndComponent {
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();

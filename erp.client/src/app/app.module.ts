@@ -68,10 +68,13 @@ import { SharedModule } from './shared/shared.module';
 import { StoryComponent } from './pages/website/story/story.component';
 import { PlaygoundComponent } from './pages/website/playgound/playgound.component';
 import { StoryEndComponent } from './pages/website/story.end/story.end.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { StoryStartComponent } from './pages/website/story.start/story.start.component';
 import { RoomComponent } from './pages/room/room.component';
 import { ClientComponent } from './pages/client/client.component';
+import { LoadingSpinnerComponent } from './pages/loading-spinner/loading-spinner.component';
+import { LoadingInterceptor } from './Interceptor/loading.interceptor';
+import { RoomDetailsComponent } from './pages/website/room-details/room-details.component';
 
 
 // Define a function to get the token
@@ -137,7 +140,9 @@ const jwtConfig: JwtModuleOptions = {
     StoryEndComponent,
     StoryStartComponent,
     RoomComponent,
-    ClientComponent
+    ClientComponent,
+    LoadingSpinnerComponent,
+    RoomDetailsComponent
     
   ],
   imports: [
@@ -172,6 +177,11 @@ const jwtConfig: JwtModuleOptions = {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
     },
   ],
   bootstrap: [AppComponent]

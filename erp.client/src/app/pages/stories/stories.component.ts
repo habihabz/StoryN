@@ -34,6 +34,7 @@ declare var $: any;
 })
 export class StoriesComponent {
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   imageUrl: string = '';
   pagination = true;
   paginationPageSize5 = 5;
@@ -55,7 +56,6 @@ export class StoriesComponent {
   selectedStartFile: File | null = null;
   selectedEndFile: File | null = null;
   selectedStepFile: File | null = null;
-
   steps: Step[] = [];
   step: Step = new Step();
   reportData: any[] = [];

@@ -15,6 +15,7 @@ import { DbResult } from '../../../models/dbresult.model';
 })
 export class StoryComponent {
   apiUrl = `${environment.serverHostAddress}/api/`;
+  attachmentUrl = `${environment.attachmentAddress}`;
   storyId!: number;
   story: Story = new Story();
   currentUser: User = new User();
