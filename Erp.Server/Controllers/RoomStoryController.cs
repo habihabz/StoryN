@@ -64,5 +64,7 @@ namespace Erp.Server.Controllers
             roomStories = iroomStory.getRoomStoriesByRoom(rs_room);
             return roomStories;
         }
+
+   
     }
 }

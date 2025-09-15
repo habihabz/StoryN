@@ -5,6 +5,7 @@ export class RequestParms {
   type: string;
   country :number;
   details:string;
+  code:string;
   user:number;
   constructor() {
     this.id = 0;
@@ -13,6 +14,7 @@ export class RequestParms {
     this.type='',
     this.country=0;
     this.details='';
+    this.code='';
     this.user=0;
   }
 

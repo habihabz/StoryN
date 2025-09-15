@@ -113,5 +113,15 @@ namespace Erp.Server.Controllers
             storys = istory.getStoriesByRoom(rs_room);
             return storys;
         }
+
+
+        [HttpPost("getStoriesByRoomCode")]
+        [Authorize]
+        public List<Story> getStoriesByRoomCode([FromBody] RequestParams requestParams)
+        {
+            List<Story> roomStories = new List<Story>();
+            roomStories = istory.getStoriesByRoomCode(requestParams);
+            return roomStories;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Erp.Server.Services
         List<Story> getStories();
         DbResult startGame(RequestParams requestParams);
         List<Story> getStoriesByRoom(int rs_room);
+        List<Story> getStoriesByRoomCode(RequestParams requestParams);
     }
 }

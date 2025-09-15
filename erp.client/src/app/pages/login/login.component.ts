@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { ILoginService } from '../../services/ilogin.service';
 import { UserCredential } from '../../models/usercredential.model';
+import { SnackBarService } from '../../services/isnackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private snackBarService: SnackBarService,
     private iloginService: ILoginService
   ) { }
 
@@ -42,7 +44,8 @@ export class LoginComponent implements OnInit {
 
         } else {
           // Handle failed login
-          alert(data.message || 'Login failed');
+          this.snackBarService.showError(data.message || 'Login failed');
+
         }
       },
       error: (error: HttpErrorResponse) => {
@@ -66,7 +69,8 @@ export class LoginComponent implements OnInit {
         }
 
         console.error('Full error object:', errorMessage); // For debugging
-        alert(errorMessage);
+        this.snackBarService.showError(errorMessage || 'Login failed');
+
       }
     });
   }

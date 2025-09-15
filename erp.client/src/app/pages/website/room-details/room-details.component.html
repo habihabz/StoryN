@@ -1,4 +1,12 @@
 <div class="container-fluid bg-black" style="height: 100vh; background-color: black;">
+    <br/>
+    <nav>
+        <ol class="breadcrumb p-2  text-white"  style="background-color: black;">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item">Room Details</li>
+            <li class="breadcrumb-item" (click)="openRoomCodeModal()">{{ this.roomCode }}</li>
+        </ol>
+    </nav>
     <div class="row">
         <div *ngFor="let story of stories" class="col-4 col-md-4 col-lg-3">
             <div class="card blackBG" (click)="playGame(story.st_id)">
@@ -13,6 +21,23 @@
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div id="roomCodeModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1> Room Code</h1>
+            </div>
+            <div class="modal-body">
+                <label for="roomCode">Room code</label>
+                <input type="text" [(ngModel)]="roomCode" class="form-control" placeholder="Please Enter Room Code " />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm px-3" (click)="getRoomCode()">Open</button>
+            </div>
+
         </div>
     </div>
 </div>

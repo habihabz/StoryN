@@ -62,15 +62,18 @@
             <!-- Collapsible Menu -->
             <div class="collapse navbar-collapse" [class.show]="menuVisible">
                 <ul class="navbar-nav ms-auto">
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" routerLink="/" (click)="closeMenu()">Home</a>
                     </li>
                     <li class="nav-item">
-                       <a class="nav-link" [routerLink]="['/room-details', '']" >Room</a>
+                        <a class="nav-link" [routerLink]="['/room-details', '']">Room</a>
                     </li>
                     <ng-container *ngIf="isLoggedIn; else guestLinks">
                         <li class="nav-item">
-                            <a class="nav-link" href="#" (click)="closeMenu()">Welcome, {{ currentUser.u_name }}</a>
+                            <a class="nav-link" href="#" (click)="closeMenu()">Hi, {{ currentUser.u_name }}</a>
+                        </li>
+                        <li class="nav-item" *ngIf="currentUser.u_is_admin == 'Y'">
+                            <a class="nav-link" href="#/dashboard" >Console</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" (click)="logout()">Logout</a>

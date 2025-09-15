@@ -13,7 +13,7 @@ export class SnackBarService {
       duration: duration,
       verticalPosition: 'top',
       horizontalPosition: 'center',
-       panelClass: [...panelClass, 'center-snackbar']
+       panelClass: [...panelClass, 'bottom-snackbar']
     });
   }
 

@@ -65,5 +65,12 @@ namespace Erp.Server.Repository
             var stories = db.Set<Story>().FromSqlRaw("EXEC dbo.getStoriesByRoom @rs_room;", _rs_room).ToList();
             return stories;
         }
+
+        public List<Story> getStoriesByRoomCode(RequestParams requestParams)
+        {
+            var code = new SqlParameter("code", requestParams.code + "");
+            var stories = db.Set<Story>().FromSqlRaw("EXEC dbo.getStoriesByRoomCode @code;", code).ToList();
+            return stories;
+        }
     }
 }

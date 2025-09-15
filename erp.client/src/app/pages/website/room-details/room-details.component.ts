@@ -11,6 +11,8 @@ import { User } from '../../../models/user.model';
 import { Subscription } from 'rxjs';
 import { RoomStory } from '../../../models/room.story.model';
 import { environment } from '../../../../environments/environment';
+import { RequestParms } from '../../../models/requestParms';
+declare var $: any;
 
 @Component({
   selector: 'app-room-details',
@@ -26,6 +28,7 @@ export class RoomDetailsComponent {
   roomStory: RoomStory = new RoomStory();
   roomStories: RoomStory[] = [];
   roomCode: string = '';
+  requestParm:RequestParms =new RequestParms();
 
   constructor(
     private iuserService: IuserService,
@@ -45,19 +48,20 @@ export class RoomDetailsComponent {
       if (code) {
         this.roomCode = code;
         // Assuming rs_room is a number derived from roomCode
-        const rs_room = parseInt(this.roomCode, 10);
-        this.getStoriesByRoom(rs_room);
+        this.getStoriesByRoomCode();
       } else {
         // Handle missing roomcode, e.g., redirect or show error
-        console.error('Room code not provided in URL');
+        $("#roomCodeModal").modal("show");
       }
     });
   }
 
-  getStoriesByRoom(rs_room: number) {
-    this.istoryService.getStoriesByRoom(rs_room).subscribe(
+  getStoriesByRoomCode() {
+    this.requestParm.code=this.roomCode;
+    this.istoryService.getStoriesByRoomCode(this.requestParm).subscribe(
       (data: Story[]) => {
         this.stories = data;
+         $("#roomCodeModal").modal("hide");
       },
       (error: any) => {
         console.error('Failed to fetch stories by room:', error);
@@ -66,6 +70,14 @@ export class RoomDetailsComponent {
   }
 
   playGame(st_id: number) {
-    // Implement play game logic
+    this.router.navigate(['/story', st_id]);
+  }
+  getRoomCode() {
+    if (this.roomCode != '') {
+      this.getStoriesByRoomCode();
+    }
+  }
+  openRoomCodeModal(){
+      $("#roomCodeModal").modal("show");
   }
 }
