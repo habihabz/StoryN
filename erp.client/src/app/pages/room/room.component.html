@@ -114,3 +114,68 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="membersModal" role="dialog" aria-labelledby="roomFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Room Members</h5>
+            </div>
+            <div class="modal-body">
+                <form #userForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="rmb_user">User</label>
+                                <select appSelect2 id="rmb_user" class="form-control" name="rmb_user" required
+                                    (selectionChanged)="onUserChange($event);">
+                                    <option [value]="0">Please User</option>
+                                    <option *ngFor="let u of users" [value]="u.u_id">{{  u.u_username+' - '+u.u_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Is Moderator</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="moderatorYes" class="form-check-input"
+                                        [(ngModel)]="roomMember.rmb_is_moderator" name="rmb_is_moderator" value="Y" checked
+                                        required>
+                                    <label for="moderatorYes" class="form-check-label">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="moderatorNo" class="form-check-input"
+                                        [(ngModel)]="roomMember.rmb_is_moderator" name="rmb_is_moderator" value="N">
+                                    <label for="moderatorNo" class="form-check-label">No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn mt-4"
+                                [ngClass]="roomMember.rmb_id !== 0 ? 'btn-primary' : 'btn-success'"
+                                (click)="CreateOrUpdateRoomStory()">
+                                {{ roomMember.rmb_id !== 0 ? 'Update' : 'Add' }}
+                            </button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ag-grid-angular #roomMembersGrid class="ag-theme-quartz ag-theme-acmecorp"
+                                style="height: 100%; width: 100%;" [rowData]="roomMembers" [columnDefs]="rmbDefs"
+                                [pagination]="pagination" [defaultColDef]="defaultColDef"
+                                [enableCellTextSelection]="true" [components]="frameworkComponents"
+                                [paginationPageSize]="paginationPageSize10" [domLayout]="domLayout"
+                                [paginationPageSizeSelector]="paginationPageSizeSelector10"
+                                (gridReady)="onGridReady($event)">
+                            </ag-grid-angular>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

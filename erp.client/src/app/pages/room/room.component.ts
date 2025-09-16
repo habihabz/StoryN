@@ -32,6 +32,9 @@ import { RoomStory } from '../../models/room.story.model';
 import { Story } from '../../models/story.model';
 import { IStoryService } from '../../services/istory.service';
 import { IRoomStoryService } from '../../services/iroom.story.service';
+import { IRoomMemberService } from '../../services/iroom.member.service';
+import { RoomMember } from '../../models/room.member.model';
+import { IErrorLogService } from '../../services/ierror.log.service';
 declare var $: any;
 
 @Component({
@@ -40,6 +43,7 @@ declare var $: any;
   styleUrl: './room.component.css'
 })
 export class RoomComponent implements OnInit {
+  pageLink: string = 'rooms';
   pagination = true;
   paginationPageSize5 = 5;
   paginationPageSizeSelector5 = [5, 10, 20, 50, 100];
@@ -50,9 +54,12 @@ export class RoomComponent implements OnInit {
   subscription: Subscription = new Subscription();
   rooms: Room[] = [];
   room: Room = new Room();
+  users: User[] = [];
   stories: Story[] = [];
   roomStory: RoomStory = new RoomStory();
   roomStories: RoomStory[] = [];
+  roomMember: RoomMember = new RoomMember();
+  roomMembers: RoomMember[] = [];
   clients: Client[] = [];
   dbResult: DbResult = new DbResult();
   requestParms: RequestParms = new RequestParms();
@@ -70,8 +77,10 @@ export class RoomComponent implements OnInit {
     private igridService: GridService,
     private iroomService: IroomService,
     private iroomStoryService: IRoomStoryService,
+    private iroomMemberService: IRoomMemberService,
     private istoryService: IStoryService,
     private iclientService: IclientService,
+    private ierrorLog: IErrorLogService,
     private imasterDataService: IMasterDataService,
   ) {
     this.currentUser = iuserService.getCurrentUser();
@@ -98,6 +107,12 @@ export class RoomComponent implements OnInit {
       field: "rm_cre_date",
       valueFormatter: (params) => {
         return format(new Date(params.value), 'yyyy-MM-dd hh:mm:ss a');
+      },
+    },
+    {
+      headerName: 'Members', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Members', action: 'onMembers', cssClass: 'btn btn-default', icon: 'fa fa-users', onMembers: (data: any) => this.onAction('members', data)
       },
     },
     {
@@ -153,7 +168,32 @@ export class RoomComponent implements OnInit {
     },
   ];
 
-
+  rmbDefs: ColDef[] = [
+    { headerName: "Id", field: "rmb_id" },
+    { headerName: "User", field: "rmb_user_name" },
+    { headerName: "Is Moderator??", field: "rmb_is_moderator" },
+    {
+      headerName: 'Edit', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Edit', action: 'onEditRoomStory', cssClass: 'btn btn-info', icon: 'fa fa-edit',
+        onEditRoomStory: (data: any) => this.onAction('editRoomStory', data)
+      },
+    },
+    {
+      headerName: 'Delete', cellRenderer: 'actionRenderer', cellRendererParams:
+      {
+        name: 'Delete', action: 'onDeleteRoomStory', cssClass: 'btn btn-danger', icon: 'fa fa-trash', onDeleteRoomStory: (data: any) => this.onAction('deleteRoomStory', data)
+      },
+    },
+    { headerName: "Created By", field: "rmb_cre_by_name" },
+    {
+      headerName: "Created On",
+      field: "rmb_cre_date",
+      valueFormatter: (params) => {
+        return format(new Date(params.value), 'yyyy-MM-dd hh:mm:ss a');
+      },
+    },
+  ];
 
   frameworkComponents = {
     actionRenderer: ActionRendererComponent
@@ -170,6 +210,7 @@ export class RoomComponent implements OnInit {
     this.getClients();
     this.getStories();
     this.getRooms();
+    this.getUsers();
     this.subscription.add(
       this.iroomService.refreshRooms$.subscribe(() => {
         this.getRooms();
@@ -206,6 +247,9 @@ export class RoomComponent implements OnInit {
         break;
       case 'stories':
         this.onStories(data);
+        break;
+      case 'members':
+        this.onMembers(data);
         break;
       case 'editRoomStory':
         this.onEditRoomStory(data);
@@ -247,11 +291,17 @@ export class RoomComponent implements OnInit {
     this.getRoomStoriesByRoom(this.room.rm_id);
     $('#storiesModal').modal('show');
   }
+  onMembers(data: any) {
+    this.room = { ...data };
+    this.setSelect2Values();
+    this.getRoomMembersByRoom(this.room.rm_id);
+    $('#membersModal').modal('show');
+  }
 
   onEditRoomStory(data: any) {
     this.roomStory = { ...data };
-    this.roomStory.rs_expire_date =this.formatDate(data.rs_expire_date);
-      this.setSelect2Values();
+    this.roomStory.rs_expire_date = this.formatDate(data.rs_expire_date);
+    this.setSelect2Values();
   }
 
   private formatDate(date: any): string {
@@ -284,6 +334,16 @@ export class RoomComponent implements OnInit {
     );
   }
 
+  getUsers() {
+    this.iuserService.getUsers().subscribe(
+      (data: User[]) => {
+        this.users = data;
+      },
+      (error: any) => {
+        this.ierrorLog.createLog(this.pageLink, 'getUsers', error.message, this.currentUser.u_id);
+      }
+    );
+  }
   getClients() {
     this.iclientService.getClients().subscribe(
       (data: Client[]) => {
@@ -344,6 +404,7 @@ export class RoomComponent implements OnInit {
 
   onClientChange(c_id: number) { this.room.rm_client = c_id; }
   onRoomStoryChange(rs_story: number) { this.roomStory.rs_story = rs_story; }
+  onUserChange(u_id: number) { this.roomMember.rmb_user = u_id; }
 
 
   CreateOrUpdateRoomStory() {
@@ -357,8 +418,8 @@ export class RoomComponent implements OnInit {
           this.dbResult = data;
           if (data.message === "Success") {
             this.getRoomStoriesByRoom(this.room.rm_id);
-            this.roomStory=new RoomStory();
-             this.setSelect2Values();
+            this.roomStory = new RoomStory();
+            this.setSelect2Values();
             this.snackBarService.showSuccess("Successfully Saved");
           } else {
             this.snackBarService.showError(data.message);
@@ -377,6 +438,16 @@ export class RoomComponent implements OnInit {
     this.iroomStoryService.getRoomStoriesByRoom(rs_room).subscribe(
       (data: RoomStory[]) => {
         this.roomStories = data;
+      },
+      (error: any) => {
+      }
+    );
+  }
+
+  getRoomMembersByRoom(rs_room: number) {
+    this.iroomMemberService.getRoomMembersByRoom(rs_room).subscribe(
+      (data: RoomMember[]) => {
+        this.roomMembers = data;
       },
       (error: any) => {
       }

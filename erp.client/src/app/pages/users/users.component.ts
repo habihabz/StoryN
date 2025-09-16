@@ -58,10 +58,10 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.getUsers();
     this.subscription.add(
       this.iuserService.refreshUsers$.subscribe(() => {
-        this.loadUsers();
+        this.getUsers();
       })
     );
     this.loadRoles();
@@ -176,7 +176,7 @@ export class UsersComponent implements OnInit {
 
 
   }
-  loadUsers() {
+  getUsers() {
     this.iuserService.getUsers().subscribe(
       (data: User[]) => {
         this.users = data;
