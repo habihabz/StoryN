@@ -175,14 +175,14 @@ export class RoomComponent implements OnInit {
     {
       headerName: 'Edit', cellRenderer: 'actionRenderer', cellRendererParams:
       {
-        name: 'Edit', action: 'onEditRoomStory', cssClass: 'btn btn-info', icon: 'fa fa-edit',
-        onEditRoomStory: (data: any) => this.onAction('editRoomStory', data)
+        name: 'Edit', action: 'onEditRoomMember', cssClass: 'btn btn-info', icon: 'fa fa-edit',
+        onEditRoomMember: (data: any) => this.onAction('editRoomMember', data)
       },
     },
     {
       headerName: 'Delete', cellRenderer: 'actionRenderer', cellRendererParams:
       {
-        name: 'Delete', action: 'onDeleteRoomStory', cssClass: 'btn btn-danger', icon: 'fa fa-trash', onDeleteRoomStory: (data: any) => this.onAction('deleteRoomStory', data)
+        name: 'Delete', action: 'onDeleteRoomMember', cssClass: 'btn btn-danger', icon: 'fa fa-trash', onDeleteRoomMember: (data: any) => this.onAction('deleteRoomMember', data)
       },
     },
     { headerName: "Created By", field: "rmb_cre_by_name" },
@@ -257,6 +257,12 @@ export class RoomComponent implements OnInit {
       case 'deleteRoomStory':
         this.onDeleteRoomStory(data);
         break;
+      case 'editRoomMember':
+        this.onEditRoomMember(data);
+        break;
+      case 'deleteRoomMember':
+        this.onDeleteRoomMember(data);
+        break;
       default:
         this.snackBarService.showError("Unknown Action " + action);;
     }
@@ -277,7 +283,7 @@ export class RoomComponent implements OnInit {
           this.rooms = this.rooms.filter(rm => rm.rm_id !== data.rm_id);
           this.snackBarService.showSuccess("Successfully Removed");
         } else {
-          alert(result.message);
+          this.snackBarService.showError(result.message);
         }
       },
       (error: any) => {
@@ -315,7 +321,28 @@ export class RoomComponent implements OnInit {
           this.roomStories = this.roomStories.filter(rs => rs.rs_id !== data.rs_id);
           this.snackBarService.showSuccess("Successfully Removed");
         } else {
-          alert(result.message);
+          this.snackBarService.showError(result.message);
+        }
+      },
+      (error: any) => {
+        console.error('Error deleting income', error);
+      }
+    );
+  }
+
+  onEditRoomMember(data: any) {
+    this.roomMember = { ...data };
+    this.setSelect2Values();
+  }
+
+  onDeleteRoomMember(data: any) {
+    this.iroomMemberService.deleteRoomMember(data.rmb_id).subscribe(
+      (result: DbResult) => {
+        if (result.message === "Success") {
+          this.roomMembers = this.roomMembers.filter(rmb => rmb.rmb_id !== data.rmb_id);
+          this.snackBarService.showSuccess("Successfully Removed");
+        } else {
+          this.snackBarService.showError(result.message);
         }
       },
       (error: any) => {
@@ -400,6 +427,7 @@ export class RoomComponent implements OnInit {
   setSelect2Values() {
     $("#rm_client").val(this.room.rm_client).trigger('change');
     $("#rs_story").val(this.roomStory.rs_story).trigger('change');
+    $("#rmb_user").val(this.roomMember.rmb_user).trigger('change');
   }
 
   onClientChange(c_id: number) { this.room.rm_client = c_id; }
@@ -444,6 +472,29 @@ export class RoomComponent implements OnInit {
     );
   }
 
+  CreateOrUpdateRoomMember() {
+    this.roomMember.rmb_room = this.room.rm_id;
+    if (this.roomMember.rmb_room != 0 && this.room.rm_id != 0) {
+      this.roomMember.rmb_cre_by = this.currentUser.u_id;
+      this.iroomMemberService.createOrUpdateRoomMember(this.roomMember).subscribe(
+        (data: DbResult) => {
+          this.dbResult = data;
+          if (data.message === "Success") {
+            this.getRoomMembersByRoom(this.room.rm_id);
+            this.roomMember = new RoomMember();
+            this.snackBarService.showSuccess("Successfully Saved");
+          } else {
+            this.snackBarService.showError(data.message);
+          }
+        },
+        (error: any) => {
+          this.snackBarService.showError("Error occurred while saving the Room Member.");
+        }
+      );
+    } else {
+      this.snackBarService.showError("Please Enter All Data!!");
+    }
+  }
   getRoomMembersByRoom(rs_room: number) {
     this.iroomMemberService.getRoomMembersByRoom(rs_room).subscribe(
       (data: RoomMember[]) => {

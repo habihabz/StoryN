@@ -58,10 +58,10 @@ namespace Erp.Server.Controllers
 
         [HttpPost("getRoomStoriesByRoom")]
         [Authorize]
-        public List<RoomStory> getRoomStoriesByRoom([FromBody]  int rs_room)
+        public List<RoomStory> getRoomStoriesByRoom([FromBody]  int room)
         {
             List<RoomStory> roomStories = new List<RoomStory>();
-            roomStories = iroomStory.getRoomStoriesByRoom(rs_room);
+            roomStories = iroomStory.getRoomStoriesByRoom(room);
             return roomStories;
         }
 

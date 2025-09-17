@@ -25,6 +25,7 @@ import { IStepService } from '../../services/istep.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { IAnswerService } from '../../services/ianswer.service';
 import { DataTableStructure } from '../../methods/datatable.structure';
+import { format } from 'date-fns';
 declare var $: any;
 
 @Component({
@@ -35,6 +36,7 @@ declare var $: any;
 export class StoriesComponent {
   apiUrl = `${environment.serverHostAddress}/api/`;
   attachmentUrl = `${environment.attachmentAddress}`;
+  attachmentFullPath: string = '';
   imageUrl: string = '';
   pagination = true;
   paginationPageSize5 = 5;
@@ -56,8 +58,10 @@ export class StoriesComponent {
   selectedStartFile: File | null = null;
   selectedEndFile: File | null = null;
   selectedStepFile: File | null = null;
+  selectedTrailerFile: File | null = null;
   steps: Step[] = [];
   step: Step = new Step();
+  storyTypes: MasterData[] = [];
   reportData: any[] = [];
 
   @ViewChild('storiesGrid') storysGrid!: AgGridAngular;
@@ -87,24 +91,12 @@ export class StoriesComponent {
   colDefs: ColDef[] = [
     { headerName: "Id", field: "st_id" },
     { headerName: "Name", field: "st_name" },
-    
+    { headerName: "Type", field: "st_type_name" },
     { headerName: "Category", field: "st_category_name" },
     {
-      headerName: 'Poster', cellRenderer: 'actionRenderer', cellRendererParams:
+      headerName: 'Attachments', cellRenderer: 'actionRenderer', cellRendererParams:
       {
-        name: '', action: 'onViewImage', cssClass: 'btn btn-default', icon: 'fa fa-eye', onViewImage: (data: any) => this.onAction('viewImage', data)
-      },
-    },
-    {
-      headerName: 'Starting Image', cellRenderer: 'actionRenderer', cellRendererParams:
-      {
-        name: '', action: 'onViewStartImage', cssClass: 'btn btn-default', icon: 'fa fa-eye', onViewStartImage: (data: any) => this.onAction('viewStartImage', data)
-      },
-    },
-    {
-      headerName: 'Ending Image', cellRenderer: 'actionRenderer', cellRendererParams:
-      {
-        name: '', action: 'onViewEndImage', cssClass: 'btn btn-default', icon: 'fa fa-eye', onViewEndImage: (data: any) => this.onAction('viewEndImage', data)
+        name: '', action: 'onViewAttachments', cssClass: 'btn btn-default', icon: 'fa fa-paperclip', onViewAttachments: (data: any) => this.onAction('viewAttachments', data)
       },
     },
     {
@@ -137,7 +129,14 @@ export class StoriesComponent {
       valueFormatter: (params) => params.value ? params.value.substring(0, 100) : ''
     },
     { headerName: "Created By", field: "st_cre_by_name" },
-    { headerName: "Created Date", field: "st_cre_date" },
+    {
+      headerName: "Created On",
+      field: "st_cre_date",
+      valueFormatter: (params) => {
+        return format(new Date(params.value), 'yyyy-MM-dd hh:mm:ss a');
+      },
+    }
+
   ];
   reportDefs: ColDef[] = [];
   frameworkComponents = {
@@ -158,6 +157,7 @@ export class StoriesComponent {
       })
 
     );
+    this.getMasterDatasByType("StoryType", (data) => { this.storyTypes = data; });
   }
 
 
@@ -183,20 +183,14 @@ export class StoriesComponent {
       case 'delete':
         this.onDelete(data);
         break;
-      case 'viewImage':
-        this.onViewImage(data);
+      case 'viewAttachments':
+        this.onViewAttachments(data);
         break;
       case 'steps':
         this.onSteps(data);
         break;
       case 'analytics':
         this.onAnalytics(data);
-        break;
-      case 'viewStartImage':
-        this.onViewStartImage(data);
-        break;
-      case 'viewEndImage':
-        this.onViewEndImage(data);
         break;
       default:
         this.snackBarService.showError("Unknown Action " + action);;
@@ -209,13 +203,12 @@ export class StoriesComponent {
     this.istoryService.getStory(data.st_id).subscribe(
       (data: Story) => {
         this.story = data;
+        this.setSelect2Values();
         this.imagePreviews = this.prodAttachements.map(
           (x) => `${environment.serverHostAddress}/${x.pa_image_path}`
         );
 
         $('#storyFormModal').modal('show');
-
-
       },
       (error: any) => {
         console.error('Error fetching story', error);
@@ -223,26 +216,44 @@ export class StoriesComponent {
     );
   }
 
-  onViewImage(data: any) {
-    if (data.st_image) {
-      this.imageUrl = `${this.apiUrl}/${data.st_image}`;
-      $('#storyImageModal').modal('show');
+
+  onViewAttachments(data: any) {
+    this.getAttachmentByType(data, "trailer");
+    this.story = data;
+    $('#attachmentModal').modal('show');
+
+  }
+
+  getAttachmentByType(data: any, type: string) {
+    switch (type) {
+      case 'trailer':
+        this.attachmentFullPath = `${data.st_trailer}`;
+        break;
+      case 'poster':
+        this.attachmentFullPath = `${data.st_image}`;
+        break;
+      case 'starting':
+        this.attachmentFullPath = `${data.st_start_image}`;
+        break;
+      case 'ending':
+        this.attachmentFullPath = `${data.st_end_image}`;
+        break;
+      default: break;
     }
   }
 
-  onViewStartImage(data: any) {
-    if (data.st_start_image) {
-      this.imageUrl = `${this.apiUrl}/${data.st_start_image}`;
-      $('#storyImageModal').modal('show');
-    }
+  onAttachmentTabChange(event: any) {
+    const tabLabel = event.tab.textLabel.toLowerCase(); // convert to lowercase to match your keys
+    this.getAttachmentByType(this.story, tabLabel);
+  }
+  
+  deleteAttachment(){
+
+  }
+  replaceAttachment(){
+
   }
 
-  onViewEndImage(data: any) {
-    if (data.st_end_image) {
-      this.imageUrl = `${this.apiUrl}/${data.st_end_image}`;
-      $('#storyImageModal').modal('show');
-    }
-  }
 
   onSteps(data: any) {
     this.story = data;
@@ -275,6 +286,9 @@ export class StoriesComponent {
 
   OnCategoryChange(c_id: number) {
     this.story.st_category = c_id;
+  }
+  OnTypeChange(st_type: number) {
+    this.story.st_type = st_type;
   }
 
   onDelete(data: any) {
@@ -333,8 +347,12 @@ export class StoriesComponent {
     formData.append("st_name", this.story.st_name || "");
     formData.append("st_description", this.story.st_description || "");
     formData.append("st_category", this.story.st_category?.toString() || "0");
+    formData.append("st_type", this.story.st_type?.toString() || "0");
     formData.append("st_active_yn", this.story.st_active_yn || "Y");
     formData.append("st_cre_by", this.currentUser.u_id.toString());
+    if (this.selectedTrailerFile) {
+      formData.append("trailer", this.selectedTrailerFile);
+    }
     if (this.selectedFile) {
       formData.append("file", this.selectedFile);
     }
@@ -499,5 +517,15 @@ export class StoriesComponent {
   onEndingImageSelected(event: any): void {
     const file = event.target.files[0];
     this.selectedEndFile = file ? file : null;
+  }
+
+  onTrailerFileSelected(event: any): void {
+    const file = event.target.files[0];
+    this.selectedTrailerFile = file ? file : null;
+  }
+
+  setSelect2Values() {
+    $("#st_category").val(this.story.st_category).trigger('change');
+    $("#st_type").val(this.story.st_type).trigger('change');
   }
 }

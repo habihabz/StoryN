@@ -38,6 +38,7 @@ export class StoryStartComponent {
   }
 
   goToPlaygound() {
+    alert();
     this.requestParms.story = this.storyId;
     this.requestParms.user = this.currentUser.u_id;
     this.istoryService.startGame(this.requestParms).subscribe(

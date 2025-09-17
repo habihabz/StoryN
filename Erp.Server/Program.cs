@@ -124,6 +124,7 @@ builder.Services.AddTransient<IFileUpload, FileUploadService>();
 builder.Services.AddTransient<IRoom, RoomRepository>();
 builder.Services.AddTransient<IClient, ClientRepository>();
 builder.Services.AddTransient<IRoomStory, RoomStoryRepository>();
+builder.Services.AddTransient<IRoomMember, RoomMemberRepository>();
 
 // ---------------- App Pipeline ----------------
 var app = builder.Build();

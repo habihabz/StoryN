@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
+declare var $: any;
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -23,6 +24,8 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         // Check if the error status is 401 (Unauthorized)
         if (error.status === 401) {
+
+           $('.modal').modal('hide');
           // Clear the token and redirect to login
           localStorage.removeItem('token');
           this.router.navigate(['login']);

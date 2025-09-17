@@ -8,6 +8,8 @@ namespace Erp.Server.Models
         public string? StoryImagePath { get; set; }
 
         public string? StepAttachmentPath { get; set; }
+
+        public string? TrailerPath { get; set; }
     }
 
 }

@@ -19,6 +19,8 @@ namespace Erp.Server.Repository
             var st_name = new SqlParameter("st_name", story.st_name + "");
             var st_description = new SqlParameter("st_description", story.st_description + "");
             var st_category = new SqlParameter("st_category", story.st_category + "");
+            var st_type = new SqlParameter("st_type", story.st_type + "");
+            var st_trailer = new SqlParameter("st_trailer", story.st_trailer + "");
             var st_image = new SqlParameter("st_image", story.st_image + "");
             var st_start_image = new SqlParameter("st_start_image", story.st_start_image + "");
             var st_end_image = new SqlParameter("st_end_image", story.st_end_image + "");
@@ -26,8 +28,8 @@ namespace Erp.Server.Repository
             var st_cre_by = new SqlParameter("st_cre_by", story.st_cre_by + "");
 
             var dbresult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.createOrUpdateStory " +
-                "@st_id,@st_name,@st_description,@st_category,@st_image,@st_start_image,@st_end_image, @st_active_yn,@st_cre_by;",
-                st_id, st_name, st_description, st_category, st_image, st_start_image, st_end_image, st_active_yn, st_cre_by).ToList().FirstOrDefault() ?? new DbResult();
+                "@st_id,@st_name,@st_description,@st_category,@st_type,@st_trailer,@st_image,@st_start_image,@st_end_image, @st_active_yn,@st_cre_by;",
+                st_id, st_name, st_description, st_category, st_type, st_trailer, st_image, st_start_image, st_end_image, st_active_yn, st_cre_by).ToList().FirstOrDefault() ?? new DbResult();
             return dbresult;
         }
 

@@ -15,11 +15,20 @@ namespace Erp.Server.Models
         [Display(Name = "Description")]
         public string? st_description { get; set; } = string.Empty;
 
+        [Display(Name = "Type")]
+        public int? st_type { get; set; }
+
+        [Display(Name = "Type")]
+        public string? st_type_name { get; set; } = string.Empty;
+
         [Display(Name = "Category")]
         public int? st_category { get; set; }
 
         [Display(Name = "Category")]
         public string? st_category_name { get; set; } = string.Empty;
+
+        [Display(Name = "Trailer")]
+        public string? st_trailer { get; set; } = string.Empty;
 
         [Display(Name = "Image Path")]
         public string? st_image { get; set; } = string.Empty;
@@ -45,6 +54,9 @@ namespace Erp.Server.Models
         [Display(Name = "Created On")]
         [DataType(DataType.Date)]
         public DateTime  st_cre_date { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        public IFormFile? trailer { get; set; }
 
         [NotMapped]
         public IFormFile? file { get; set; }

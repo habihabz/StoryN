@@ -65,6 +65,15 @@ namespace Erp.Server.Controllers
             var uploads = Path.Combine(env.WebRootPath, publicVariables.StoryImagePath);
             Directory.CreateDirectory(uploads);
 
+            if (story.trailer != null && story.trailer.Length > 0)
+            {
+                var st_trailer = await iFileUpload.UploadFileAsync(story.trailer, publicVariables.TrailerPath);
+                if (!string.IsNullOrWhiteSpace(st_trailer))
+                {
+                    story.st_trailer = st_trailer;
+                }
+            }
+
             if (story.file != null && story.file.Length > 0)
             {
                 var st_image = await iFileUpload.UploadFileAsync(story.file, publicVariables.StoryImagePath);
