@@ -1,0 +1,48 @@
+ body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 2rem 0 1rem;
+      color: #222;
+    }
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .icon-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero {
+      background: linear-gradient(135deg, #000, #fff);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .contact-section {
+      background: #000;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .contact-section a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }

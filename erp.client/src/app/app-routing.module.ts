@@ -40,13 +40,16 @@ import { StoryStartComponent } from './pages/website/story.start/story.start.com
 import { RoomComponent } from './pages/room/room.component';
 import { ClientComponent } from './pages/client/client.component';
 import { RoomDetailsComponent } from './pages/website/room-details/room-details.component';
+import { AboutUsComponent } from './pages/website/about.us/about.us.component';
 
 
 
 
 const routes: Routes = [
   // Redirect empty path to login
-  { path: '', redirectTo: 'web-home', pathMatch: 'full' },
+  { path: '',
+    redirectTo: 'about-us', 
+    pathMatch: 'full' },
   {
     path: '',
     component: SitelayoutComponent,
@@ -80,6 +83,8 @@ const routes: Routes = [
         component: WebHomeComponent
       },
       { path: 'room-details/:roomcode', component: RoomDetailsComponent }
+      ,
+      { path: 'about-us', component: AboutUsComponent }
     ]
   }
   ,

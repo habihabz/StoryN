@@ -63,7 +63,10 @@
             <div class="collapse navbar-collapse" [class.show]="menuVisible">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/" (click)="closeMenu()">Home</a>
+                        <a class="nav-link" routerLink="/about-us" (click)="closeMenu()">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/web-home" (click)="closeMenu()">Games</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" [routerLink]="['/room-details', '']">Room</a>
@@ -73,7 +76,7 @@
                             <a class="nav-link" href="#" (click)="closeMenu()">Hi, {{ currentUser.u_name }}</a>
                         </li>
                         <li class="nav-item" *ngIf="currentUser.u_is_admin == 'Y'">
-                            <a class="nav-link" href="#/dashboard" >Console</a>
+                            <a class="nav-link" href="#/dashboard">Console</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" (click)="logout()">Logout</a>

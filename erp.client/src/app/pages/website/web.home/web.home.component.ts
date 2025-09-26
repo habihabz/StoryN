@@ -45,18 +45,18 @@ export class WebHomeComponent implements OnInit {
   ) {
     //this.country = this.geolocationService.getCurrentCountry();
   }
-
-
   ngOnInit(): void {
     this.getStories();
     this.getMasterDatasByType("SubCategory", (data) => { this.subcategories = data; });
 
   }
   ngAfterViewInit() {
+  setTimeout(() => {
     const video = this.myVideo.nativeElement;
     video.muted = true;  // start muted so autoplay works
     video.play().catch(err => console.log('Autoplay blocked:', err));
-  }
+  }, 200); // delay in ms
+}
 
   toggleSound() {
     const video = this.myVideo.nativeElement;

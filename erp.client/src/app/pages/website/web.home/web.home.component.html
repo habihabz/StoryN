@@ -1,14 +1,21 @@
 <div class="container-fluid blackBG">
     <div class="row">
-        <div class="col-12 m-0 p-0">
-            <div class="ratio ratio-16x9 position-relative">
-                <video #myVideo src="./assets/video/video.mp4" class="w-100 h-100 mt-0 mt-md-0" muted autoplay loop
-                    playsinline style="object-fit: cover;">
+        <div class="col-12 m-0 p-0" *ngIf=" this.latest.st_trailer">
+            <div class="ratio ratio-16x9 position-relative"  (click)="playGame(this.latest.st_id)">
+                <video #myVideo [src]="attachmentUrl + '/' + this.latest.st_trailer" class="w-100 h-100 mt-0 mt-md-0"
+                    muted autoplay loop playsinline style="object-fit: cover;">
                 </video>
             </div>
             <button class="btn btn-sm position-absolute top-0 end-0 m-3" (click)="toggleSound()">
                 {{ isMuted ? '🔇' : '🔊' }}
             </button>
+          
+        </div>
+        <div class="col-12 m-0 p-0" *ngIf=" !this.latest.st_trailer">
+            <div class="position-relative text-center" (click)="playGame(this.latest.st_id)">
+                <img [src]="attachmentUrl + '/' + this.latest.st_image" class="card-img-top"
+                    style="object-fit: fit; height: 200%" />
+            </div>
         </div>
     </div>
     <br />
@@ -16,7 +23,7 @@
         <div *ngFor="let story of next2" class="col-6 col-md-6 col-lg-6">
             <div class="card blackBG h-100" (click)="playGame(story.st_id)">
                 <img src="./assets/img/logo/crown-logo.png" class="position-absolute"
-                    style="top: 8px; right: 8px; width: 30px; height: 30px;"  *ngIf="story.st_type_name=='Private'"/>
+                    style="top: 8px; right: 8px; width: 30px; height: 30px;" *ngIf="story.st_type_name=='Private'" />
 
                 <img [src]="attachmentUrl + '/' + story.st_image" class="card-img-top"
                     style="object-fit: fit; height: 200%" />

@@ -16,7 +16,7 @@ import { IuserService } from '../../../../services/iuser.service';
   styleUrl: './website-top.component.css'
 })
 export class WebsiteTopComponent {
-  country: MasterData = new MasterData();
+  //country: MasterData = new MasterData();
   requestParms: RequestParms = new RequestParms();
   currentUser: User = new User();
   currentCountry: string = '';
@@ -27,12 +27,12 @@ export class WebsiteTopComponent {
     private geolocationService: GeolocationService,
     private iuser: IuserService
   ) {
-    this.country = this.geolocationService.getCurrentCountry();
+   // this.country = this.geolocationService.getCurrentCountry();
     this.currentUser = iuser.getCurrentUser();
   }
 
   ngOnInit(): void {
-    this.fetchCurrentCountry();
+    //this.fetchCurrentCountry();
 
   }
 
@@ -40,13 +40,13 @@ export class WebsiteTopComponent {
     this.router.navigate(['/' + moveto]);
   }
 
-  async fetchCurrentCountry() {
+  /*async fetchCurrentCountry() {
     try {
       this.currentCountry = await this.geolocationService.getUserCountry();
       this.requestParms.name = this.currentCountry;
       this.geolocationService.getCountry(this.requestParms).subscribe(
         (data: MasterData) => {
-          this.country = data;
+        //  this.country = data;
 
           sessionStorage.setItem('country', JSON.stringify(data))
         },
@@ -57,7 +57,7 @@ export class WebsiteTopComponent {
     } catch (error) {
       console.error('Error fetching country:', error);
     }
-  }
+  }*/
 
   toggleMenu() {
     this.menuVisible = !this.menuVisible;

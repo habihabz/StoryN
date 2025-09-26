@@ -2,6 +2,7 @@
 using Erp.Server.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Erp.Server.Repository
 {
@@ -12,6 +13,24 @@ namespace Erp.Server.Repository
         public FileUploadService(IWebHostEnvironment env)
         {
             _env = env;
+        }
+
+        public async Task<string> DeleteFileAsync( string fileName)
+        {
+           
+            if ( string.IsNullOrEmpty(fileName))
+                return "Invalid path or file name";
+
+            var fullPath = Path.Combine(_env.WebRootPath, fileName);
+
+
+            if (File.Exists(fullPath))
+            {
+                await Task.Run(() => File.Delete(fullPath));
+                return "Success";
+            }
+
+            return "File not found";
         }
 
         public async Task<string> UploadFileAsync(IFormFile file, string uploadPath)

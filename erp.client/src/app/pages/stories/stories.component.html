@@ -77,7 +77,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="attachmentModal" tabindex="-1" role="dialog" aria-labelledby="storyFormModalLabel"
+<div class="modal fade" id="attachmentModal"  role="dialog" aria-labelledby="storyFormModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -91,25 +91,27 @@
             <div class="modal-body">
                 <mat-tab-group (selectedTabChange)="onAttachmentTabChange($event)">
                     <mat-tab label="Trailer">
-                        <app-attachment-viewer [file]="attachmentFullPath"></app-attachment-viewer>
+                        <app-attachment-viewer *ngIf="this.story.st_trailer" [file]="attachmentFullPath"></app-attachment-viewer>
                     </mat-tab>
                     <mat-tab label="Poster">
-                        <app-attachment-viewer [file]="attachmentFullPath"></app-attachment-viewer>
+                        <app-attachment-viewer *ngIf="this.story.st_image" [file]="attachmentFullPath"></app-attachment-viewer>
                     </mat-tab>
                     <mat-tab label="Starting">
-                        <app-attachment-viewer [file]="attachmentFullPath"></app-attachment-viewer>
+                        <app-attachment-viewer *ngIf="this.story.st_start_image" [file]="attachmentFullPath"></app-attachment-viewer>
                     </mat-tab>
                     <mat-tab label="Ending">
-                        <app-attachment-viewer [file]="attachmentFullPath"></app-attachment-viewer>
+                        <app-attachment-viewer *ngIf="this.story.st_end_image"  [file]="attachmentFullPath"></app-attachment-viewer>
                     </mat-tab>
                 </mat-tab-group>
+                <hr/>
                 <div class="mt-3 text-center">
-                    <button type="button" class="btn btn-danger mr-2" (click)="deleteAttachment()">
+                    <button type="button" class="btn btn-danger mr-2" (click)="deleteAttachment()" *ngIf="attachmentColumn">
                         <i class="fa fa-trash"></i> Delete
                     </button>
-                    <button type="button" class="btn btn-primary" (click)="replaceAttachment()">
-                        <i class="fa fa-upload"></i> Replace
-                    </button>
+                    <label class="btn btn-primary" *ngIf="!attachmentColumn">
+                        <i class="fa fa-upload"></i> Upload
+                        <input type="file" (change)="onReplaceStoryAttachmentSelected($event)"  hidden  >
+                    </label>
                 </div>
             </div>
         </div>

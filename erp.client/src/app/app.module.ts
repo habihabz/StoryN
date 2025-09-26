@@ -75,6 +75,7 @@ import { ClientComponent } from './pages/client/client.component';
 import { LoadingSpinnerComponent } from './pages/loading-spinner/loading-spinner.component';
 import { LoadingInterceptor } from './Interceptor/loading.interceptor';
 import { RoomDetailsComponent } from './pages/website/room-details/room-details.component';
+import { AboutUsComponent } from './pages/website/about.us/about.us.component';
 
 
 // Define a function to get the token
@@ -142,7 +143,8 @@ const jwtConfig: JwtModuleOptions = {
     RoomComponent,
     ClientComponent,
     LoadingSpinnerComponent,
-    RoomDetailsComponent
+    RoomDetailsComponent,
+    AboutUsComponent
     
   ],
   imports: [

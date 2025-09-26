@@ -74,5 +74,26 @@ namespace Erp.Server.Repository
             var stories = db.Set<Story>().FromSqlRaw("EXEC dbo.getStoriesByRoomCode @code;", code).ToList();
             return stories;
         }
+
+        public DbResult deleteAttachment(RequestParams requestParams)
+        {
+            var type = new SqlParameter("type", requestParams.type + "");
+            var story = new SqlParameter("story", requestParams.story + "");
+            var user = new SqlParameter("user", requestParams.user + "");
+
+            var dbResult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.deleteAttachment @story,@type,@user;", story, type, user).ToList().FirstOrDefault() ?? new DbResult();
+            return dbResult;
+        }
+
+        public DbResult replaceAttachment(RequestParams requestParams)
+        {
+            var type = new SqlParameter("type", requestParams.type + "");
+            var story = new SqlParameter("story", requestParams.story + "");
+            var code = new SqlParameter("code", requestParams.code + "");
+            var user = new SqlParameter("user", requestParams.user + "");
+
+            var dbResult = db.Set<DbResult>().FromSqlRaw("EXEC dbo.replaceAttachment @story,@type,@code,@user;", story, type, code, user).ToList().FirstOrDefault() ?? new DbResult();
+            return dbResult;
+        }
     }
 }

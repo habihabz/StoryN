@@ -37,6 +37,7 @@ export class StoriesComponent {
   apiUrl = `${environment.serverHostAddress}/api/`;
   attachmentUrl = `${environment.attachmentAddress}`;
   attachmentFullPath: string = '';
+  attachmentColumn: string = '';
   imageUrl: string = '';
   pagination = true;
   paginationPageSize5 = 5;
@@ -59,6 +60,8 @@ export class StoriesComponent {
   selectedEndFile: File | null = null;
   selectedStepFile: File | null = null;
   selectedTrailerFile: File | null = null;
+  attachmentTabSelected: string = 'trailer';
+
   steps: Step[] = [];
   step: Step = new Step();
   storyTypes: MasterData[] = [];
@@ -228,29 +231,50 @@ export class StoriesComponent {
     switch (type) {
       case 'trailer':
         this.attachmentFullPath = `${data.st_trailer}`;
+        this.attachmentColumn = data.st_trailer;
         break;
       case 'poster':
         this.attachmentFullPath = `${data.st_image}`;
+        this.attachmentColumn = data.st_image;
         break;
       case 'starting':
         this.attachmentFullPath = `${data.st_start_image}`;
+        this.attachmentColumn = data.st_start_image;
         break;
       case 'ending':
         this.attachmentFullPath = `${data.st_end_image}`;
+        this.attachmentColumn = data.st_end_image;
         break;
       default: break;
     }
   }
 
   onAttachmentTabChange(event: any) {
-    const tabLabel = event.tab.textLabel.toLowerCase(); // convert to lowercase to match your keys
+    const tabLabel = event.tab.textLabel.toLowerCase();
+    this.attachmentTabSelected = tabLabel;
     this.getAttachmentByType(this.story, tabLabel);
   }
-  
-  deleteAttachment(){
 
-  }
-  replaceAttachment(){
+  deleteAttachment() {
+    this.requestParms.story = this.story.st_id;
+    this.requestParms.type = this.attachmentTabSelected;
+    this.requestParms.user = this.currentUser.u_id;
+    this.istoryService.deleteAttachment(this.requestParms).subscribe(
+      (data: DbResult) => {
+        if (data.message == "Success") {
+          this.getStory(this.story.st_id);
+          this.getAttachmentByType(this.story, this.attachmentTabSelected);
+          this.snackBarService.showSuccess("Successfully Removed");
+          setTimeout(() => {
+            this.getAttachmentByType(this.story, this.attachmentTabSelected);
+          }, 300);
+        } else {
+          this.snackBarService.showSuccess(data.message);
+        }
+      },
+      (error: any) => {
+      }
+    );
 
   }
 
@@ -524,8 +548,57 @@ export class StoriesComponent {
     this.selectedTrailerFile = file ? file : null;
   }
 
+  onReplaceStoryAttachmentSelected(event: any): void {
+    const file = event.target.files[0];
+    this.selectedFile = file ? file : null;
+
+    const formData = new FormData();
+    formData.append("story", this.story.st_id?.toString() || "0");
+    formData.append("type", this.attachmentTabSelected || "");
+    formData.append("user", this.currentUser.u_id?.toString() || "0");
+
+    if (this.selectedFile) {
+      formData.append("file", this.selectedFile);
+    }
+
+    this.istoryService.replaceAttachment(formData).subscribe(
+      (data: DbResult) => {
+        this.dbResult = data;
+        if (data.message === "Success") {
+          this.getStory(this.story.st_id);
+          this.selectedStepFile = null;
+          const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
+          if (fileInput) fileInput.value = '';
+
+          this.snackBarService.showSuccess("Successfully Uploaded");
+          setTimeout(() => {
+            this.getAttachmentByType(this.story, this.attachmentTabSelected);
+          }, 300);
+
+        } else {
+
+          this.snackBarService.showError(data.message);
+        }
+      },
+      (error: any) => {
+        // handle error if needed
+      }
+    );
+  }
+
   setSelect2Values() {
     $("#st_category").val(this.story.st_category).trigger('change');
     $("#st_type").val(this.story.st_type).trigger('change');
   }
+
+  getStory(st_id: number) {
+    this.istoryService.getStory(st_id).subscribe(
+      (data: Story) => {
+        this.story = data;
+      },
+      (error: any) => {
+      }
+    );
+  }
+
 }

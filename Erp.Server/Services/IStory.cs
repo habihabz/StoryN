@@ -11,5 +11,7 @@ namespace Erp.Server.Services
         DbResult startGame(RequestParams requestParams);
         List<Story> getStoriesByRoom(int rs_room);
         List<Story> getStoriesByRoomCode(RequestParams requestParams);
+        DbResult deleteAttachment(RequestParams requestParams);
+        DbResult replaceAttachment(RequestParams requestParams);
     }
 }

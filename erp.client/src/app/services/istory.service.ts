@@ -12,34 +12,42 @@ import { RequestParms } from '../models/requestParms';
 export class IStoryService {
   private apiUrl = `${environment.serverHostAddress}/api/Story`;
   private refreshStoriesSubject = new Subject<void>();
-  
+
   constructor(private http: HttpClient) { }
 
   getStories(): Observable<Story[]> {
-    return this.http.post<Story[]>(this.apiUrl + "/getStories", {});  
+    return this.http.post<Story[]>(this.apiUrl + "/getStories", {});
   }
 
   getStory(id: number): Observable<Story> {
-    return this.http.post<Story>(this.apiUrl + "/getStory", id);  
+    return this.http.post<Story>(this.apiUrl + "/getStory", id);
   }
 
   deleteStory(id: number): Observable<DbResult> {
-    return this.http.post<DbResult>(this.apiUrl + "/deleteStory", id); 
+    return this.http.post<DbResult>(this.apiUrl + "/deleteStory", id);
   }
 
   createOrUpdateStory(formData: FormData): Observable<DbResult> {
-    return this.http.post<DbResult>(this.apiUrl + "/createOrUpdateStory", formData); 
+    return this.http.post<DbResult>(this.apiUrl + "/createOrUpdateStory", formData);
   }
 
-  startGame(requestParms:RequestParms): Observable<DbResult> {
-    return this.http.post<DbResult>(this.apiUrl + "/startGame", requestParms); 
+  startGame(requestParms: RequestParms): Observable<DbResult> {
+    return this.http.post<DbResult>(this.apiUrl + "/startGame", requestParms);
   }
 
   getStoriesByRoom(id: number): Observable<Story[]> {
-    return this.http.post<Story[]>(this.apiUrl + "/getStoriesByRoom", id);  
+    return this.http.post<Story[]>(this.apiUrl + "/getStoriesByRoom", id);
   }
+
   getStoriesByRoomCode(requestParm: RequestParms): Observable<Story[]> {
-    return this.http.post<Story[]>(this.apiUrl + "/getStoriesByRoomCode", requestParm);  
+    return this.http.post<Story[]>(this.apiUrl + "/getStoriesByRoomCode", requestParm);
+  }
+
+  deleteAttachment(requestParms: RequestParms): Observable<DbResult> {
+    return this.http.post<DbResult>(this.apiUrl + "/deleteAttachment", requestParms);
+  }
+  replaceAttachment(formData: FormData): Observable<DbResult> {
+    return this.http.post<DbResult>(this.apiUrl + "/replaceAttachment", formData);
   }
 
   get refreshStories$() {

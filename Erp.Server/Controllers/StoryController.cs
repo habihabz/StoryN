@@ -132,5 +132,88 @@ namespace Erp.Server.Controllers
             roomStories = istory.getStoriesByRoomCode(requestParams);
             return roomStories;
         }
+
+        [HttpPost("deleteAttachment")]
+        [Authorize]
+        public async Task<DbResult> deleteAttachment([FromBody] RequestParams requestParams)
+        {
+            DbResult dbResult = new DbResult();
+            Story story = new Story();
+            story = istory.getStory(requestParams.story);
+            string deleteMessge = "";
+            string fileName = "";
+            if (story != null)
+            {
+               
+                if ( requestParams.type == "starting")
+                {
+                    fileName = story.st_start_image;
+                   
+                }
+                else if (requestParams.type == "poster")
+                {
+                    fileName = story.st_image;
+                   
+                }
+                else if ( requestParams.type == "ending")
+                {
+                    fileName = story.st_end_image;
+                   
+                }
+                else if (requestParams.type == "trailer")
+                {
+                    fileName = story.st_trailer;
+                  
+                }
+                if (fileName != "")
+                {
+                    deleteMessge = await iFileUpload.DeleteFileAsync(fileName);
+                }
+
+                if (deleteMessge == "Success")
+                {
+                    dbResult = istory.deleteAttachment(requestParams);
+                }
+                else
+                {
+                    dbResult.message = deleteMessge;
+                }
+              
+            }else
+            {
+                dbResult.message = "Story Not Found !!";
+            }
+            return dbResult;
+        }
+
+
+        [HttpPost("replaceAttachment")]
+        [Authorize]
+        [Consumes("multipart/form-data")]
+        public async Task<DbResult> replaceAttachment([FromForm] RequestParams requestParams , IFormFile? file)
+        {
+            string path = "";
+   
+            if (file != null && file.Length > 0 )
+            {
+                if (requestParams.type == "trailer")
+                {
+                    path = publicVariables.TrailerPath ;
+
+                }else
+                {
+                    path = publicVariables.StoryImagePath;
+                }
+
+                var st_image = await iFileUpload.UploadFileAsync(file, path);
+                if (!string.IsNullOrWhiteSpace(st_image))
+                {
+                    requestParams.code = st_image;
+                }
+            }
+
+            var dbResult = istory.replaceAttachment(requestParams);
+            return dbResult;
+        }
     }
 }

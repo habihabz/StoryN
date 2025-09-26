@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './attachment-viewer.component.css'
 })
 export class AttachmentViewerComponent {
-  
+
   apiUrl = `${environment.serverHostAddress}/api/`;
   attachmentUrl = `${environment.attachmentAddress}`;
   @Input() file: string = '';
@@ -55,4 +55,9 @@ export class AttachmentViewerComponent {
       this.isPPT(file) || this.isTextOrJson(file)
     );
   }
+  hasExtension(file: string): boolean {
+    if (!file) return false;
+    return file.includes('.') && file.split('.').pop()!.trim() !== '';
+  }
+  
 }

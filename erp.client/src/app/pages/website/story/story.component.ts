@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Story } from '../../../models/story.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IuserService } from '../../../services/iuser.service';
@@ -20,7 +20,8 @@ export class StoryComponent {
   story: Story = new Story();
   currentUser: User = new User();
   requestParms: RequestParms = new RequestParms();
-
+  isMuted = true;
+  @ViewChild('myVideo') myVideo!: ElementRef<HTMLVideoElement>;
   constructor(
     private router: Router,
     private elRef: ElementRef,
@@ -49,5 +50,12 @@ export class StoryComponent {
 
   startGame(st_id: number) {
     this.router.navigate(['/story-start', st_id]);
+  }
+
+    toggleSound() {
+    const video = this.myVideo.nativeElement;
+    this.isMuted = !this.isMuted;
+    video.muted = this.isMuted;
+    video.play(); // continue playing
   }
 }
